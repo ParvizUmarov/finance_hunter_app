@@ -13,59 +13,31 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+
   @override
   Widget build(BuildContext context) {
-    final unSelectedColor = Theme.of(context).colorScheme.onSurfaceVariant;
-    final labelStyle = Theme.of(context).textTheme.labelMedium?.copyWith(
-        color: unSelectedColor,
-        fontWeight: FontWeight.w600
-    );
-
+    final s = S.of(context);
+    final navItems = [
+      (s.expenses, Assets.icons.icExpenses),
+      (s.income, Assets.icons.icIncome),
+      (s.account, Assets.icons.icAccount),
+      (s.articles, Assets.icons.icArticles),
+      (s.settings, Assets.icons.icSettings),
+    ];
     Widget scaffold = Scaffold(
       body: widget.navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        type: BottomNavigationBarType.fixed,
-        useLegacyColorScheme: false,
-        showUnselectedLabels: true,
-        selectedLabelStyle: labelStyle,
-        unselectedLabelStyle: labelStyle,
-        items: [
-          BottomNavigationBarItem(
-            icon: _buildIcon(Assets.icons.icExpenses, isActive: false),
-            activeIcon: _buildIcon(Assets.icons.icExpenses, isActive: true),
-            label: 'Расходы',
-          ),
-          BottomNavigationBarItem(
-            icon: _buildIcon(Assets.icons.icIncome, isActive: false),
-            activeIcon: _buildIcon(Assets.icons.icIncome, isActive: true),
-            label: 'Доходы',
-          ),
-          BottomNavigationBarItem(
-            icon: _buildIcon(
-              Assets.icons.icAccount,
-              isActive: false,
-            ),
-            activeIcon: _buildIcon(
-              Assets.icons.icAccount,
-              isActive: true,
-            ),
-            label: 'Счет',
-          ),
-          BottomNavigationBarItem(
-            icon: _buildIcon(Assets.icons.icArticles, isActive: false),
-            activeIcon: _buildIcon(Assets.icons.icArticles, isActive: true),
-            label: "Статьи",
-          ),
-          BottomNavigationBarItem(
-            icon: _buildIcon(Assets.icons.icSettings, isActive: false),
-            activeIcon: _buildIcon(Assets.icons.icSettings, isActive: true),
-            label: "Настройки",
-          ),
-        ],
-        currentIndex: widget.navigationShell.currentIndex,
-        onTap: (int index) => _onTap(context, index),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: widget.navigationShell.currentIndex,
+        onDestinationSelected: (index) => _onTap(context, index),
+        destinations: navItems.map((item) {
+          final label = item.$1;
+          final iconAsset = item.$2;
+          return NavigationDestination(
+            selectedIcon: _buildIcon(iconAsset, isActive: true),
+            icon: _buildIcon(iconAsset, isActive: false),
+            label: label,
+          );
+        }).toList(),
       ),
     );
     return scaffold;
@@ -83,26 +55,15 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
     required bool isActive,
     bool colored = true,
   }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 3.0, top: 3.0),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 18),
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.secondaryBrandColor : null,
-          borderRadius: BorderRadius.circular(20)
-        ),
-        child: SvgPicture.asset(
-          iconAsset,
-          colorFilter: colored
-              ? ColorFilter.mode(
-                  isActive
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurfaceVariant,
-                  BlendMode.srcIn,
-                )
-              : null,
-        ),
-      ),
+    final colorScheme = Theme.of(context).colorScheme;
+    return SvgPicture.asset(
+      iconAsset,
+      colorFilter: colored
+          ? ColorFilter.mode(
+              isActive ? colorScheme.primary : colorScheme.onSurfaceVariant,
+              BlendMode.srcIn,
+            )
+          : null,
     );
   }
 }

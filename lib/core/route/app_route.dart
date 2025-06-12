@@ -1,5 +1,5 @@
 import 'package:finance_hunter_app/core/core.dart';
-import 'package:finance_hunter_app/screens/screens.dart';
+import 'package:finance_hunter_app/features/features.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 
 part 'app_route.g.dart';
@@ -20,6 +20,11 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
         //path: '/expensesScreen',
         path: '/',
         name: ExpensesScreen.screenName,
+        routes: [
+          TypedGoRoute<MyExpensesRoute>(
+              path: 'myExpensesScreen',
+              name: MyExpensesScreen.screenName),
+        ]
     ),
   ]),
   TypedStatefulShellBranch<IncomeBranch>(
@@ -126,6 +131,16 @@ class ExpensesRoute extends GoRouteData with _$ExpensesRoute {
   }
 }
 
+@immutable
+class MyExpensesRoute extends GoRouteData with _$MyExpensesRoute {
+  const MyExpensesRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const MyExpensesScreen();
+  }
+}
+
 
 @immutable
 class IncomeRoute extends GoRouteData with _$IncomeRoute {
@@ -133,7 +148,7 @@ class IncomeRoute extends GoRouteData with _$IncomeRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return IncomeScreen();
+    return const IncomeScreen();
   }
 }
 
@@ -144,7 +159,7 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return AccountScreen();
+    return const AccountScreen();
   }
 }
 
@@ -155,7 +170,7 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ArticlesScreen();
+    return const ArticlesScreen();
   }
 }
 
@@ -166,7 +181,7 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SettingsScreen();
+    return const SettingsScreen();
   }
 }
 

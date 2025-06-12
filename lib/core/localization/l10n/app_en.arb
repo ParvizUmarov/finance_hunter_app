@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+  "myAccount": "My account",
+  "myArticles": "My articles",
+  "expensesToday": "Expenses today",
+  "incomeToday": "Income today",
+  "myIncome": "My income",
+  "settings": "Settings",
+  "expenses": "Expenses",
+  "income": "Income",
+  "account": "Account",
+  "articles": "Articles"
+}

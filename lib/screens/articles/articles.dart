@@ -1,1 +1,0 @@
-export 'view/articles_screen.dart';
