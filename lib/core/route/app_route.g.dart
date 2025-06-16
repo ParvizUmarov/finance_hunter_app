@@ -29,6 +29,12 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
 
               factory: _$MyExpensesRoute._fromState,
             ),
+            GoRouteData.$route(
+              path: 'transactionHistoryScreen',
+              name: 'transactionHistoryScreen',
+
+              factory: _$TransactionHistoryRoute._fromState,
+            ),
           ],
         ),
       ],
@@ -119,6 +125,27 @@ mixin _$MyExpensesRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/myExpensesScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$TransactionHistoryRoute on GoRouteData {
+  static TransactionHistoryRoute _fromState(GoRouterState state) =>
+      const TransactionHistoryRoute();
+
+  @override
+  String get location => GoRouteData.$location('/transactionHistoryScreen');
 
   @override
   void go(BuildContext context) => context.go(location);

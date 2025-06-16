@@ -1,1 +1,0 @@
-export 'presentation/view/income_screen.dart';

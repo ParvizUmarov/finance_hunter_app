@@ -9,5 +9,7 @@
   "expenses": "Expenses",
   "income": "Income",
   "account": "Account",
-  "articles": "Articles"
+  "articles": "Articles",
+  "myHistory": "My history"
+
 }

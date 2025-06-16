@@ -157,6 +157,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Articles'**
   String get articles;
+
+  /// No description provided for @myHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'My history'**
+  String get myHistory;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,8 @@ import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/features.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 
+import '../../features/cash_flow/data/models/transaction_kind.dart';
+
 part 'app_route.g.dart';
 
 const shellRestorationScopeId = 'shellRestorationScopeId';
@@ -17,13 +19,15 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
   TypedStatefulShellBranch<ExpensesBranch>(
       routes: [
     TypedGoRoute<ExpensesRoute>(
-        //path: '/expensesScreen',
         path: '/',
-        name: ExpensesScreen.screenName,
+        name: CashFlowScreen.expensesScreenName,
         routes: [
           TypedGoRoute<MyExpensesRoute>(
               path: 'myExpensesScreen',
               name: MyExpensesScreen.screenName),
+          TypedGoRoute<TransactionHistoryRoute>(
+              path: 'transactionHistoryScreen',
+              name: TransactionHistoryScreen.screenName),
         ]
     ),
   ]),
@@ -31,7 +35,9 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
       routes: [
     TypedGoRoute<IncomeRoute>(
         path: '/incomeScreen',
-        name: IncomeScreen.screenName),
+        name: CashFlowScreen.incomeScreenName,
+
+    ),
   ]),
   TypedStatefulShellBranch<AccountBranch>(
       routes: [
@@ -127,7 +133,7 @@ class ExpensesRoute extends GoRouteData with _$ExpensesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ExpensesScreen();
+    return CashFlowScreen(kind: ExpensesTransaction(),);
   }
 }
 
@@ -141,6 +147,16 @@ class MyExpensesRoute extends GoRouteData with _$MyExpensesRoute {
   }
 }
 
+@immutable
+class TransactionHistoryRoute extends GoRouteData with _$TransactionHistoryRoute {
+  const TransactionHistoryRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const TransactionHistoryScreen();
+  }
+}
+
 
 @immutable
 class IncomeRoute extends GoRouteData with _$IncomeRoute {
@@ -148,7 +164,7 @@ class IncomeRoute extends GoRouteData with _$IncomeRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const IncomeScreen();
+    return CashFlowScreen(kind: IncomeTransaction(),);
   }
 }
 
