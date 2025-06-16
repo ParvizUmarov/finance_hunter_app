@@ -8,10 +8,10 @@ abstract class TransactionRequestBody with _$TransactionRequestBody {
 
   const factory TransactionRequestBody({
     required int accountId,
-    required int categoryId,
-    required String amount,
-    required DateTime transactionDate,
-    required String comment,
+    int? categoryId,
+    String? amount,
+    DateTime? transactionDate,
+    String? comment,
   }) = _TransactionRequestBody;
 
   factory TransactionRequestBody.fromJson(Map<String, dynamic> json) =>

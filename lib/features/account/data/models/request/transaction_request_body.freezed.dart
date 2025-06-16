@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionRequestBody {
 
- int get accountId; int get categoryId; String get amount; DateTime get transactionDate; String get comment;
+ int get accountId; int? get categoryId; String? get amount; DateTime? get transactionDate; String? get comment;
 /// Create a copy of TransactionRequestBody
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $TransactionRequestBodyCopyWith<$Res>  {
   factory $TransactionRequestBodyCopyWith(TransactionRequestBody value, $Res Function(TransactionRequestBody) _then) = _$TransactionRequestBodyCopyWithImpl;
 @useResult
 $Res call({
- int accountId, int categoryId, String amount, DateTime transactionDate, String comment
+ int accountId, int? categoryId, String? amount, DateTime? transactionDate, String? comment
 });
 
 
@@ -66,14 +66,14 @@ class _$TransactionRequestBodyCopyWithImpl<$Res>
 
 /// Create a copy of TransactionRequestBody
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? accountId = null,Object? categoryId = null,Object? amount = null,Object? transactionDate = null,Object? comment = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? accountId = null,Object? categoryId = freezed,Object? amount = freezed,Object? transactionDate = freezed,Object? comment = freezed,}) {
   return _then(_self.copyWith(
 accountId: null == accountId ? _self.accountId : accountId // ignore: cast_nullable_to_non_nullable
-as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,transactionDate: null == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
-as DateTime,comment: null == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
-as String,
+as int,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as String?,transactionDate: freezed == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -84,14 +84,14 @@ as String,
 @JsonSerializable()
 
 class _TransactionRequestBody implements TransactionRequestBody {
-  const _TransactionRequestBody({required this.accountId, required this.categoryId, required this.amount, required this.transactionDate, required this.comment});
+  const _TransactionRequestBody({required this.accountId, this.categoryId, this.amount, this.transactionDate, this.comment});
   factory _TransactionRequestBody.fromJson(Map<String, dynamic> json) => _$TransactionRequestBodyFromJson(json);
 
 @override final  int accountId;
-@override final  int categoryId;
-@override final  String amount;
-@override final  DateTime transactionDate;
-@override final  String comment;
+@override final  int? categoryId;
+@override final  String? amount;
+@override final  DateTime? transactionDate;
+@override final  String? comment;
 
 /// Create a copy of TransactionRequestBody
 /// with the given fields replaced by the non-null parameter values.
@@ -126,7 +126,7 @@ abstract mixin class _$TransactionRequestBodyCopyWith<$Res> implements $Transact
   factory _$TransactionRequestBodyCopyWith(_TransactionRequestBody value, $Res Function(_TransactionRequestBody) _then) = __$TransactionRequestBodyCopyWithImpl;
 @override @useResult
 $Res call({
- int accountId, int categoryId, String amount, DateTime transactionDate, String comment
+ int accountId, int? categoryId, String? amount, DateTime? transactionDate, String? comment
 });
 
 
@@ -143,14 +143,14 @@ class __$TransactionRequestBodyCopyWithImpl<$Res>
 
 /// Create a copy of TransactionRequestBody
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? accountId = null,Object? categoryId = null,Object? amount = null,Object? transactionDate = null,Object? comment = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? accountId = null,Object? categoryId = freezed,Object? amount = freezed,Object? transactionDate = freezed,Object? comment = freezed,}) {
   return _then(_TransactionRequestBody(
 accountId: null == accountId ? _self.accountId : accountId // ignore: cast_nullable_to_non_nullable
-as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
-as String,transactionDate: null == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
-as DateTime,comment: null == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
-as String,
+as int,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as String?,transactionDate: freezed == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
