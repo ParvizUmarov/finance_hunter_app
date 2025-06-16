@@ -1,0 +1,13 @@
+{
+  "@@locale": "ru",
+  "myAccount": "Мой счет",
+  "myArticles": "Мои статьи",
+  "expensesToday": "Расходы сегодня",
+  "incomeToday": "Доходы сегодня",
+  "myIncome": "Мои расходы",
+  "settings": "Настройки",
+  "expenses": "Расходы",
+  "income": "Доходы",
+  "account": "Счет",
+  "articles": "Статьи"
+}
