@@ -12,6 +12,10 @@ class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit({required this.kind, required this.repository})
     : super(const TransactionState.initial());
 
+  String? amount;
+  String? startDateTime;
+  String? endDateTime;
+
   Future<void> getTransactionsForPeriod(TransactionDateFilter filter) async {
     emit(TransactionState.loading());
     try {
@@ -37,6 +41,10 @@ class TransactionCubit extends Cubit<TransactionState> {
         0.0,
         (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0),
       );
+
+      startDateTime = filter.getFormatedStartDateTime();
+      endDateTime = filter.getFormatedEndDateTime();
+      amount = totalAmount.toString();
 
       emit(
         TransactionState.success(

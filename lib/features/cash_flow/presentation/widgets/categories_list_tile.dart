@@ -5,6 +5,9 @@ class CategoriesListTile extends StatelessWidget {
   final String amount;
   final String? emoji;
   final bool isTotalAmount;
+  final String? transactionDate;
+  final String? description;
+  final EdgeInsetsGeometry? padding;
 
   const CategoriesListTile({
     super.key,
@@ -12,11 +15,13 @@ class CategoriesListTile extends StatelessWidget {
     this.isTotalAmount = false,
     this.emoji,
     required this.amount,
+    this.transactionDate,
+    this.padding,
+    this.description,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme.bodyLarge;
     return Container(
       decoration: BoxDecoration(
         color: tileColor(context),
@@ -28,18 +33,54 @@ class CategoriesListTile extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+        contentPadding:
+            padding ?? EdgeInsets.symmetric(vertical: 7, horizontal: 16),
         leading: leadingWidget(),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(title, style: textTheme),
-            Text(amount, style: textTheme),
-          ],
-        ),
+        title: titleWidget(context),
         trailing: trailingWidget(),
       ),
     );
+  }
+
+  Widget titleWidget(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              textWidget(context, title),
+              description == null
+                  ? SizedBox.shrink()
+                  : textWidget(
+                      context,
+                      description ?? "",
+                      textStyle: textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            textWidget(context, amount),
+            transactionDate == null
+                ? SizedBox.shrink()
+                : textWidget(context, transactionDate ?? ""),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget textWidget(BuildContext context, String text, {TextStyle? textStyle}) {
+    final textTheme = textStyle ?? Theme.of(context).textTheme.bodyLarge;
+    return Text(text, style: textTheme, overflow: TextOverflow.ellipsis);
   }
 
   Widget? trailingWidget() =>

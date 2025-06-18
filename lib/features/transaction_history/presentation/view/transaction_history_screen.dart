@@ -10,48 +10,42 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final cubit = context.read<TransactionCubit>();
 
     return Scaffold(
       appBar: AppBar(title: Text(s.myHistory)),
-      body: BlocStateBuilder<TransactionCubit, TransactionState>(
-        cubit: cubit,
-        whenState:
-            ({
-              required initial,
-              required loading,
-              required success,
-              required error,
-            }) {
-              final state = cubit.state;
-              return switch (state) {
-                TransactionInitial() => initial(),
-                TransactionLoading() => loading(),
-                TransactionSuccess() => success(state),
-                TransactionError(:final message) => error(message),
-              };
+      body: BlocBuilder<TransactionCubit, TransactionState>(
+        builder: (context, state) {
+          final transactionState = context.watch<TransactionCubit>();
+          return RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(Duration(seconds: 1));
+              if (context.mounted) {
+                context.read<TransactionCubit>().getTransactionsForPeriod(
+                  TransactionDateFilter(),
+                );
+              }
             },
-        onLoading: (_) => const CustomShimmer(type: ShimmerType.categoriesHistoryList),
-        onSuccess: (context, state) {
-          final transactionState = state as TransactionSuccess;
-          return TransactionHistoryTitle(
-            startTime: transactionState.startDate,
-            endTime: transactionState.endDate,
-            amount: transactionState.totalAmount,
-            child: Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: transactionState.transactions.length,
-                itemBuilder: (context, index) {
-                  final TransactionModel transaction =
-                      transactionState.transactions[index];
-                  return CategoriesListTile(
-                    title: transaction.category.name,
-                    amount: "${transaction.amount} ₽",
-                    emoji: transaction.category.emoji,
-                  );
-                },
-              ),
+            child: Column(
+              children: [
+                CategoriesListTile(
+                  title: "Начало",
+                  isTotalAmount: true,
+                  amount: transactionState.startDateTime ?? "-",
+                ),
+                CategoriesListTile(
+                  title: "Конец",
+                  isTotalAmount: true,
+                  amount: transactionState.endDateTime ?? "-",
+                ),
+                CategoriesListTile(
+                  title: "Сумма",
+                  isTotalAmount: true,
+                  amount: "${transactionState.amount ?? "-"} ₽",
+                ),
+                Expanded(
+                  child: TransactionHistoryList(transactionState: state),
+                ),
+              ],
             ),
           );
         },

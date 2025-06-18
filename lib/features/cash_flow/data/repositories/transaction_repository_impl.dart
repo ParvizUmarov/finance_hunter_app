@@ -33,14 +33,9 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
     int accountId,
     TransactionPeriodRequestBody requestBody,
   ) async {
-    throw Exception();
     await Future.delayed(Duration(seconds: 2));
     final List<dynamic> jsonList = jsonDecode(_mockJson);
-    log("json list result: $jsonList");
-    return jsonList.map((mock) {
-      log("json mapped object: ${TransactionModel.fromJson(mock)}");
-      return TransactionModel.fromJson(mock);
-    }).toList();
+    return jsonList.map((mock) => TransactionModel.fromJson(mock)).toList();
   }
 
   @override
