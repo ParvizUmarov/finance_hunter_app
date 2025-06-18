@@ -24,8 +24,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
               TransactionError(:final message) => error(message),
             };
           },
-      onInitial: (ctx) => const SizedBox(),
-      onLoading: (ctx) => const Center(child: CircularProgressIndicator()),
+      onLoading: (ctx) => CustomShimmer(type: ShimmerType.categoriesList),
       onSuccess: (ctx, state) {
         final transactionState = state as TransactionSuccess;
         return Column(
@@ -53,7 +52,6 @@ class CashFlowCategoriesWidget extends StatelessWidget {
           ],
         );
       },
-      onError: (ctx, message) => Center(child: Text('Ошибка: $message')),
     );
   }
 }

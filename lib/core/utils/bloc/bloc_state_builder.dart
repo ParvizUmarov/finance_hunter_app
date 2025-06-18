@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 
 typedef StateWidgetBuilder<T> = Widget Function(BuildContext context, T data);
 typedef StateWidgetBuilderWithoutData = Widget Function(BuildContext context);
 
-typedef WhenFunc<S> = Widget Function({
-required Widget Function() initial,
-required Widget Function() loading,
-required Widget Function(dynamic data) success,
-required Widget Function(String message) error,
-});
+typedef WhenFunc<S> =
+    Widget Function({
+      required Widget Function() initial,
+      required Widget Function() loading,
+      required Widget Function(dynamic data) success,
+      required Widget Function(String message) error,
+    });
 
 class BlocStateBuilder<C extends Cubit<S>, S> extends StatelessWidget {
   final C cubit;
@@ -38,9 +39,13 @@ class BlocStateBuilder<C extends Cubit<S>, S> extends StatelessWidget {
       builder: (context, state) {
         return whenState(
           initial: () => onInitial?.call(context) ?? const SizedBox(),
-          loading: () => onLoading?.call(context) ?? const CircularProgressIndicator(),
-          success: (data) => onSuccess?.call(context, data) ?? Center(child: Text('Success')),
-          error: (message) => onError?.call(context, message) ?? Center(child: Text('Error: $message')),
+          loading: () =>
+              onLoading?.call(context) ?? const CircularProgressIndicator(),
+          success: (data) =>
+              onSuccess?.call(context, data) ?? Center(child: Text('Success')),
+          error: (message) =>
+              onError?.call(context, message) ??
+              ErrorBaseWidget(errorMessage: message),
         );
       },
     );

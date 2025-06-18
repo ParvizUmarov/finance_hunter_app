@@ -31,46 +31,30 @@ class TransactionHistoryScreen extends StatelessWidget {
                 TransactionError(:final message) => error(message),
               };
             },
-        onInitial: (ctx) => const SizedBox(),
-        onLoading: (ctx) => const Center(child: CircularProgressIndicator()),
-        onSuccess: (ctx, state) {
+        onLoading: (_) => const CustomShimmer(type: ShimmerType.categoriesHistoryList),
+        onSuccess: (context, state) {
           final transactionState = state as TransactionSuccess;
-          return Column(
-            children: [
-              CategoriesListTile(
-                title: "Начало",
-                isTotalAmount: true,
-                amount: transactionState.startDate,
+          return TransactionHistoryTitle(
+            startTime: transactionState.startDate,
+            endTime: transactionState.endDate,
+            amount: transactionState.totalAmount,
+            child: Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: transactionState.transactions.length,
+                itemBuilder: (context, index) {
+                  final TransactionModel transaction =
+                      transactionState.transactions[index];
+                  return CategoriesListTile(
+                    title: transaction.category.name,
+                    amount: "${transaction.amount} ₽",
+                    emoji: transaction.category.emoji,
+                  );
+                },
               ),
-              CategoriesListTile(
-                title: "Конец",
-                isTotalAmount: true,
-                amount: transactionState.endDate,
-              ),
-              CategoriesListTile(
-                title: "Сумма",
-                isTotalAmount: true,
-                amount: "${transactionState.totalAmount} ₽",
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: transactionState.transactions.length,
-                  itemBuilder: (context, index) {
-                    final TransactionModel transaction =
-                        transactionState.transactions[index];
-                    return CategoriesListTile(
-                      title: transaction.category.name,
-                      amount: "${transaction.amount} ₽",
-                      emoji: transaction.category.emoji,
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           );
         },
-        onError: (ctx, message) => Center(child: Text('Ошибка: $message')),
       ),
     );
   }

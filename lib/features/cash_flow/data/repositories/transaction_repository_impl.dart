@@ -33,6 +33,7 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
     int accountId,
     TransactionPeriodRequestBody requestBody,
   ) async {
+    throw Exception();
     await Future.delayed(Duration(seconds: 2));
     final List<dynamic> jsonList = jsonDecode(_mockJson);
     log("json list result: $jsonList");
