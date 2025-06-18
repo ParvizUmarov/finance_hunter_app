@@ -15,7 +15,7 @@ _TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) =>
       ),
       amount: json['amount'] as String,
       transactionDate: DateTime.parse(json['transactionDate'] as String),
-      comment: json['comment'] as String,
+      comment: json['comment'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );

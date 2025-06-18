@@ -9,6 +9,8 @@ class LightAppColors {
   static const onSurface = Color(0xFF1D1B20);
   static const onSurfaceVariant = Color(0xFF49454F);
 
+  static const outlineVariant = Color(0xFFCAC4D0);
+
   static const surfaceContainer = Color(0xFFF3EDF7);
   static const surface = Color(0xFFFFFFFF);
 

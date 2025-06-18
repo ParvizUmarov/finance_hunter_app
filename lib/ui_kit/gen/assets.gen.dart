@@ -13,6 +13,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_account.svg
   String get icAccount => 'assets/icons/ic_account.svg';
 
+  /// File path: assets/icons/ic_arrow_right.svg
+  String get icArrowRight => 'assets/icons/ic_arrow_right.svg';
+
   /// File path: assets/icons/ic_articles.svg
   String get icArticles => 'assets/icons/ic_articles.svg';
 
@@ -28,6 +31,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<String> get values => [
     icAccount,
+    icArrowRight,
     icArticles,
     icExpenses,
     icIncome,

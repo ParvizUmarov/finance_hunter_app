@@ -142,23 +142,27 @@ mixin _$MyExpensesRoute on GoRouteData {
 
 mixin _$TransactionHistoryRoute on GoRouteData {
   static TransactionHistoryRoute _fromState(GoRouterState state) =>
-      const TransactionHistoryRoute();
+      TransactionHistoryRoute($extra: state.extra as TransactionKind);
+
+  TransactionHistoryRoute get _self => this as TransactionHistoryRoute;
 
   @override
   String get location => GoRouteData.$location('/transactionHistoryScreen');
 
   @override
-  void go(BuildContext context) => context.go(location);
+  void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
   void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }
 
 mixin _$IncomeRoute on GoRouteData {

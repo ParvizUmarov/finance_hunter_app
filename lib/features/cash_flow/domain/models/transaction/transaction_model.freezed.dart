@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionModel {
 
- int get id; AccountModel get account; CategoryModel get category; String get amount; DateTime get transactionDate; String get comment; DateTime get createdAt; DateTime get updatedAt;
+ int get id; AccountModel get account; CategoryModel get category; String get amount; DateTime get transactionDate; String? get comment; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of TransactionModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $TransactionModelCopyWith<$Res>  {
   factory $TransactionModelCopyWith(TransactionModel value, $Res Function(TransactionModel) _then) = _$TransactionModelCopyWithImpl;
 @useResult
 $Res call({
- int id, AccountModel account, CategoryModel category, String amount, DateTime transactionDate, String comment, DateTime createdAt, DateTime updatedAt
+ int id, AccountModel account, CategoryModel category, String amount, DateTime transactionDate, String? comment, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -66,15 +66,15 @@ class _$TransactionModelCopyWithImpl<$Res>
 
 /// Create a copy of TransactionModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? account = null,Object? category = null,Object? amount = null,Object? transactionDate = null,Object? comment = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? account = null,Object? category = null,Object? amount = null,Object? transactionDate = null,Object? comment = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
 as AccountModel,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryModel,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as String,transactionDate: null == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
-as DateTime,comment: null == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -105,7 +105,7 @@ $CategoryModelCopyWith<$Res> get category {
 @JsonSerializable()
 
 class _TransactionModel implements TransactionModel {
-  const _TransactionModel({required this.id, required this.account, required this.category, required this.amount, required this.transactionDate, required this.comment, required this.createdAt, required this.updatedAt});
+  const _TransactionModel({required this.id, required this.account, required this.category, required this.amount, required this.transactionDate, this.comment, required this.createdAt, required this.updatedAt});
   factory _TransactionModel.fromJson(Map<String, dynamic> json) => _$TransactionModelFromJson(json);
 
 @override final  int id;
@@ -113,7 +113,7 @@ class _TransactionModel implements TransactionModel {
 @override final  CategoryModel category;
 @override final  String amount;
 @override final  DateTime transactionDate;
-@override final  String comment;
+@override final  String? comment;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 
@@ -150,7 +150,7 @@ abstract mixin class _$TransactionModelCopyWith<$Res> implements $TransactionMod
   factory _$TransactionModelCopyWith(_TransactionModel value, $Res Function(_TransactionModel) _then) = __$TransactionModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, AccountModel account, CategoryModel category, String amount, DateTime transactionDate, String comment, DateTime createdAt, DateTime updatedAt
+ int id, AccountModel account, CategoryModel category, String amount, DateTime transactionDate, String? comment, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -167,15 +167,15 @@ class __$TransactionModelCopyWithImpl<$Res>
 
 /// Create a copy of TransactionModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? account = null,Object? category = null,Object? amount = null,Object? transactionDate = null,Object? comment = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? account = null,Object? category = null,Object? amount = null,Object? transactionDate = null,Object? comment = freezed,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_TransactionModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
 as AccountModel,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryModel,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as String,transactionDate: null == transactionDate ? _self.transactionDate : transactionDate // ignore: cast_nullable_to_non_nullable
-as DateTime,comment: null == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
+as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

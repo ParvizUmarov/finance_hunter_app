@@ -23,6 +23,8 @@ class LightAppTheme {
         onSurface: LightAppColors.onSurface,
         onSurfaceVariant: LightAppColors.onSurfaceVariant,
 
+        outlineVariant: LightAppColors.outlineVariant,
+
         error: LightAppColors.error,
         onError: LightAppColors.onError,
 

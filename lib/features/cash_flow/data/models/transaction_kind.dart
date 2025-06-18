@@ -4,8 +4,6 @@ abstract class TransactionKind {
   String title(BuildContext context);
 
   void onFloatingButtonTap(BuildContext context);
-
-  void onHistoryButtonTap(BuildContext context);
 }
 
 class IncomeTransaction extends TransactionKind {
@@ -16,14 +14,7 @@ class IncomeTransaction extends TransactionKind {
   }
 
   @override
-  void onFloatingButtonTap(BuildContext context) {
-
-  }
-
-  @override
-  void onHistoryButtonTap(BuildContext context) {
-    TransactionHistoryRoute().push(context);
-  }
+  void onFloatingButtonTap(BuildContext context) {}
 }
 
 class ExpensesTransaction extends TransactionKind {
@@ -36,10 +27,5 @@ class ExpensesTransaction extends TransactionKind {
   @override
   void onFloatingButtonTap(BuildContext context) {
     const MyExpensesRoute().push(context);
-  }
-
-  @override
-  void onHistoryButtonTap(BuildContext context) {
-    TransactionHistoryRoute().push(context);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:finance_hunter_app/features/cash_flow/domain/models/category_model.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/models/category/category_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'account_model.dart';
 
@@ -14,7 +14,7 @@ abstract class TransactionModel with _$TransactionModel {
     required CategoryModel category,
     required String amount,
     required DateTime transactionDate,
-    required String comment,
+    String? comment,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _TransactionModel;
