@@ -5,6 +5,9 @@ import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class TransactionRepositoryTestImpl implements TransactionRepository {
+
+  final now = DateTime.now().toUtc().toIso8601String();
+
   @override
   Future<TransactionResponseModel> addTransaction(
     TransactionRequestBody requestBody,
@@ -35,7 +38,27 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
   ) async {
     await Future.delayed(Duration(seconds: 2));
     final List<dynamic> jsonList = jsonDecode(_mockJson);
-    return jsonList.map((mock) => TransactionModel.fromJson(mock)).toList();
+    final allTransactions = jsonList
+        .map((mock) => TransactionModel.fromJson(mock))
+        .toList();
+
+    final start = requestBody.startDate;
+    final end = requestBody.endDate;
+
+    final filtered = allTransactions.where((tx) {
+      final date = tx.transactionDate;
+
+      if (start != null && end != null) {
+        return !date.isBefore(start) && !date.isAfter(end);
+      }
+
+      if (start != null) return !date.isBefore(start);
+      if (end != null) return !date.isAfter(end);
+
+      return true;
+    }).toList();
+
+    return filtered;
   }
 
   @override
@@ -67,7 +90,8 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
     );
   }
 
-  static const String _mockJson = '''
+  String get _mockJson =>
+      '''
   [
     {
       "id": 25,
@@ -344,7 +368,7 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
         "isIncome": true
       },
       "amount": "500.00",
-      "transactionDate": "2025-06-14T16:42:19.109Z",
+      "transactionDate": "$now",
       "comment": "Зарплата за месяц",
       "createdAt": "2025-04-16T15:36:04.028266Z",
       "updatedAt": "2025-06-14T16:42:22.370342Z"
@@ -444,7 +468,7 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
         "isIncome": true
       },
       "amount": "500.00",
-      "transactionDate": "2025-06-15T11:55:38.922Z",
+      "transactionDate": "$now",
       "comment": null,
       "createdAt": "2025-06-15T14:17:59.885188Z",
       "updatedAt": "2025-06-15T14:17:59.885188Z"
@@ -464,7 +488,7 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
         "isIncome": true
       },
       "amount": "500.00",
-      "transactionDate": "2025-06-16T20:48:43.652Z",
+      "transactionDate": "$now",
       "comment": "Зарплата за месяц",
       "createdAt": "2025-06-16T20:48:53.521813Z",
       "updatedAt": "2025-06-16T20:48:53.521813Z"
@@ -541,13 +565,33 @@ class TransactionRepositoryTestImpl implements TransactionRepository {
         "id": 1,
         "name": "Зарплата",
         "emoji": "💰",
-        "isIncome": true
+        "isIncome": false
       },
       "amount": "500.00",
-      "transactionDate": "2025-06-17T08:06:13.857Z",
+      "transactionDate": "$now",
       "comment": "Зарплата за месяц",
       "createdAt": "2025-06-17T08:10:30.406975Z",
       "updatedAt": "2025-06-17T08:10:30.406975Z"
+    },
+    {
+      "id": 69,
+      "account": {
+        "id": 1,
+        "name": "",
+        "balance": "-119970099.71",
+        "currency": "RUB"
+      },
+      "category": {
+        "id": 8,
+        "name": "Продукты",
+        "emoji": "🍎",
+        "isIncome": false
+      },
+      "amount": "100.00",
+      "transactionDate": "$now",
+      "comment": "Молоко",
+      "createdAt": "2025-06-16T21:45:18.135638Z",
+      "updatedAt": "2025-06-16T21:45:18.135638Z"
     }
   ]
   ''';

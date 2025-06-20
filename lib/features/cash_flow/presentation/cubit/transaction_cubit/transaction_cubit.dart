@@ -13,7 +13,6 @@ class TransactionCubit extends Cubit<TransactionState> {
     : super(const TransactionState.initial());
 
   String? amount;
-
   DateTime? selectedStartDateTime;
   DateTime? selectedEndDateTime;
 
@@ -27,18 +26,14 @@ class TransactionCubit extends Cubit<TransactionState> {
     return CustomDateFormatter.formatDate(selectedEndDateTime!);
   }
 
-  Future<void> getTransactionsForPeriod(TransactionDateFilter? filter) async {
+  Future<void> getTransactionsForPeriod([TransactionDateFilter? filter]) async {
     emit(TransactionState.loading());
     try {
       selectedStartDateTime ??= TransactionDateFilter.defaultStartTime();
       selectedEndDateTime ??= TransactionDateFilter.defaultEndTime();
 
-      if (filter?.startDate != null) {
-        selectedStartDateTime = filter!.startDate;
-      }
-      if (filter?.endDate != null) {
-        selectedEndDateTime = filter!.endDate;
-      }
+      validateStartDateTime(filter);
+      validateEndDateTime(filter);
 
       final accountId = 1;
       final periodRequest = TransactionPeriodRequestBody(
@@ -73,6 +68,26 @@ class TransactionCubit extends Cubit<TransactionState> {
       );
     } catch (e) {
       emit(TransactionState.error(message: e.toString()));
+    }
+  }
+
+  void validateStartDateTime(TransactionDateFilter? filter) {
+    if (filter?.startDate != null) {
+      final newStart = filter!.startDateTime!;
+      if (selectedEndDateTime != null && newStart.isAfter(selectedEndDateTime!)) {
+        selectedEndDateTime = newStart;
+      }
+      selectedStartDateTime = newStart;
+    }
+  }
+
+  void validateEndDateTime(TransactionDateFilter? filter){
+    if (filter?.endDate != null) {
+      final newEnd = filter!.endDateTime!;
+      if (selectedStartDateTime != null && newEnd.isBefore(selectedStartDateTime!)) {
+        selectedStartDateTime = newEnd;
+      }
+      selectedEndDateTime = newEnd;
     }
   }
 }

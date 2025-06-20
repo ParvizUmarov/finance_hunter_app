@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:finance_hunter_app/features/transaction_history/presentation/utils/index.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
@@ -12,6 +10,7 @@ class TransactionHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final transactionState = context.watch<TransactionCubit>();
+    final isLoading = transactionState.state is TransactionLoading;
 
     return Scaffold(
       appBar: AppBar(title: Text(s.myHistory)),
@@ -19,9 +18,7 @@ class TransactionHistoryScreen extends StatelessWidget {
         onRefresh: () async {
           await Future.delayed(Duration(seconds: 1));
           if (context.mounted) {
-            context.read<TransactionCubit>().getTransactionsForPeriod(
-              TransactionDateFilter(),
-            );
+            context.read<TransactionCubit>().getTransactionsForPeriod();
           }
         },
         child: Column(
@@ -30,31 +27,37 @@ class TransactionHistoryScreen extends StatelessWidget {
               title: "Начало",
               amount: transactionState.formattedStartDateTime,
               backgroundColor: LightAppColors.secondaryBrandColor,
-              onTap: () async {
-                await customShowDatePicker(
-                  context: context,
-                  onSelectedDate: (date) {
-                    transactionState.getTransactionsForPeriod(
-                      TransactionDateFilter(startDate: date),
-                    );
-                  },
-                );
-              },
+              onTap: isLoading
+                  ? null
+                  : () async {
+                      await customShowDatePicker(
+                        context: context,
+                        initialDate: transactionState.selectedStartDateTime,
+                        onSelectedDate: (date) {
+                          transactionState.getTransactionsForPeriod(
+                            TransactionDateFilter(startDate: date),
+                          );
+                        },
+                      );
+                    },
             ),
             CustomListTile(
               title: "Конец",
               amount: transactionState.formattedEndDateTime,
               backgroundColor: LightAppColors.secondaryBrandColor,
-              onTap: () async {
-                await customShowDatePicker(
-                  context: context,
-                  onSelectedDate: (date) {
-                    transactionState.getTransactionsForPeriod(
-                      TransactionDateFilter(endDate: date),
-                    );
-                  },
-                );
-              },
+              onTap: isLoading
+                  ? null
+                  : () async {
+                      await customShowDatePicker(
+                        context: context,
+                        initialDate: transactionState.selectedEndDateTime,
+                        onSelectedDate: (date) {
+                          transactionState.getTransactionsForPeriod(
+                            TransactionDateFilter(endDate: date),
+                          );
+                        },
+                      );
+                    },
             ),
             CustomListTile(
               title: "Сумма",

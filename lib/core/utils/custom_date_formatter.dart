@@ -8,7 +8,7 @@ class CustomDateFormatter {
     return inputFormat.format(date);
   }
 
-  static String formatDateWithYearAndMonth(DateTime date){
+  static String formatDateWithYearAndMonth(DateTime date) {
     return "${getMonthFromDateWithCapitalLetter(date.month)} ${date.year}";
   }
 

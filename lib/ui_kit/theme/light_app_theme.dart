@@ -95,6 +95,30 @@ class LightAppTheme {
           side: BorderSide(color: LightAppColors.brandColor),
         ),
       ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: LightAppColors.secondaryBrandColor,
+        dayForegroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.disabled)) return Colors.grey;
+
+          return Colors.black;
+        }),
+        todayForegroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+          return LightAppColors.onSurface;
+        }),
+        cancelButtonStyle: TextButton.styleFrom(
+          foregroundColor: LightAppColors.onSurface,
+          textStyle: AppTextStyles.base.labelLarge.copyWith(
+            fontWeight: FontWeight.w400,
+            color: LightAppColors.onSurface,
+          ),
+        ),
+        confirmButtonStyle: TextButton.styleFrom(
+          foregroundColor: LightAppColors.onSurface,
+          textStyle: AppTextStyles.base.labelLarge.copyWith(
+            color: LightAppColors.onSurface,
+          ),
+        ),
+      ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: LightAppColors.onSurface,
       ),

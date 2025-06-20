@@ -143,7 +143,7 @@ class ExpensesRoute extends GoRouteData with _$ExpensesRoute {
       create: (context) => TransactionCubit(
         kind: kind,
         repository: context.read<TransactionRepository>(),
-      )..getTransactionsForPeriod(TransactionDateFilter()),
+      )..getTransactionsForPeriod(),
       child: CashFlowScreen(kind: kind),
     );
   }
@@ -160,7 +160,7 @@ class IncomeRoute extends GoRouteData with _$IncomeRoute {
       create: (context) => TransactionCubit(
         kind: kind,
         repository: context.read<TransactionRepository>(),
-      )..getTransactionsForPeriod(TransactionDateFilter()),
+      )..getTransactionsForPeriod(),
       child: CashFlowScreen(kind: kind),
     );
   }
@@ -189,7 +189,12 @@ class TransactionHistoryRoute extends GoRouteData
       create: (context) => TransactionCubit(
         kind: $extra,
         repository: context.read<TransactionRepository>(),
-      )..getTransactionsForPeriod(TransactionDateFilter()),
+      )..getTransactionsForPeriod(
+        TransactionDateFilter(
+          startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+          endDate: TransactionDateFilter.defaultEndTime(),
+        )
+      ),
       child: TransactionHistoryScreen(kind: $extra),
     );
   }
