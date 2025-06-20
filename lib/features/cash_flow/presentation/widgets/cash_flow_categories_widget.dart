@@ -1,4 +1,4 @@
-import '../utils/index.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
 class CashFlowCategoriesWidget extends StatelessWidget {
   const CashFlowCategoriesWidget({super.key});

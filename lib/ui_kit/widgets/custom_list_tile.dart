@@ -51,10 +51,12 @@ class CustomListTile extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               textWidget(context, title),
               description == null
@@ -73,6 +75,7 @@ class CustomListTile extends StatelessWidget {
         Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (amount != null) textWidget(context, amount ?? ""),
               if (transactionDate != null)

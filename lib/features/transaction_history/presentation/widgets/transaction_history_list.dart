@@ -8,13 +8,19 @@ class TransactionHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (transactionState is TransactionLoading) {
-      return CustomShimmer(type: ShimmerType.categoriesList);
+      return SliverToBoxAdapter(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: CustomShimmer(type: ShimmerType.categoriesList),
+        ),
+      );
     } else if (transactionState is TransactionSuccess) {
       final successState = transactionState as TransactionSuccess;
-      return ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: successState.transactions.length,
-        itemBuilder: (context, index) {
+      if (successState.transactions.isEmpty) {
+        return SliverToBoxAdapter(child: EmptyTransactionWidget());
+      }
+      return SliverList(
+        delegate: SliverChildBuilderDelegate((context, index) {
           final TransactionModel transaction = successState.transactions[index];
           return CustomListTile(
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
@@ -26,10 +32,13 @@ class TransactionHistoryList extends StatelessWidget {
             ),
             description: transaction.comment,
           );
-        },
+        }, childCount: successState.transactions.length),
       );
-    } else {
-      return SizedBox.shrink();
+    } else if(transactionState is TransactionError){
+      final error = transactionState as TransactionError;
+      return SliverToBoxAdapter(child: ErrorBaseWidget(errorMessage: error.message,));
+    } else{
+      return const SizedBox.shrink();
     }
   }
 }

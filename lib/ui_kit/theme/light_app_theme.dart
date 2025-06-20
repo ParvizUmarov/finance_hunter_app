@@ -72,8 +72,7 @@ class LightAppTheme {
         clipBehavior: Clip.hardEdge,
         elevation: 0,
         modalElevation: 0,
-        modalBarrierColor: Colors.red,
-        showDragHandle: false,
+        showDragHandle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),

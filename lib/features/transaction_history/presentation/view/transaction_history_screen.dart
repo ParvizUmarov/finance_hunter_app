@@ -21,54 +21,78 @@ class TransactionHistoryScreen extends StatelessWidget {
             context.read<TransactionCubit>().getTransactionsForPeriod();
           }
         },
-        child: Column(
-          children: [
-            CustomListTile(
-              title: "Начало",
-              amount: transactionState.formattedStartDateTime,
-              backgroundColor: LightAppColors.secondaryBrandColor,
-              onTap: isLoading
-                  ? null
-                  : () async {
-                      await customShowDatePicker(
-                        context: context,
-                        initialDate: transactionState.selectedStartDateTime,
-                        onSelectedDate: (date) {
-                          transactionState.getTransactionsForPeriod(
-                            TransactionDateFilter(startDate: date),
-                          );
-                        },
-                      );
-                    },
-            ),
-            CustomListTile(
-              title: "Конец",
-              amount: transactionState.formattedEndDateTime,
-              backgroundColor: LightAppColors.secondaryBrandColor,
-              onTap: isLoading
-                  ? null
-                  : () async {
-                      await customShowDatePicker(
-                        context: context,
-                        initialDate: transactionState.selectedEndDateTime,
-                        onSelectedDate: (date) {
-                          transactionState.getTransactionsForPeriod(
-                            TransactionDateFilter(endDate: date),
-                          );
-                        },
-                      );
-                    },
-            ),
-            CustomListTile(
-              title: "Сумма",
-              amount: "${transactionState.amount ?? "-"} ₽",
-              backgroundColor: LightAppColors.secondaryBrandColor,
-            ),
-            Expanded(
-              child: TransactionHistoryList(
-                transactionState: transactionState.state,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  CustomListTile(
+                    title: "Начало",
+                    amount: transactionState.formattedStartDateTime,
+                    backgroundColor: LightAppColors.secondaryBrandColor,
+                    onTap: isLoading
+                        ? null
+                        : () async {
+                            await customShowDatePicker(
+                              context: context,
+                              initialDate:
+                                  transactionState.selectedStartDateTime,
+                              onSelectedDate: (date) {
+                                transactionState.getTransactionsForPeriod(
+                                  TransactionDateFilter(startDate: date),
+                                );
+                              },
+                            );
+                          },
+                  ),
+                  CustomListTile(
+                    title: "Конец",
+                    amount: transactionState.formattedEndDateTime,
+                    backgroundColor: LightAppColors.secondaryBrandColor,
+                    onTap: isLoading
+                        ? null
+                        : () async {
+                            await customShowDatePicker(
+                              context: context,
+                              initialDate: transactionState.selectedEndDateTime,
+                              onSelectedDate: (date) {
+                                transactionState.getTransactionsForPeriod(
+                                  TransactionDateFilter(endDate: date),
+                                );
+                              },
+                            );
+                          },
+                  ),
+                ],
               ),
             ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: StickyHeaderDelegate(
+                child: CustomListTile(
+                  title: "Сумма",
+                  amount: "${transactionState.amount ?? "-"} ₽",
+                  backgroundColor: LightAppColors.secondaryBrandColor,
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: CustomListTile(
+                title: "Сортировка",
+                amount: transactionState.sortedType.label,
+                backgroundColor: LightAppColors.secondaryBrandColor,
+                onTap: isLoading
+                    ? null
+                    : () async {
+                        await showSortingBottomSheet(context, (
+                          sortedType,
+                        ) async {
+                          await transactionState.applySorting(sortedType);
+                        });
+                      },
+              ),
+            ),
+            TransactionHistoryList(transactionState: transactionState.state),
           ],
         ),
       ),

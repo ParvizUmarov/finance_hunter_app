@@ -14,7 +14,9 @@ class IncomeTransaction extends TransactionKind {
   }
 
   @override
-  void onFloatingButtonTap(BuildContext context) {}
+  void onFloatingButtonTap(BuildContext context) {
+    const MyExpensesRoute().push(context);
+  }
 }
 
 class ExpensesTransaction extends TransactionKind {

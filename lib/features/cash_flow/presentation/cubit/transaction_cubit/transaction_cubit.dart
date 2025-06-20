@@ -15,10 +15,14 @@ class TransactionCubit extends Cubit<TransactionState> {
   String? amount;
   DateTime? selectedStartDateTime;
   DateTime? selectedEndDateTime;
+  SortedType sortedType = SortedType.none;
+  List<TransactionModel> transactions = [];
 
   String get formattedStartDateTime {
     if (selectedStartDateTime == null) return "-";
-    return CustomDateFormatter.formatDateWithYearAndMonth(selectedStartDateTime!);
+    return CustomDateFormatter.formatDateWithYearAndMonth(
+      selectedStartDateTime!,
+    );
   }
 
   String get formattedEndDateTime {
@@ -28,18 +32,15 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   Future<void> getTransactionsForPeriod([TransactionDateFilter? filter]) async {
     emit(TransactionState.loading());
+
     try {
-      selectedStartDateTime ??= TransactionDateFilter.defaultStartTime();
-      selectedEndDateTime ??= TransactionDateFilter.defaultEndTime();
+      final int accountId = 1;
+      _preparePeriod(filter);
 
-      validateStartDateTime(filter);
-      validateEndDateTime(filter);
-
-      final accountId = 1;
       final periodRequest = TransactionPeriodRequestBody(
         accountId: accountId,
-        startDate: selectedStartDateTime,
-        endDate: selectedEndDateTime,
+        startDate: selectedStartDateTime!,
+        endDate: selectedEndDateTime!,
       );
 
       final allTransactions = await repository.getTransactionByPeriod(
@@ -47,31 +48,55 @@ class TransactionCubit extends Cubit<TransactionState> {
         periodRequest,
       );
 
-      final isIncomeKind = kind is IncomeTransaction;
+      transactions = _filterTransactionsByKind(allTransactions);
+      transactions = _sortTransactions(sortedType, transactions);
+      final total = _calculateTotalAmount(transactions);
 
-      final filteredTransactions = allTransactions
-          .where((tx) => tx.category.isIncome == isIncomeKind)
-          .toList();
+      amount = total.toStringAsFixed(2);
 
-      final totalAmount = filteredTransactions.fold(
-        0.0,
-        (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0),
-      );
-
-      amount = totalAmount.toString();
-
-      emit(
-        TransactionState.success(
-          transactions: filteredTransactions,
-          totalAmount: totalAmount.toString(),
-        ),
-      );
+      emit(TransactionState.success(
+        transactions: transactions,
+        totalAmount: amount!,
+      ));
     } catch (e) {
       emit(TransactionState.error(message: e.toString()));
     }
   }
 
-  void validateStartDateTime(TransactionDateFilter? filter) {
+  List<TransactionModel> _sortTransactions(SortedType type, List<TransactionModel> input) {
+    final sorted = [...input];
+
+    switch (type) {
+      case SortedType.byDate:
+        sorted.sort((a, b) => a.transactionDate.compareTo(b.transactionDate));
+        break;
+      case SortedType.byAmount:
+        sorted.sort((a, b) =>
+            (double.tryParse(a.amount) ?? 0.0).compareTo(double.tryParse(b.amount) ?? 0.0));
+        break;
+      case SortedType.none:
+        break;
+    }
+
+    sortedType = type;
+    return sorted;
+  }
+
+  Future<void> applySorting(SortedType type) async {
+    emit(TransactionState.loading());
+
+    final sorted = _sortTransactions(type, transactions);
+
+    emit(TransactionState.success(
+      transactions: sorted,
+      totalAmount: amount ?? "0",
+    ));
+  }
+
+  void _preparePeriod(TransactionDateFilter? filter) {
+    selectedStartDateTime ??= TransactionDateFilter.defaultStartTime();
+    selectedEndDateTime ??= TransactionDateFilter.defaultEndTime();
+
     if (filter?.startDate != null) {
       final newStart = filter!.startDateTime!;
       if (selectedEndDateTime != null && newStart.isAfter(selectedEndDateTime!)) {
@@ -79,15 +104,39 @@ class TransactionCubit extends Cubit<TransactionState> {
       }
       selectedStartDateTime = newStart;
     }
-  }
 
-  void validateEndDateTime(TransactionDateFilter? filter){
     if (filter?.endDate != null) {
       final newEnd = filter!.endDateTime!;
       if (selectedStartDateTime != null && newEnd.isBefore(selectedStartDateTime!)) {
         selectedStartDateTime = newEnd;
       }
       selectedEndDateTime = newEnd;
+    }
+  }
+
+  List<TransactionModel> _filterTransactionsByKind(List<TransactionModel> all) {
+    final isIncomeKind = kind is IncomeTransaction;
+    return all.where((tx) => tx.category.isIncome == isIncomeKind).toList();
+  }
+
+  double _calculateTotalAmount(List<TransactionModel> list) {
+    return list.fold(0.0, (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0));
+  }
+}
+
+enum SortedType {
+  none,
+  byDate,
+  byAmount;
+
+  String get label {
+    switch (this) {
+      case SortedType.byDate:
+        return "По дате";
+      case SortedType.byAmount:
+        return "По сумме";
+      default:
+        return "Без сортировки";
     }
   }
 }

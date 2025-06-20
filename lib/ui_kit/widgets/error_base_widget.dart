@@ -1,5 +1,6 @@
+import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class ErrorBaseWidget extends StatelessWidget {
   final String? errorMessage;
@@ -13,16 +14,14 @@ class ErrorBaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: double.infinity,
-      width: double.infinity,
+    return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, color: Colors.red, size: 40,),
-            SizedBox(height: 10),
+            Assets.images.error.image(),
+            const SizedBox(height: 10),
             isDebugMode
                 ? Text("Ошибка: $errorMessage", overflow: TextOverflow.ellipsis)
                 : Text("Что-то пошло не так"),

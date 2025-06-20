@@ -1,8 +1,9 @@
 class TransactionDateFilter {
   final DateTime? startDate;
   final DateTime? endDate;
+  final String? sortedType;
 
-  TransactionDateFilter({this.startDate, this.endDate});
+  TransactionDateFilter({this.startDate, this.endDate, this.sortedType});
 
   DateTime? get startDateTime => startDate;
 
