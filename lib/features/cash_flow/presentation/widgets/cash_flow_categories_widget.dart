@@ -34,9 +34,9 @@ class CashFlowCategoriesWidget extends StatelessWidget {
           },
           child: Column(
             children: [
-              CategoriesListTile(
+              CustomListTile(
                 title: "Всего",
-                isTotalAmount: true,
+                backgroundColor: LightAppColors.secondaryBrandColor,
                 amount: "${transactionState.totalAmount} ₽",
               ),
               Expanded(
@@ -46,7 +46,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final TransactionModel transaction =
                         transactionState.transactions[index];
-                    return CategoriesListTile(
+                    return CustomListTile(
                       title: transaction.category.name,
                       amount: "${transaction.amount} ₽",
                       emoji: transaction.category.emoji,

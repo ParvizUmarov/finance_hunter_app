@@ -3,15 +3,13 @@ import 'package:intl/intl.dart';
 class CustomDateFormatter {
   const CustomDateFormatter._();
 
-  static String formatDateTimeWithHour(DateTime date){
-    var inputFormat = DateFormat('dd.MM.yyyy HH:mm');
-    var dateFormatted = inputFormat.format(date);
-    return dateFormatted;
-  }
-
   static String formatDate(DateTime date){
     var inputFormat = DateFormat('HH:mm');
     return inputFormat.format(date);
+  }
+
+  static String formatDateWithYearAndMonth(DateTime date){
+    return "${getMonthFromDateWithCapitalLetter(date.month)} ${date.year}";
   }
 
   static String getMonthFromDateWithCapitalLetter(int month) {
@@ -44,5 +42,4 @@ class CustomDateFormatter {
         return 'Январь';
     }
   }
-
 }

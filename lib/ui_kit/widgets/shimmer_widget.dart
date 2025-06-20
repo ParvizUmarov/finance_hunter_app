@@ -1,8 +1,7 @@
-import 'package:finance_hunter_app/features/cash_flow/presentation/widgets/categories_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-enum ShimmerType { categoriesList, categoriesHistoryList }
+enum ShimmerType { categoriesList }
 
 class CustomShimmer extends StatelessWidget {
   final ShimmerType type;
@@ -14,42 +13,12 @@ class CustomShimmer extends StatelessWidget {
     switch (type) {
       case ShimmerType.categoriesList:
         return const _CategoriesListTileList();
-      case ShimmerType.categoriesHistoryList:
-        return const _CategoryHistoryShimmer();
     }
   }
 }
 
-class _CategoryHistoryShimmer extends StatelessWidget {
-  const _CategoryHistoryShimmer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CategoriesListTile(
-          title: "Начало",
-          isTotalAmount: true,
-          amount: '',
-        ),
-        CategoriesListTile(
-          title: "Конец",
-          isTotalAmount: true,
-          amount: '',
-        ),
-        CategoriesListTile(
-          title: "Сумма",
-          isTotalAmount: true,
-          amount: "",
-        ),
-        Expanded(child: _CategoriesListTileList()),
-      ],
-    );
-  }
-}
-
 class _CategoriesListTileList extends StatelessWidget {
-  const _CategoriesListTileList({super.key});
+  const _CategoriesListTileList();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +32,7 @@ class _CategoriesListTileList extends StatelessWidget {
 }
 
 class _ShimmerCategoriesListTile extends StatelessWidget {
-  const _ShimmerCategoriesListTile({super.key});
+  const _ShimmerCategoriesListTile();
 
   @override
   Widget build(BuildContext context) {

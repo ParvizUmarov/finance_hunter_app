@@ -13,17 +13,38 @@ class TransactionCubit extends Cubit<TransactionState> {
     : super(const TransactionState.initial());
 
   String? amount;
-  String? startDateTime;
-  String? endDateTime;
 
-  Future<void> getTransactionsForPeriod(TransactionDateFilter filter) async {
+  DateTime? selectedStartDateTime;
+  DateTime? selectedEndDateTime;
+
+  String get formattedStartDateTime {
+    if (selectedStartDateTime == null) return "-";
+    return CustomDateFormatter.formatDateWithYearAndMonth(selectedStartDateTime!);
+  }
+
+  String get formattedEndDateTime {
+    if (selectedEndDateTime == null) return "-";
+    return CustomDateFormatter.formatDate(selectedEndDateTime!);
+  }
+
+  Future<void> getTransactionsForPeriod(TransactionDateFilter? filter) async {
     emit(TransactionState.loading());
     try {
+      selectedStartDateTime ??= TransactionDateFilter.defaultStartTime();
+      selectedEndDateTime ??= TransactionDateFilter.defaultEndTime();
+
+      if (filter?.startDate != null) {
+        selectedStartDateTime = filter!.startDate;
+      }
+      if (filter?.endDate != null) {
+        selectedEndDateTime = filter!.endDate;
+      }
+
       final accountId = 1;
       final periodRequest = TransactionPeriodRequestBody(
         accountId: accountId,
-        startDate: filter.startDateTime,
-        endDate: filter.endDateTime,
+        startDate: selectedStartDateTime,
+        endDate: selectedEndDateTime,
       );
 
       final allTransactions = await repository.getTransactionByPeriod(
@@ -42,16 +63,12 @@ class TransactionCubit extends Cubit<TransactionState> {
         (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0),
       );
 
-      startDateTime = filter.getFormatedStartDateTime();
-      endDateTime = filter.getFormatedEndDateTime();
       amount = totalAmount.toString();
 
       emit(
         TransactionState.success(
           transactions: filteredTransactions,
           totalAmount: totalAmount.toString(),
-          startDate: filter.getFormatedStartDateTime(),
-          endDate: filter.getFormatedEndDateTime(),
         ),
       );
     } catch (e) {

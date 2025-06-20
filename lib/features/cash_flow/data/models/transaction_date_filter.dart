@@ -1,38 +1,35 @@
-import 'package:intl/intl.dart';
+import 'package:finance_hunter_app/core/core.dart';
 
 class TransactionDateFilter {
-  final DateTime startDateTime;
-  final DateTime endDateTime;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
-  TransactionDateFilter({DateTime? startDate, DateTime? endTime})
-    : dateNow = DateTime.now(),
-      startDateTime =
-          startDate ??
-          DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day,
-          ),
-      endDateTime =
-          endTime ??
-          DateTime(
-            DateTime.now().year,
-            DateTime.now().month,
-            DateTime.now().day,
-            23,
-            59,
-            59,
-            999,
-          );
+  TransactionDateFilter({this.startDate, this.endDate});
 
-  final DateTime dateNow;
-  final DateFormat formatter = DateFormat("HH:mm");
-
-  String getFormatedStartDateTime() {
-    return formatter.format(startDateTime);
+  String? getFormatedStartDateTime() {
+    return startDate == null
+        ? null
+        : CustomDateFormatter.formatDateWithYearAndMonth(startDate!);
   }
 
-  String getFormatedEndDateTime() {
-    return formatter.format(endDateTime);
+  String? getFormatedEndDateTime() {
+    return endDate == null
+        ? null
+        : CustomDateFormatter.formatDate(endDate!);
   }
+
+  DateTime? getStartDateTime() => startDate;
+
+  DateTime? getEndDateTime() => endDate;
+
+  static DateTime defaultStartTime() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  static DateTime defaultEndTime() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
+  }
+
 }

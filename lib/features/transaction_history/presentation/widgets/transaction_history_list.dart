@@ -16,7 +16,7 @@ class TransactionHistoryList extends StatelessWidget {
         itemCount: successState.transactions.length,
         itemBuilder: (context, index) {
           final TransactionModel transaction = successState.transactions[index];
-          return CategoriesListTile(
+          return CustomListTile(
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
             title: transaction.category.name,
             amount: "${transaction.amount} ₽",

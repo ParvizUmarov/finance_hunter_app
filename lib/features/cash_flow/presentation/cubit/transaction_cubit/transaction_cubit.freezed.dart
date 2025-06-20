@@ -110,7 +110,7 @@ String toString() {
 
 
 class TransactionSuccess implements TransactionState {
-  const TransactionSuccess({required final  List<TransactionModel> transactions, required this.totalAmount, required this.startDate, required this.endDate}): _transactions = transactions;
+  const TransactionSuccess({required final  List<TransactionModel> transactions, required this.totalAmount}): _transactions = transactions;
   
 
  final  List<TransactionModel> _transactions;
@@ -121,8 +121,6 @@ class TransactionSuccess implements TransactionState {
 }
 
  final  String totalAmount;
- final  String startDate;
- final  String endDate;
 
 /// Create a copy of TransactionState
 /// with the given fields replaced by the non-null parameter values.
@@ -134,16 +132,16 @@ $TransactionSuccessCopyWith<TransactionSuccess> get copyWith => _$TransactionSuc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionSuccess&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionSuccess&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_transactions),totalAmount,startDate,endDate);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_transactions),totalAmount);
 
 @override
 String toString() {
-  return 'TransactionState.success(transactions: $transactions, totalAmount: $totalAmount, startDate: $startDate, endDate: $endDate)';
+  return 'TransactionState.success(transactions: $transactions, totalAmount: $totalAmount)';
 }
 
 
@@ -154,7 +152,7 @@ abstract mixin class $TransactionSuccessCopyWith<$Res> implements $TransactionSt
   factory $TransactionSuccessCopyWith(TransactionSuccess value, $Res Function(TransactionSuccess) _then) = _$TransactionSuccessCopyWithImpl;
 @useResult
 $Res call({
- List<TransactionModel> transactions, String totalAmount, String startDate, String endDate
+ List<TransactionModel> transactions, String totalAmount
 });
 
 
@@ -171,12 +169,10 @@ class _$TransactionSuccessCopyWithImpl<$Res>
 
 /// Create a copy of TransactionState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? transactions = null,Object? totalAmount = null,Object? startDate = null,Object? endDate = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? transactions = null,Object? totalAmount = null,}) {
   return _then(TransactionSuccess(
 transactions: null == transactions ? _self._transactions : transactions // ignore: cast_nullable_to_non_nullable
 as List<TransactionModel>,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
-as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
-as String,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

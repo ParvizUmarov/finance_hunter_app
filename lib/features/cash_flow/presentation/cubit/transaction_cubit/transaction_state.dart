@@ -9,8 +9,6 @@ sealed class TransactionState with _$TransactionState {
   const factory TransactionState.success({
     required List<TransactionModel> transactions,
     required String totalAmount,
-    required String startDate,
-    required String endDate,
   }) = TransactionSuccess;
 
   const factory TransactionState.error({

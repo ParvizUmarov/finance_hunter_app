@@ -1,30 +1,34 @@
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
-class CategoriesListTile extends StatelessWidget {
+class CustomListTile extends StatelessWidget {
   final String title;
-  final String amount;
+  final String? amount;
   final String? emoji;
-  final bool isTotalAmount;
   final String? transactionDate;
   final String? description;
   final EdgeInsetsGeometry? padding;
+  final String? trailingIconAsset;
+  final Color? backgroundColor;
+  final Function()? onTap;
 
-  const CategoriesListTile({
+  const CustomListTile({
     super.key,
     required this.title,
-    this.isTotalAmount = false,
     this.emoji,
-    required this.amount,
+    this.amount,
     this.transactionDate,
     this.padding,
     this.description,
+    this.trailingIconAsset,
+    this.backgroundColor,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: tileColor(context),
+        color: backgroundColor ?? Theme.of(context).colorScheme.surface,
         border: Border(
           bottom: BorderSide(
             width: 1,
@@ -33,6 +37,7 @@ class CategoriesListTile extends StatelessWidget {
         ),
       ),
       child: ListTile(
+        onTap: onTap,
         contentPadding:
             padding ?? EdgeInsets.symmetric(vertical: 7, horizontal: 16),
         leading: leadingWidget(),
@@ -65,14 +70,15 @@ class CategoriesListTile extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            textWidget(context, amount),
-            transactionDate == null
-                ? SizedBox.shrink()
-                : textWidget(context, transactionDate ?? ""),
-          ],
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (amount != null) textWidget(context, amount ?? ""),
+              if (transactionDate != null)
+                textWidget(context, transactionDate ?? ""),
+            ],
+          ),
         ),
       ],
     );
@@ -84,10 +90,10 @@ class CategoriesListTile extends StatelessWidget {
   }
 
   Widget? trailingWidget() =>
-      isTotalAmount ? null : SvgPicture.asset(Assets.icons.icArrowRight);
+      SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight);
 
   Widget? leadingWidget() {
-    return isTotalAmount
+    return emoji == null
         ? null
         : Container(
             height: 24,
@@ -99,8 +105,4 @@ class CategoriesListTile extends StatelessWidget {
             child: Center(child: Text(emoji ?? "")),
           );
   }
-
-  Color tileColor(BuildContext context) => isTotalAmount
-      ? LightAppColors.secondaryBrandColor
-      : Theme.of(context).colorScheme.surface;
 }
