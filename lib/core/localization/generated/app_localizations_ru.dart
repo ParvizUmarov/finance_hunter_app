@@ -37,4 +37,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get articles => 'Статьи';
+
+  @override
+  String get myHistory => 'Моя история';
 }

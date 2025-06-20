@@ -37,4 +37,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get articles => 'Articles';
+
+  @override
+  String get myHistory => 'My history';
 }

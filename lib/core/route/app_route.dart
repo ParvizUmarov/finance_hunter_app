@@ -1,6 +1,11 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
 import 'package:finance_hunter_app/features/features.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
+
+import '../../features/cash_flow/data/models/transaction_kind.dart';
 
 part 'app_route.g.dart';
 
@@ -13,51 +18,62 @@ final articlesNavigatorKey = GlobalKey<NavigatorState>();
 final settingsNavigatorKey = GlobalKey<NavigatorState>();
 
 @TypedStatefulShellRoute<HomeShellRoute>(
-    branches: [
-  TypedStatefulShellBranch<ExpensesBranch>(
+  branches: [
+    TypedStatefulShellBranch<ExpensesBranch>(
       routes: [
-    TypedGoRoute<ExpensesRoute>(
-        //path: '/expensesScreen',
-        path: '/',
-        name: ExpensesScreen.screenName,
-        routes: [
-          TypedGoRoute<MyExpensesRoute>(
+        TypedGoRoute<ExpensesRoute>(
+          path: '/',
+          name: CashFlowScreen.expensesScreenName,
+          routes: [
+            TypedGoRoute<MyExpensesRoute>(
               path: 'myExpensesScreen',
-              name: MyExpensesScreen.screenName),
-        ]
+              name: MyExpensesScreen.screenName,
+            ),
+            TypedGoRoute<TransactionHistoryRoute>(
+              path: 'transactionHistoryScreen',
+              name: TransactionHistoryScreen.screenName,
+            ),
+          ],
+        ),
+      ],
     ),
-  ]),
-  TypedStatefulShellBranch<IncomeBranch>(
+    TypedStatefulShellBranch<IncomeBranch>(
       routes: [
-    TypedGoRoute<IncomeRoute>(
-        path: '/incomeScreen',
-        name: IncomeScreen.screenName),
-  ]),
-  TypedStatefulShellBranch<AccountBranch>(
-      routes: [
-    TypedGoRoute<AccountRoute>(
-        path: '/accountScreen',
-        name: AccountScreen.screenName,
+        TypedGoRoute<IncomeRoute>(
+          path: '/incomeScreen',
+          name: CashFlowScreen.incomeScreenName,
+        ),
+      ],
     ),
-  ]),
-  TypedStatefulShellBranch<ArticlesBranch>(
+    TypedStatefulShellBranch<AccountBranch>(
       routes: [
-    TypedGoRoute<ArticlesRoute>(
-        path: '/articlesScreen',
-        name: ArticlesScreen.screenName),
-  ]),
-      TypedStatefulShellBranch<SettingsBranch>(
+        TypedGoRoute<AccountRoute>(
+          path: '/accountScreen',
+          name: AccountScreen.screenName,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<ArticlesBranch>(
       routes: [
-    TypedGoRoute<SettingsRoute>(
-        path: '/settingsScreen',
-        name: SettingsScreen.screenName),
-  ]),
-])
-
+        TypedGoRoute<ArticlesRoute>(
+          path: '/articlesScreen',
+          name: ArticlesScreen.screenName,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<SettingsBranch>(
+      routes: [
+        TypedGoRoute<SettingsRoute>(
+          path: '/settingsScreen',
+          name: SettingsScreen.screenName,
+        ),
+      ],
+    ),
+  ],
+)
 //==============================================================================
 //***************************   HOME SHELL ROUTE   *****************************
 //==============================================================================
-
 class HomeShellRoute extends StatefulShellRouteData {
   const HomeShellRoute();
 
@@ -65,13 +81,11 @@ class HomeShellRoute extends StatefulShellRouteData {
 
   @override
   Widget builder(
-      BuildContext context,
-      GoRouterState state,
-      StatefulNavigationShell navigationShell,
-      ) {
-    return ScaffoldWithNavBar(
-      navigationShell: navigationShell,
-    );
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
+    return ScaffoldWithNavBar(navigationShell: navigationShell);
   }
 }
 
@@ -90,8 +104,7 @@ class IncomeBranch extends StatefulShellBranchData {
   const IncomeBranch();
 
   static const String $restorationScopeId = shellRestorationScopeId;
-  static final GlobalKey<NavigatorState> $navigatorKey =
-      incomeNavigatorKey;
+  static final GlobalKey<NavigatorState> $navigatorKey = incomeNavigatorKey;
 }
 
 class AccountBranch extends StatefulShellBranchData {
@@ -105,8 +118,7 @@ class ArticlesBranch extends StatefulShellBranchData {
   const ArticlesBranch();
 
   static const String $restorationScopeId = shellRestorationScopeId;
-  static final GlobalKey<NavigatorState> $navigatorKey =
-      articlesNavigatorKey;
+  static final GlobalKey<NavigatorState> $navigatorKey = articlesNavigatorKey;
 }
 
 class SettingsBranch extends StatefulShellBranchData {
@@ -115,7 +127,6 @@ class SettingsBranch extends StatefulShellBranchData {
   static const String $restorationScopeId = shellRestorationScopeId;
   static final GlobalKey<NavigatorState> $navigatorKey = settingsNavigatorKey;
 }
-
 
 //==============================================================================
 //********************************   ROUTES   **********************************
@@ -127,7 +138,31 @@ class ExpensesRoute extends GoRouteData with _$ExpensesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ExpensesScreen();
+    final kind = ExpensesTransaction();
+    return BlocProvider(
+      create: (context) => TransactionCubit(
+        kind: kind,
+        repository: context.read<TransactionRepository>(),
+      )..getTransactionsForPeriod(),
+      child: CashFlowScreen(kind: kind),
+    );
+  }
+}
+
+@immutable
+class IncomeRoute extends GoRouteData with _$IncomeRoute {
+  const IncomeRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    final kind = IncomeTransaction();
+    return BlocProvider(
+      create: (context) => TransactionCubit(
+        kind: kind,
+        repository: context.read<TransactionRepository>(),
+      )..getTransactionsForPeriod(),
+      child: CashFlowScreen(kind: kind),
+    );
   }
 }
 
@@ -141,17 +176,29 @@ class MyExpensesRoute extends GoRouteData with _$MyExpensesRoute {
   }
 }
 
-
 @immutable
-class IncomeRoute extends GoRouteData with _$IncomeRoute {
-  const IncomeRoute();
+class TransactionHistoryRoute extends GoRouteData
+    with _$TransactionHistoryRoute {
+  final TransactionKind $extra;
+
+  const TransactionHistoryRoute({required this.$extra});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const IncomeScreen();
+    return BlocProvider(
+      create: (context) => TransactionCubit(
+        kind: $extra,
+        repository: context.read<TransactionRepository>(),
+      )..getTransactionsForPeriod(
+        TransactionDateFilter(
+          startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+          endDate: TransactionDateFilter.defaultEndTime(),
+        )
+      ),
+      child: TransactionHistoryScreen(kind: $extra),
+    );
   }
 }
-
 
 @immutable
 class AccountRoute extends GoRouteData with _$AccountRoute {
@@ -163,7 +210,6 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
   }
 }
 
-
 @immutable
 class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
   const ArticlesRoute();
@@ -174,7 +220,6 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
   }
 }
 
-
 @immutable
 class SettingsRoute extends GoRouteData with _$SettingsRoute {
   const SettingsRoute();
@@ -184,8 +229,3 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
     return const SettingsScreen();
   }
 }
-
-
-
-
-

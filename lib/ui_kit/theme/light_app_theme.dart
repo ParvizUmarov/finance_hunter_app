@@ -23,6 +23,8 @@ class LightAppTheme {
         onSurface: LightAppColors.onSurface,
         onSurfaceVariant: LightAppColors.onSurfaceVariant,
 
+        outlineVariant: LightAppColors.outlineVariant,
+
         error: LightAppColors.error,
         onError: LightAppColors.onError,
 
@@ -70,8 +72,7 @@ class LightAppTheme {
         clipBehavior: Clip.hardEdge,
         elevation: 0,
         modalElevation: 0,
-        modalBarrierColor: Colors.red,
-        showDragHandle: false,
+        showDragHandle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
@@ -91,6 +92,30 @@ class LightAppTheme {
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.white,
           side: BorderSide(color: LightAppColors.brandColor),
+        ),
+      ),
+      datePickerTheme: DatePickerThemeData(
+        backgroundColor: LightAppColors.secondaryBrandColor,
+        dayForegroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.disabled)) return Colors.grey;
+
+          return Colors.black;
+        }),
+        todayForegroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+          return LightAppColors.onSurface;
+        }),
+        cancelButtonStyle: TextButton.styleFrom(
+          foregroundColor: LightAppColors.onSurface,
+          textStyle: AppTextStyles.base.labelLarge.copyWith(
+            fontWeight: FontWeight.w400,
+            color: LightAppColors.onSurface,
+          ),
+        ),
+        confirmButtonStyle: TextButton.styleFrom(
+          foregroundColor: LightAppColors.onSurface,
+          textStyle: AppTextStyles.base.labelLarge.copyWith(
+            color: LightAppColors.onSurface,
+          ),
         ),
       ),
       textSelectionTheme: const TextSelectionThemeData(
