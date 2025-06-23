@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-enum ShimmerType { categoriesList }
+enum ShimmerType { categoriesList, myAccount }
 
 class CustomShimmer extends StatelessWidget {
   final ShimmerType type;
@@ -12,18 +12,21 @@ class CustomShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (type) {
       case ShimmerType.categoriesList:
-        return const _CategoriesListTileList();
+        return const _CategoriesListTileList(7);
+      case ShimmerType.myAccount:
+        return const _CategoriesListTileList(2);
     }
   }
 }
 
 class _CategoriesListTileList extends StatelessWidget {
-  const _CategoriesListTileList();
+  final int count;
+  const _CategoriesListTileList(this.count);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 7,
+      itemCount: count,
       itemBuilder: (context, index) {
         return _ShimmerCategoriesListTile();
       },

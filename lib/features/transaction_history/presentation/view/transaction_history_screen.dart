@@ -13,7 +13,17 @@ class TransactionHistoryScreen extends StatelessWidget {
     final isLoading = transactionState.state is TransactionLoading;
 
     return Scaffold(
-      appBar: AppBar(title: Text(s.myHistory)),
+      appBar: AppBar(
+        title: Text(s.myHistory),
+        actions: [
+          IconButton(
+            onPressed: () {
+              AnalysisRoute($extra: kind).push(context);
+            },
+            icon: SvgPicture.asset(Assets.icons.icAnalyze),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(Duration(seconds: 1));

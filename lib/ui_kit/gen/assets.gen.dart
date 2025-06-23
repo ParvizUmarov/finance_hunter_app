@@ -15,6 +15,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_account.svg
   String get icAccount => 'assets/icons/ic_account.svg';
 
+  /// File path: assets/icons/ic_analyze.svg
+  String get icAnalyze => 'assets/icons/ic_analyze.svg';
+
   /// File path: assets/icons/ic_arrow_right.svg
   String get icArrowRight => 'assets/icons/ic_arrow_right.svg';
 
@@ -30,14 +33,27 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_settings.svg
   String get icSettings => 'assets/icons/ic_settings.svg';
 
+  /// File path: assets/icons/mdi_dollar.svg
+  String get mdiDollar => 'assets/icons/mdi_dollar.svg';
+
+  /// File path: assets/icons/mdi_euro.svg
+  String get mdiEuro => 'assets/icons/mdi_euro.svg';
+
+  /// File path: assets/icons/mdi_ruble.svg
+  String get mdiRuble => 'assets/icons/mdi_ruble.svg';
+
   /// List of all assets
   List<String> get values => [
     icAccount,
+    icAnalyze,
     icArrowRight,
     icArticles,
     icExpenses,
     icIncome,
     icSettings,
+    mdiDollar,
+    mdiEuro,
+    mdiRuble,
   ];
 }
 

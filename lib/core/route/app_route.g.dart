@@ -35,6 +35,12 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
 
               factory: _$TransactionHistoryRoute._fromState,
             ),
+            GoRouteData.$route(
+              path: 'analysisScreen',
+              name: 'analysisScreen',
+
+              factory: _$AnalysisRoute._fromState,
+            ),
           ],
         ),
       ],
@@ -148,6 +154,31 @@ mixin _$TransactionHistoryRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/transactionHistoryScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location, extra: _self.$extra);
+
+  @override
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
+
+  @override
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
+}
+
+mixin _$AnalysisRoute on GoRouteData {
+  static AnalysisRoute _fromState(GoRouterState state) =>
+      AnalysisRoute($extra: state.extra as TransactionKind);
+
+  AnalysisRoute get _self => this as AnalysisRoute;
+
+  @override
+  String get location => GoRouteData.$location('/analysisScreen');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);

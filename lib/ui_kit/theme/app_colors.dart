@@ -19,7 +19,7 @@ class LightAppColors {
 
   static const onPrimary = Color(0xFF003B1F);
 
-  static const error = Color(0xFFB3261E);
+  static const error = Color(0xFFE46962);
   static const onError = Color(0xFFFFFFFF);
 
   static const secondary = Color(0xFF4C5F4B);

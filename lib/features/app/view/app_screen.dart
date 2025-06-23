@@ -1,4 +1,5 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
@@ -17,6 +18,9 @@ class AppScreen extends StatelessWidget {
         ),
         RepositoryProvider<ArticleRepository>.value(
           value: dependencies.articleRepository,
+        ),
+        RepositoryProvider<BankAccountRepository>.value(
+          value: dependencies.bankAccountRepository,
         ),
       ],
       child: MaterialApp.router(

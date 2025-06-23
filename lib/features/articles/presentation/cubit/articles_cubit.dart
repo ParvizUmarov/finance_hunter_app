@@ -11,13 +11,31 @@ class ArticlesCubit extends Cubit<ArticlesState> {
   ArticlesCubit({required this.repository})
     : super(const ArticlesState.initial());
 
+  List<ArticleModel> _allArticles = [];
+
   Future<void> getArticles() async {
     emit(ArticlesState.loading());
     try {
       final response = await repository.getMyArticles();
-      emit(ArticlesState.success(articles: response));
+      _allArticles = response;
+      emit(ArticlesState.success(articles: _allArticles));
     } catch (e) {
       emit(ArticlesState.error(message: e.toString()));
     }
+  }
+  
+  void searchArticles(String query){
+    if(query.isEmpty){
+      emit(ArticlesState.success(articles: _allArticles));
+      return;
+    }
+
+    final List<ArticleModel> filtered = _allArticles.where((article){
+      //TODO some search logic
+      return true;
+    }).toList();
+
+    emit(ArticlesState.success(articles: filtered));
+
   }
 }

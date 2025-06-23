@@ -1,4 +1,4 @@
-import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/settings/presentation/utils/index.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const String screenName = "settingsScreen";
@@ -12,8 +12,17 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(s.settings),
       ),
-      body: const Center(
-        child: Text("Settings Screen"),
+      body: Column(
+        children: [
+          CustomListTile(title: "Темная тема"),
+          CustomListTile(title: "Основной цвет"),
+          CustomListTile(title: "Звуки"),
+          CustomListTile(title: "Хаптики"),
+          CustomListTile(title: "Код пароль"),
+          CustomListTile(title: "Синхронизация"),
+          CustomListTile(title: "Язык"),
+          CustomListTile(title: "О программе"),
+        ],
       ),
     );
   }
