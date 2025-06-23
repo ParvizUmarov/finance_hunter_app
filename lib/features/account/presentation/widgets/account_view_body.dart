@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
 
 class AccountViewBody extends StatelessWidget {
@@ -5,50 +7,56 @@ class AccountViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<AccountCubit>();
-    return BlocStateBuilder(
-      cubit: cubit,
-      whenState:
-          ({
-            required initial,
-            required loading,
-            required success,
-            required error,
-          }) {
-            final state = cubit.state;
-            return switch (state) {
-              AccountInitial() => initial(),
-              AccountLoading() => loading(),
-              AccountSuccess() => success(state),
-              AccountError(:final message) => error(message),
-              AccountState() => error("Ошибка"),
-            };
-          },
-      onLoading: (ctx) => CustomShimmer(type: ShimmerType.myAccount),
-      onSuccess: (ctx, state) {
-        final accountState = state as AccountSuccess;
-        final firstAccount = accountState.accounts.first;
-        return Column(
-          children: [
-            CustomListTile(
-              emoji: "💰",
-              title: "Баланс",
-              backgroundColor: LightAppColors.secondaryBrandColor,
-              data: "${firstAccount.balance} ₽",
-              addTrailing: true,
-              emojiBackgroundColor: Colors.white,
-            ),
-            CustomListTile(
-              title: "Валюта",
-              addTrailing: true,
-              data: "₽",
-              backgroundColor: LightAppColors.secondaryBrandColor,
-              onTap: () async {
-                await showCurrencyBottomSheet(context, (value){});
-              },
-            ),
-          ],
-        );
+    final accountCubit = context.watch<AccountCubit>();
+    return BlocBuilder<AccountCubit, AccountState>(
+      builder: (context, state) {
+        if (state is AccountLoading) {
+          return const CustomShimmer(type: ShimmerType.myAccount);
+        } else if (state is AccountSuccess) {
+          final firstAccount = state.accounts.first;
+          return Column(
+            children: [
+              CustomListTile(
+                emoji: "💰",
+                title: "Баланс",
+                backgroundColor: LightAppColors.secondaryBrandColor,
+                content: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(firstAccount.balance),
+                    const SizedBox(width: 5,),
+                    SvgPicture.asset(
+                      accountCubit.currentCurrency.icon,
+                      height: 18,
+                    ),
+                  ],
+                ),
+                addTrailing: true,
+                emojiBackgroundColor: Colors.white,
+              ),
+              CustomListTile(
+                title: "Валюта",
+                addTrailing: true,
+                content: SvgPicture.asset(
+                  accountCubit.currentCurrency.icon,
+                  height: 18,
+                ),
+                backgroundColor: LightAppColors.secondaryBrandColor,
+                onTap: () async {
+                  await showCurrencyBottomSheet(context, (value) {
+                    log("selected currency: $value");
+                    context.read<AccountCubit>().selectCurrency(value);
+                  });
+                },
+              ),
+            ],
+          );
+        } else if (state is AccountError) {
+          return ErrorBaseWidget(errorMessage: state.message);
+        } else {
+          return const SizedBox.shrink();
+        }
       },
     );
   }

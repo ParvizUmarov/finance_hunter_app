@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:finance_hunter_app/features/account/data/data.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,14 +14,23 @@ class AccountCubit extends Cubit<AccountState> {
     : _repository = repository,
       super(const AccountState.initial());
 
+  Currency currentCurrency = Currency.rub;
+  List<BankAccountModel> _accounts = [];
+
   Future<void> getAccounts() async {
     emit(AccountState.loading());
 
     try {
-      final response = await _repository.getUserAccounts();
-      emit(AccountState.success(accounts: response));
+      _accounts = await _repository.getUserAccounts();
+      emit(AccountState.success(accounts: _accounts));
     } catch (e) {
       emit(AccountState.error(message: e.toString()));
     }
+  }
+
+  void selectCurrency(Currency currency) {
+    emit(AccountState.loading());
+    currentCurrency = currency;
+    emit(AccountState.success(accounts: _accounts));
   }
 }

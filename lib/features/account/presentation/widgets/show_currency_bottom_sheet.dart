@@ -1,12 +1,18 @@
+import 'package:finance_hunter_app/features/account/data/data.dart';
 import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
 
 Future<void> showCurrencyBottomSheet(
   BuildContext context,
-  ValueChanged<String> onSelectedSortingType,
+  ValueChanged<Currency> onSelectedCurrency,
 ) async {
-  final textStyle = Theme.of(context).textTheme.bodyLarge;
 
-  final selected = await showModalBottomSheet<String>(
+  final currencies = [
+    CurrencyModel(currency: Currency.rub, title: "Российский рубль ₽"),
+    CurrencyModel(currency: Currency.usd, title: "Американский доллар \$"),
+    CurrencyModel(currency: Currency.eur, title: "Евро"),
+  ];
+
+  final selected = await showModalBottomSheet<Currency>(
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -15,37 +21,22 @@ Future<void> showCurrencyBottomSheet(
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(
-            leading: SvgPicture.asset(Assets.icons.mdiRuble),
-            title: Text("Российский рубль ₽", style: textStyle),
-            onTap: () => context.pop(""),
-          ),
-          ListTile(
-            leading: SvgPicture.asset(Assets.icons.mdiDollar),
-            title: Text("Американский доллар \$", style: textStyle),
-            onTap: () => context.pop(""),
-          ),
-          ListTile(
-            leading: SvgPicture.asset(Assets.icons.mdiEuro),
-            title: Text("Евро", style: textStyle),
-            onTap: () => context.pop(""),
-          ),
-          Container(
-            color: Theme.of(context).colorScheme.error,
-            child: ListTile(
-              leading: Icon(Icons.cancel_outlined, color: Colors.white),
-              title: Text(
-                "Отмена",
-                style: textStyle?.copyWith(color: Colors.white),
-              ),
-              onTap: () => context.pop(),
+          for (var model in currencies)
+            AccountListTile(
+              iconAsset: model.currency.icon,
+              title: model.title,
+              currency: model.currency,
             ),
-          ),
+          AccountListTile(
+              background: Theme.of(context).colorScheme.error,
+              contentColor: Colors.white,
+              iconData: Icons.cancel_outlined,
+              title: "Отмена"),
         ],
       );
     },
   );
   if (selected != null) {
-    onSelectedSortingType(selected);
+    onSelectedCurrency(selected);
   }
 }

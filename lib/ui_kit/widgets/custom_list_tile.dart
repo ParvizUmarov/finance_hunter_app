@@ -6,6 +6,7 @@ class CustomListTile extends StatelessWidget {
   final String? emoji;
   final String? transactionDate;
   final String? description;
+  final Widget? content;
   final EdgeInsetsGeometry? padding;
   final bool addTrailing;
   final Color emojiBackgroundColor;
@@ -26,6 +27,7 @@ class CustomListTile extends StatelessWidget {
     this.onTap,
     this.addTrailing = false,
     this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
+    this.content,
   });
 
   @override
@@ -81,6 +83,7 @@ class CustomListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if (content != null) content!,
               if (data != null) textWidget(context, data ?? ""),
               if (transactionDate != null)
                 textWidget(context, transactionDate ?? ""),

@@ -6,6 +6,7 @@ class ArticleSearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final articleCubitState = context.watch<ArticlesCubit>();
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onSecondaryContainer,
@@ -17,8 +18,8 @@ class ArticleSearchWidget extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        //contentPadding: EdgeInsets.symmetric(vertical: 7, horizontal: 16),
         title: TextField(
+          readOnly: articleCubitState.state is ArticleLoading,
           onChanged: (query){
             context.read<ArticlesCubit>().searchArticles(query);
           },
