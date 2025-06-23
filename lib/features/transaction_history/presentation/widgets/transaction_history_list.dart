@@ -25,11 +25,12 @@ class TransactionHistoryList extends StatelessWidget {
           return CustomListTile(
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
             title: transaction.category.name,
-            amount: "${transaction.amount} ₽",
+            data: "${transaction.amount} ₽",
             emoji: transaction.category.emoji,
             transactionDate: CustomDateFormatter.formatDate(
               transaction.createdAt,
             ),
+            addTrailing: true,
             description: transaction.comment,
           );
         }, childCount: successState.transactions.length),

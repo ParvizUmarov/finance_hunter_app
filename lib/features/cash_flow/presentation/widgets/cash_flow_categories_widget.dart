@@ -37,7 +37,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
               CustomListTile(
                 title: "Всего",
                 backgroundColor: LightAppColors.secondaryBrandColor,
-                amount: "${transactionState.totalAmount} ₽",
+                data: "${transactionState.totalAmount} ₽",
               ),
               Expanded(
                 child: ListView.builder(
@@ -48,9 +48,10 @@ class CashFlowCategoriesWidget extends StatelessWidget {
                         transactionState.transactions[index];
                     return CustomListTile(
                       title: transaction.category.name,
-                      amount: "${transaction.amount} ₽",
+                      data: "${transaction.amount} ₽",
                       emoji: transaction.category.emoji,
                       description: transaction.comment,
+                      addTrailing: true,
                     );
                   },
                 ),

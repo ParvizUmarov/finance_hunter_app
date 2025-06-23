@@ -13,6 +13,7 @@ class LightAppColors {
 
   static const surfaceContainer = Color(0xFFF3EDF7);
   static const surface = Color(0xFFFFFFFF);
+  static const surfaceContainerHigh = Color(0xFFECE6F0);
 
   static const defaultColor = Colors.red;
 

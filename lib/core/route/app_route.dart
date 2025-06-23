@@ -1,4 +1,6 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/articles/domain/domain.dart';
+import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
@@ -186,15 +188,16 @@ class TransactionHistoryRoute extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
-      create: (context) => TransactionCubit(
-        kind: $extra,
-        repository: context.read<TransactionRepository>(),
-      )..getTransactionsForPeriod(
-        TransactionDateFilter(
-          startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
-          endDate: TransactionDateFilter.defaultEndTime(),
-        )
-      ),
+      create: (context) =>
+          TransactionCubit(
+            kind: $extra,
+            repository: context.read<TransactionRepository>(),
+          )..getTransactionsForPeriod(
+            TransactionDateFilter(
+              startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+              endDate: TransactionDateFilter.defaultEndTime(),
+            ),
+          ),
       child: TransactionHistoryScreen(kind: $extra),
     );
   }
@@ -216,7 +219,12 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const ArticlesScreen();
+    return BlocProvider(
+      create: (context) =>
+          ArticlesCubit(repository: context.read<ArticleRepository>())
+            ..getArticles(),
+      child: ArticlesScreen(),
+    );
   }
 }
 

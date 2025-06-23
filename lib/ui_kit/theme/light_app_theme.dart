@@ -19,7 +19,7 @@ class LightAppTheme {
         onPrimary: LightAppColors.defaultColor,
 
         surface: LightAppColors.surface,
-        onSecondaryContainer: LightAppColors.defaultColor,
+        onSecondaryContainer: LightAppColors.surfaceContainerHigh,
         onSurface: LightAppColors.onSurface,
         onSurfaceVariant: LightAppColors.onSurfaceVariant,
 

@@ -28,7 +28,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                 children: [
                   CustomListTile(
                     title: "Начало",
-                    amount: transactionState.formattedStartDateTime,
+                    data: transactionState.formattedStartDateTime,
                     backgroundColor: LightAppColors.secondaryBrandColor,
                     onTap: isLoading
                         ? null
@@ -47,7 +47,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                   ),
                   CustomListTile(
                     title: "Конец",
-                    amount: transactionState.formattedEndDateTime,
+                    data: transactionState.formattedEndDateTime,
                     backgroundColor: LightAppColors.secondaryBrandColor,
                     onTap: isLoading
                         ? null
@@ -71,7 +71,7 @@ class TransactionHistoryScreen extends StatelessWidget {
               delegate: StickyHeaderDelegate(
                 child: CustomListTile(
                   title: "Сумма",
-                  amount: "${transactionState.amount ?? "-"} ₽",
+                  data: "${transactionState.amount ?? "-"} ₽",
                   backgroundColor: LightAppColors.secondaryBrandColor,
                 ),
               ),
@@ -79,7 +79,7 @@ class TransactionHistoryScreen extends StatelessWidget {
             SliverToBoxAdapter(
               child: CustomListTile(
                 title: "Сортировка",
-                amount: transactionState.sortedType.label,
+                data: transactionState.sortedType.label,
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 onTap: isLoading
                     ? null

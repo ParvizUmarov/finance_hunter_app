@@ -2,11 +2,13 @@ import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.d
 
 class CustomListTile extends StatelessWidget {
   final String title;
-  final String? amount;
+  final String? data;
   final String? emoji;
   final String? transactionDate;
   final String? description;
   final EdgeInsetsGeometry? padding;
+  final bool addTrailing;
+  final Color emojiBackgroundColor;
   final String? trailingIconAsset;
   final Color? backgroundColor;
   final Function()? onTap;
@@ -15,13 +17,15 @@ class CustomListTile extends StatelessWidget {
     super.key,
     required this.title,
     this.emoji,
-    this.amount,
+    this.data,
     this.transactionDate,
     this.padding,
     this.description,
     this.trailingIconAsset,
     this.backgroundColor,
     this.onTap,
+    this.addTrailing = false,
+    this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
   });
 
   @override
@@ -77,7 +81,7 @@ class CustomListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (amount != null) textWidget(context, amount ?? ""),
+              if (data != null) textWidget(context, data ?? ""),
               if (transactionDate != null)
                 textWidget(context, transactionDate ?? ""),
             ],
@@ -92,8 +96,9 @@ class CustomListTile extends StatelessWidget {
     return Text(text, style: textTheme, overflow: TextOverflow.ellipsis);
   }
 
-  Widget? trailingWidget() =>
-      SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight);
+  Widget? trailingWidget() => addTrailing
+      ? SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight)
+      : null;
 
   Widget? leadingWidget() {
     return emoji == null
@@ -103,7 +108,7 @@ class CustomListTile extends StatelessWidget {
             width: 24,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: LightAppColors.secondaryBrandColor,
+              color: emojiBackgroundColor,
             ),
             child: Center(child: Text(emoji ?? "")),
           );
