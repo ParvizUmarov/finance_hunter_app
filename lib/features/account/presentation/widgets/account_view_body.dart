@@ -1,9 +1,40 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
-class AccountViewBody extends StatelessWidget {
+class AccountViewBody extends StatefulWidget {
   const AccountViewBody({super.key});
+
+  @override
+  State<AccountViewBody> createState() => _AccountViewBodyState();
+}
+
+class _AccountViewBodyState extends State<AccountViewBody> {
+  StreamSubscription? _sensorSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    const double gravityThreshold = -9.5;
+    final accountCubit = context.read<AccountCubit>();
+
+    _sensorSubscription = accelerometerEventStream().listen((event) {
+      final z = event.z;
+      if (z < gravityThreshold) {
+        if (context.mounted) {
+          accountCubit.toggleBalanceVisibility();
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sensorSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +53,14 @@ class AccountViewBody extends StatelessWidget {
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 addTrailing: true,
                 emojiBackgroundColor: Colors.white,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(firstAccount.balance),
-                    const SizedBox(width: 5,),
-                    SvgPicture.asset(
-                      currencyCubit.state.icon,
-                      height: 18,
-                    ),
-                  ],
+                child: BalanceSpoiler(
+                  balance: firstAccount.balance,
+                  currencyIcon: SvgPicture.asset(
+                    currencyCubit.state.icon,
+                    height: 18,
+                  ),
+                  isHidden: state.isBalanceHidden,
+                  onToggle: () => context.read<AccountCubit>().toggleBalanceVisibility(),
                 ),
               ),
               CustomListTile(
@@ -45,10 +73,7 @@ class AccountViewBody extends StatelessWidget {
                     context.read<CurrencyCubit>().selectCurrency(value);
                   });
                 },
-                child: SvgPicture.asset(
-                  currencyCubit.state.icon,
-                  height: 18,
-                ),
+                child: SvgPicture.asset(currencyCubit.state.icon, height: 18),
               ),
             ],
           );

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:finance_hunter_app/features/account/data/data.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -26,4 +25,12 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountState.error(message: e.toString()));
     }
   }
+
+  void toggleBalanceVisibility() {
+    final current = state;
+    if (current is AccountSuccess) {
+      emit(current.copyWith(isBalanceHidden: !current.isBalanceHidden));
+    }
+  }
+
 }

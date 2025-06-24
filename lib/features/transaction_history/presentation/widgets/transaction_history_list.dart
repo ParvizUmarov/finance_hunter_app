@@ -7,7 +7,6 @@ class TransactionHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyCubit = context.watch<CurrencyCubit>();
     if (transactionState is TransactionLoading) {
       return SliverToBoxAdapter(
         child: SizedBox(
@@ -34,7 +33,6 @@ class TransactionHistoryList extends StatelessWidget {
             description: transaction.comment,
             child: CurrencyWidget(
               amount: transaction.amount,
-              currencyAsset: currencyCubit.state.icon,
             ),
           );
         }, childCount: successState.transactions.length),

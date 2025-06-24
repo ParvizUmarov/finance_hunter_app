@@ -15,7 +15,10 @@ class AnalysisScreenBody extends StatelessWidget {
           title: "Период: конец",
           child: DateTimeContainer(date: DateTime.now()),
         ),
-        CustomListTile(title: "Сумма", data: "125 865 Р"),
+        CustomListTile(
+          title: "Сумма",
+          child: CurrencyWidget(amount: "123 865"),
+        ),
         Placeholder(fallbackHeight: 185),
       ],
     );

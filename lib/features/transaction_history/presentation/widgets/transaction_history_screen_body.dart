@@ -7,7 +7,6 @@ class TransactionHistoryScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final transactionState = context.watch<TransactionCubit>();
     final isLoading = transactionState.state is TransactionLoading;
-    final currencyCubit = context.watch<CurrencyCubit>();
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -69,7 +68,6 @@ class TransactionHistoryScreenBody extends StatelessWidget {
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 child: CurrencyWidget(
                   amount: transactionState.amount ?? "-",
-                  currencyAsset: currencyCubit.state.icon,
                 ),
               ),
             ),

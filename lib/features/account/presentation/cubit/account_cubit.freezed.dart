@@ -110,7 +110,7 @@ String toString() {
 
 
 class AccountSuccess implements AccountState {
-  const AccountSuccess({required final  List<BankAccountModel> accounts}): _accounts = accounts;
+  const AccountSuccess({required final  List<BankAccountModel> accounts, this.isBalanceHidden = true}): _accounts = accounts;
   
 
  final  List<BankAccountModel> _accounts;
@@ -120,6 +120,7 @@ class AccountSuccess implements AccountState {
   return EqualUnmodifiableListView(_accounts);
 }
 
+@JsonKey() final  bool isBalanceHidden;
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
@@ -131,16 +132,16 @@ $AccountSuccessCopyWith<AccountSuccess> get copyWith => _$AccountSuccessCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&const DeepCollectionEquality().equals(other._accounts, _accounts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&const DeepCollectionEquality().equals(other._accounts, _accounts)&&(identical(other.isBalanceHidden, isBalanceHidden) || other.isBalanceHidden == isBalanceHidden));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_accounts));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_accounts),isBalanceHidden);
 
 @override
 String toString() {
-  return 'AccountState.success(accounts: $accounts)';
+  return 'AccountState.success(accounts: $accounts, isBalanceHidden: $isBalanceHidden)';
 }
 
 
@@ -151,7 +152,7 @@ abstract mixin class $AccountSuccessCopyWith<$Res> implements $AccountStateCopyW
   factory $AccountSuccessCopyWith(AccountSuccess value, $Res Function(AccountSuccess) _then) = _$AccountSuccessCopyWithImpl;
 @useResult
 $Res call({
- List<BankAccountModel> accounts
+ List<BankAccountModel> accounts, bool isBalanceHidden
 });
 
 
@@ -168,10 +169,11 @@ class _$AccountSuccessCopyWithImpl<$Res>
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? accounts = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? accounts = null,Object? isBalanceHidden = null,}) {
   return _then(AccountSuccess(
 accounts: null == accounts ? _self._accounts : accounts // ignore: cast_nullable_to_non_nullable
-as List<BankAccountModel>,
+as List<BankAccountModel>,isBalanceHidden: null == isBalanceHidden ? _self.isBalanceHidden : isBalanceHidden // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
