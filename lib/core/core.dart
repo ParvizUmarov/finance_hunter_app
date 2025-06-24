@@ -6,3 +6,4 @@ export 'localization/localization.dart';
 export 'di/di.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'utils/utils.dart';
+export 'datasource/local/local.dart';

@@ -1,18 +1,25 @@
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
+import 'package:finance_hunter_app/features/app/presentation/cubit/currency_cubit/currency_cubit.dart';
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 
 class AppScreen extends StatelessWidget {
   final AppDependencies dependencies;
+  final IDataBase iDataBase;
 
-  const AppScreen({super.key, required this.dependencies});
+  const AppScreen({
+    super.key,
+    required this.dependencies,
+    required this.iDataBase,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        RepositoryProvider<IDataBase>.value(value: iDataBase),
         RepositoryProvider<TransactionRepository>.value(
           value: dependencies.transactionRepository,
         ),
@@ -21,6 +28,10 @@ class AppScreen extends StatelessWidget {
         ),
         RepositoryProvider<BankAccountRepository>.value(
           value: dependencies.bankAccountRepository,
+        ),
+        BlocProvider(
+          create: (context) => CurrencyCubit(iDataBase: iDataBase)
+            ..init(),
         ),
       ],
       child: MaterialApp.router(

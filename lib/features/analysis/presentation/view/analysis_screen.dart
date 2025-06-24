@@ -13,6 +13,7 @@ class AnalysisScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text("Анализ"),
       ),
+      body: AnalysisScreenBody(),
     );
   }
 }

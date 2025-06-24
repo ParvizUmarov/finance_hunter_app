@@ -14,7 +14,6 @@ class AccountCubit extends Cubit<AccountState> {
     : _repository = repository,
       super(const AccountState.initial());
 
-  Currency currentCurrency = Currency.rub;
   List<BankAccountModel> _accounts = [];
 
   Future<void> getAccounts() async {
@@ -26,11 +25,5 @@ class AccountCubit extends Cubit<AccountState> {
     } catch (e) {
       emit(AccountState.error(message: e.toString()));
     }
-  }
-
-  void selectCurrency(Currency currency) {
-    emit(AccountState.loading());
-    currentCurrency = currency;
-    emit(AccountState.success(accounts: _accounts));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/data/data.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/data/data.dart';

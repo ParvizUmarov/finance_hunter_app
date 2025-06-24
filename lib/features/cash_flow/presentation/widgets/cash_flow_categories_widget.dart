@@ -6,7 +6,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<TransactionCubit>();
-
+    final currencyCubit = context.watch<CurrencyCubit>();
     return BlocStateBuilder<TransactionCubit, TransactionState>(
       cubit: cubit,
       whenState:
@@ -37,7 +37,10 @@ class CashFlowCategoriesWidget extends StatelessWidget {
               CustomListTile(
                 title: "Всего",
                 backgroundColor: LightAppColors.secondaryBrandColor,
-                data: "${transactionState.totalAmount} ₽",
+                child: CurrencyWidget(
+                  amount: transactionState.totalAmount,
+                  currencyAsset: currencyCubit.state.icon,
+                ),
               ),
               Expanded(
                 child: ListView.builder(
@@ -48,10 +51,13 @@ class CashFlowCategoriesWidget extends StatelessWidget {
                         transactionState.transactions[index];
                     return CustomListTile(
                       title: transaction.category.name,
-                      data: "${transaction.amount} ₽",
                       emoji: transaction.category.emoji,
                       description: transaction.comment,
                       addTrailing: true,
+                      child: CurrencyWidget(
+                        amount: transaction.amount,
+                        currencyAsset: currencyCubit.state.icon,
+                      ),
                     );
                   },
                 ),

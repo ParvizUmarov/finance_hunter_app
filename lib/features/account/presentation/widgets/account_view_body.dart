@@ -7,7 +7,7 @@ class AccountViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accountCubit = context.watch<AccountCubit>();
+    final currencyCubit = context.watch<CurrencyCubit>();
     return BlocBuilder<AccountCubit, AccountState>(
       builder: (context, state) {
         if (state is AccountLoading) {
@@ -20,35 +20,35 @@ class AccountViewBody extends StatelessWidget {
                 emoji: "💰",
                 title: "Баланс",
                 backgroundColor: LightAppColors.secondaryBrandColor,
-                content: Row(
+                addTrailing: true,
+                emojiBackgroundColor: Colors.white,
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(firstAccount.balance),
                     const SizedBox(width: 5,),
                     SvgPicture.asset(
-                      accountCubit.currentCurrency.icon,
+                      currencyCubit.state.icon,
                       height: 18,
                     ),
                   ],
                 ),
-                addTrailing: true,
-                emojiBackgroundColor: Colors.white,
               ),
               CustomListTile(
                 title: "Валюта",
                 addTrailing: true,
-                content: SvgPicture.asset(
-                  accountCubit.currentCurrency.icon,
-                  height: 18,
-                ),
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 onTap: () async {
                   await showCurrencyBottomSheet(context, (value) {
                     log("selected currency: $value");
-                    context.read<AccountCubit>().selectCurrency(value);
+                    context.read<CurrencyCubit>().selectCurrency(value);
                   });
                 },
+                child: SvgPicture.asset(
+                  currencyCubit.state.icon,
+                  height: 18,
+                ),
               ),
             ],
           );

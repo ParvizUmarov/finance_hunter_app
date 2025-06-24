@@ -9,7 +9,6 @@ class CashFlowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(kind.title(context)),
