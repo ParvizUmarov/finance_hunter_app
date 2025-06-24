@@ -39,8 +39,8 @@ class TransactionCubit extends Cubit<TransactionState> {
 
       final periodRequest = TransactionPeriodRequestBody(
         accountId: accountId,
-        startDate: selectedStartDateTime!,
-        endDate: selectedEndDateTime!,
+        startDate: selectedStartDateTime,
+        endDate: selectedEndDateTime,
       );
 
       final allTransactions = await repository.getTransactionByPeriod(

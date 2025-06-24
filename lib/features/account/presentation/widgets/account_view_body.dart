@@ -69,7 +69,6 @@ class _AccountViewBodyState extends State<AccountViewBody> {
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 onTap: () async {
                   await showCurrencyBottomSheet(context, (value) {
-                    log("selected currency: $value");
                     context.read<CurrencyCubit>().selectCurrency(value);
                   });
                 },

@@ -19,7 +19,8 @@ class AnalysisScreenBody extends StatelessWidget {
           title: "Сумма",
           child: CurrencyWidget(amount: "123 865"),
         ),
-        Placeholder(fallbackHeight: 185),
+        AnalysisGraphics(),
+
       ],
     );
   }
