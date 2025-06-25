@@ -33,37 +33,42 @@ class TransactionCubit extends Cubit<TransactionState> {
   Future<void> getTransactionsForPeriod([TransactionDateFilter? filter]) async {
     emit(TransactionState.loading());
 
-    try {
-      final int accountId = 1;
-      _preparePeriod(filter);
+    final int accountId = 1;
+    _preparePeriod(filter);
 
-      final periodRequest = TransactionPeriodRequestBody(
-        accountId: accountId,
-        startDate: selectedStartDateTime,
-        endDate: selectedEndDateTime,
-      );
+    final periodRequest = TransactionPeriodRequestBody(
+      accountId: accountId,
+      startDate: selectedStartDateTime,
+      endDate: selectedEndDateTime,
+    );
 
-      final allTransactions = await repository.getTransactionByPeriod(
-        accountId,
-        periodRequest,
-      );
+    await repository.getTransactionByPeriod(
+      accountId,
+      periodRequest,
+      (successResponse) {
+        transactions = _filterTransactionsByKind(successResponse);
+        transactions = _sortTransactions(sortedType, transactions);
+        final total = _calculateTotalAmount(transactions);
 
-      transactions = _filterTransactionsByKind(allTransactions);
-      transactions = _sortTransactions(sortedType, transactions);
-      final total = _calculateTotalAmount(transactions);
+        amount = total.toStringAsFixed(2);
 
-      amount = total.toStringAsFixed(2);
-
-      emit(TransactionState.success(
-        transactions: transactions,
-        totalAmount: amount!,
-      ));
-    } catch (e) {
-      emit(TransactionState.error(message: e.toString()));
-    }
+        emit(
+          TransactionState.success(
+            transactions: transactions,
+            totalAmount: amount!,
+          ),
+        );
+      },
+      (errorMessage) {
+        emit(TransactionState.error(message: errorMessage));
+      },
+    );
   }
 
-  List<TransactionModel> _sortTransactions(SortedType type, List<TransactionModel> input) {
+  List<TransactionModel> _sortTransactions(
+    SortedType type,
+    List<TransactionModel> input,
+  ) {
     final sorted = [...input];
 
     switch (type) {
@@ -71,8 +76,11 @@ class TransactionCubit extends Cubit<TransactionState> {
         sorted.sort((a, b) => a.transactionDate.compareTo(b.transactionDate));
         break;
       case SortedType.byAmount:
-        sorted.sort((a, b) =>
-            (double.tryParse(a.amount) ?? 0.0).compareTo(double.tryParse(b.amount) ?? 0.0));
+        sorted.sort(
+          (a, b) => (double.tryParse(a.amount) ?? 0.0).compareTo(
+            double.tryParse(b.amount) ?? 0.0,
+          ),
+        );
         break;
       case SortedType.none:
         break;
@@ -87,10 +95,12 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     final sorted = _sortTransactions(type, transactions);
 
-    emit(TransactionState.success(
-      transactions: sorted,
-      totalAmount: amount ?? "0",
-    ));
+    emit(
+      TransactionState.success(
+        transactions: sorted,
+        totalAmount: amount ?? "0",
+      ),
+    );
   }
 
   void _preparePeriod(TransactionDateFilter? filter) {
@@ -99,7 +109,8 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     if (filter?.startDate != null) {
       final newStart = filter!.startDateTime!;
-      if (selectedEndDateTime != null && newStart.isAfter(selectedEndDateTime!)) {
+      if (selectedEndDateTime != null &&
+          newStart.isAfter(selectedEndDateTime!)) {
         selectedEndDateTime = newStart;
       }
       selectedStartDateTime = newStart;
@@ -107,7 +118,8 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     if (filter?.endDate != null) {
       final newEnd = filter!.endDateTime!;
-      if (selectedStartDateTime != null && newEnd.isBefore(selectedStartDateTime!)) {
+      if (selectedStartDateTime != null &&
+          newEnd.isBefore(selectedStartDateTime!)) {
         selectedStartDateTime = newEnd;
       }
       selectedEndDateTime = newEnd;
@@ -120,7 +132,10 @@ class TransactionCubit extends Cubit<TransactionState> {
   }
 
   double _calculateTotalAmount(List<TransactionModel> list) {
-    return list.fold(0.0, (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0));
+    return list.fold(
+      0.0,
+      (sum, tx) => sum + (double.tryParse(tx.amount) ?? 0.0),
+    );
   }
 }
 

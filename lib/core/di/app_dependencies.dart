@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/data/data.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
@@ -7,12 +8,18 @@ import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class AppDependencies {
+  late Dio dio;
   late final TransactionRepository transactionRepository;
   late final ArticleRepository articleRepository;
   late final BankAccountRepository bankAccountRepository;
 
   AppDependencies() {
-    transactionRepository = TransactionRepositoryTestImpl();
+    dio = Dio();
+    transactionRepository = TransactionRepositoryTestImpl(
+      transactionApiService: TransactionApiServiceTestImpl(
+        dio
+      ),
+    );
     articleRepository = ArticleRepositoryTestImpl();
     bankAccountRepository = BankAccountRepositoryTestImpl();
   }

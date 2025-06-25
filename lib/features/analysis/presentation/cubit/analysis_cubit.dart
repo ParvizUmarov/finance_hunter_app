@@ -27,29 +27,29 @@ class AnalysisCubit extends Cubit<AnalysisState> {
   ]) async {
     emit(AnalysisState.loading());
 
-    try {
-      _preparePeriod(filter);
-      const accountId = 1;
+    _preparePeriod(filter);
+    const accountId = 1;
 
-      final periodRequest = TransactionPeriodRequestBody(
-        accountId: accountId,
-        startDate: selectedStartDateTime,
-        endDate: selectedEndDateTime,
-      );
+    final periodRequest = TransactionPeriodRequestBody(
+      accountId: accountId,
+      startDate: selectedStartDateTime,
+      endDate: selectedEndDateTime,
+    );
 
-      final transactions = await repository.getTransactionByPeriod(
-        accountId,
-        periodRequest,
-      );
-
-      emit(
-        AnalysisState.success(
-          groupedTransactions: _groupedTransactions(transactions),
-        ),
-      );
-    } catch (e) {
-      emit(AnalysisState.error(message: e.toString()));
-    }
+    await repository.getTransactionByPeriod(
+      accountId,
+      periodRequest,
+      (successResponse) {
+        emit(
+          AnalysisState.success(
+            groupedTransactions: _groupedTransactions(successResponse),
+          ),
+        );
+      },
+      (errorMessage) {
+        emit(AnalysisState.error(message: errorMessage));
+      },
+    );
   }
 
   List<TransactionModel> _filterTransactionsByKind(List<TransactionModel> all) {
@@ -58,7 +58,6 @@ class AnalysisCubit extends Cubit<AnalysisState> {
   }
 
   void _preparePeriod(TransactionDateFilter? filter) {
-
     if (filter?.startDate != null) {
       final newStart = filter!.startDateTime!;
       if (newStart.isAfter(selectedEndDateTime)) {
@@ -77,8 +76,8 @@ class AnalysisCubit extends Cubit<AnalysisState> {
   }
 
   List<GroupedTransactionModel> _groupedTransactions(
-      List<TransactionModel> transactions,
-      ) {
+    List<TransactionModel> transactions,
+  ) {
     totalAmount = 0.0;
     final filteredTransactionModel = _filterTransactionsByKind(transactions);
 
@@ -92,7 +91,7 @@ class AnalysisCubit extends Cubit<AnalysisState> {
     for (final entry in groupedMap.entries) {
       final sum = entry.value.fold<double>(
         0.0,
-            (total, tx) => total + (double.tryParse(tx.amount.trim()) ?? 0.0),
+        (total, tx) => total + (double.tryParse(tx.amount.trim()) ?? 0.0),
       );
       categorySums[entry.key] = sum;
       totalAmount += sum;
@@ -119,5 +118,4 @@ class AnalysisCubit extends Cubit<AnalysisState> {
       );
     }).toList();
   }
-
 }
