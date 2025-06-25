@@ -5,6 +5,7 @@ class TransactionHistoryScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final transactionState = context.watch<TransactionCubit>();
     final isLoading = transactionState.state is TransactionLoading;
 
@@ -21,41 +22,40 @@ class TransactionHistoryScreenBody extends StatelessWidget {
             child: Column(
               children: [
                 CustomListTile(
-                  title: "Начало",
+                  title: s.beginning,
                   data: transactionState.formattedStartDateTime,
                   backgroundColor: LightAppColors.secondaryBrandColor,
                   onTap: isLoading
                       ? null
                       : () async {
-                    await customShowDatePicker(
-                      context: context,
-                      initialDate:
-                      transactionState.selectedStartDateTime,
-                      onSelectedDate: (date) {
-                        transactionState.getTransactionsForPeriod(
-                          TransactionDateFilter(startDate: date),
-                        );
-                      },
-                    );
-                  },
+                          await customShowDatePicker(
+                            context: context,
+                            initialDate: transactionState.selectedStartDateTime,
+                            onSelectedDate: (date) {
+                              transactionState.getTransactionsForPeriod(
+                                TransactionDateFilter(startDate: date),
+                              );
+                            },
+                          );
+                        },
                 ),
                 CustomListTile(
-                  title: "Конец",
+                  title: s.end,
                   data: transactionState.formattedEndDateTime,
                   backgroundColor: LightAppColors.secondaryBrandColor,
                   onTap: isLoading
                       ? null
                       : () async {
-                    await customShowDatePicker(
-                      context: context,
-                      initialDate: transactionState.selectedEndDateTime,
-                      onSelectedDate: (date) {
-                        transactionState.getTransactionsForPeriod(
-                          TransactionDateFilter(endDate: date),
-                        );
-                      },
-                    );
-                  },
+                          await customShowDatePicker(
+                            context: context,
+                            initialDate: transactionState.selectedEndDateTime,
+                            onSelectedDate: (date) {
+                              transactionState.getTransactionsForPeriod(
+                                TransactionDateFilter(endDate: date),
+                              );
+                            },
+                          );
+                        },
                 ),
               ],
             ),
@@ -64,28 +64,24 @@ class TransactionHistoryScreenBody extends StatelessWidget {
             pinned: true,
             delegate: StickyHeaderDelegate(
               child: CustomListTile(
-                title: "Сумма",
+                title: s.amount,
                 backgroundColor: LightAppColors.secondaryBrandColor,
-                child: CurrencyWidget(
-                  amount: transactionState.amount ?? "-",
-                ),
+                child: CurrencyWidget(amount: transactionState.amount ?? "-"),
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: CustomListTile(
-              title: "Сортировка",
+              title: s.sorting,
               data: transactionState.sortedType.label,
               backgroundColor: LightAppColors.secondaryBrandColor,
               onTap: isLoading
                   ? null
                   : () async {
-                await showSortingBottomSheet(context, (
-                    sortedType,
-                    ) async {
-                  await transactionState.applySorting(sortedType);
-                });
-              },
+                      await showSortingBottomSheet(context, (sortedType) async {
+                        await transactionState.applySorting(sortedType);
+                      });
+                    },
             ),
           ),
           TransactionHistoryList(transactionState: transactionState.state),

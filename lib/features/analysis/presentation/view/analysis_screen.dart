@@ -8,10 +8,11 @@ class AnalysisScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text("Анализ"),
+        title: Text(s.analysis),
       ),
       body: AnalysisScreenBody(),
     );

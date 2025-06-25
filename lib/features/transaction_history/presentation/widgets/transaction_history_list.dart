@@ -26,7 +26,7 @@ class TransactionHistoryList extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
             title: transaction.category.name,
             emoji: transaction.category.emoji,
-            transactionDate: CustomDateFormatter.formatDate(
+            subTrailing: CustomDateFormatter.formatDate(
               transaction.createdAt,
             ),
             addTrailing: true,

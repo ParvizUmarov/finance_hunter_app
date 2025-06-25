@@ -5,6 +5,7 @@ class EmptyTransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -12,7 +13,7 @@ class EmptyTransactionWidget extends StatelessWidget {
           children: [
             Assets.images.empty.image(),
             SizedBox(height: 10,),
-            Text("Нет транзакций за выбранный период"),
+            Text(s.noTransactionForThisPeriod),
           ],
         ),
       ),

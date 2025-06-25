@@ -6,6 +6,7 @@ class ArticleSearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final articleCubitState = context.watch<ArticlesCubit>();
     return Container(
       decoration: BoxDecoration(
@@ -25,7 +26,7 @@ class ArticleSearchWidget extends StatelessWidget {
           },
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: "Найти статью"
+            hintText: s.findAnArticle
           ),
         ),
         trailing: Icon(Icons.search),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -38,6 +37,7 @@ class _AccountViewBodyState extends State<AccountViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final currencyCubit = context.watch<CurrencyCubit>();
     return BlocBuilder<AccountCubit, AccountState>(
       builder: (context, state) {
@@ -49,7 +49,7 @@ class _AccountViewBodyState extends State<AccountViewBody> {
             children: [
               CustomListTile(
                 emoji: "💰",
-                title: "Баланс",
+                title: s.balance,
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 addTrailing: true,
                 emojiBackgroundColor: Colors.white,
@@ -64,7 +64,7 @@ class _AccountViewBodyState extends State<AccountViewBody> {
                 ),
               ),
               CustomListTile(
-                title: "Валюта",
+                title: s.currency,
                 addTrailing: true,
                 backgroundColor: LightAppColors.secondaryBrandColor,
                 onTap: () async {

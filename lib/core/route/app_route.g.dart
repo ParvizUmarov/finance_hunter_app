@@ -41,6 +41,12 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
 
               factory: _$AnalysisRoute._fromState,
             ),
+            GoRouteData.$route(
+              path: 'detailCategoryScreen',
+              name: 'detailCategoryScreen',
+
+              factory: _$DetailCategoryRoute._fromState,
+            ),
           ],
         ),
       ],
@@ -179,6 +185,31 @@ mixin _$AnalysisRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/analysisScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location, extra: _self.$extra);
+
+  @override
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
+
+  @override
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
+}
+
+mixin _$DetailCategoryRoute on GoRouteData {
+  static DetailCategoryRoute _fromState(GoRouterState state) =>
+      DetailCategoryRoute($extra: state.extra as GroupedTransactionModel);
+
+  DetailCategoryRoute get _self => this as DetailCategoryRoute;
+
+  @override
+  String get location => GoRouteData.$location('/detailCategoryScreen');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);

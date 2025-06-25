@@ -5,22 +5,48 @@ class AnalysisScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+    final analysisCubit = context.watch<AnalysisCubit>();
     return Column(
       children: [
         CustomListTile(
-          title: "Период: начало",
-          child: DateTimeContainer(date: DateTime.now()),
+          title: s.periodStart,
+          child: DateTimeContainer(date: analysisCubit.selectedStartDateTime),
+          onTap: () async {
+            await customShowDatePicker(
+              initialDate: analysisCubit.selectedStartDateTime,
+              context: context,
+              onSelectedDate: (selectedDate) {
+                context.read<AnalysisCubit>().getGroupedTransactionByCategory(
+                  TransactionDateFilter(startDate: selectedDate),
+                );
+              },
+            );
+          },
         ),
         CustomListTile(
-          title: "Период: конец",
-          child: DateTimeContainer(date: DateTime.now()),
+          title: s.periodEnd,
+          onTap: () async {
+            await customShowDatePicker(
+              initialDate: analysisCubit.selectedEndDateTime,
+              context: context,
+              onSelectedDate: (selectedDate) {
+                context.read<AnalysisCubit>().getGroupedTransactionByCategory(
+                  TransactionDateFilter(endDate: selectedDate),
+                );
+              },
+            );
+          },
+          child: DateTimeContainer(date: analysisCubit.selectedEndDateTime),
         ),
         CustomListTile(
-          title: "Сумма",
-          child: CurrencyWidget(amount: "123 865"),
+          title: s.amount,
+          child: CurrencyWidget(
+            amount: analysisCubit.totalAmount.toStringAsFixed(2),
+          ),
         ),
         AnalysisGraphics(),
-
+        Expanded(child: AnalysisCategoryList()),
       ],
     );
   }

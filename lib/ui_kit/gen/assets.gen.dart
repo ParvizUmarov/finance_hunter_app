@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/arrow_right.svg
+  String get arrowRight => 'assets/icons/arrow_right.svg';
+
   /// File path: assets/icons/ic_account.svg
   String get icAccount => 'assets/icons/ic_account.svg';
 
@@ -44,6 +47,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+    arrowRight,
     icAccount,
     icAnalyze,
     icArrowRight,

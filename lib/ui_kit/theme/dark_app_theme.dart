@@ -9,6 +9,8 @@ class DarkAppTheme {
 
   static final baseTextStyle = AppTextStyles.base;
 
+  ///TODO нужно поработать над темной цветой гаммой
+
   static ThemeData getThemeData() {
     return ThemeData(
       useMaterial3: true,

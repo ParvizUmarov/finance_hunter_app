@@ -7,8 +7,9 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Мой счет")),
+      appBar: AppBar(title: Text(s.myAccount)),
       body: AccountViewBody(),
     );
   }

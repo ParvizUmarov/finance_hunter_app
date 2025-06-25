@@ -1,6 +1,8 @@
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:finance_hunter_app/features/account/presentation/cubit/account_cubit.dart';
+import 'package:finance_hunter_app/features/analysis/data/data.dart';
+import 'package:finance_hunter_app/features/analysis/presentation/cubit/analysis_cubit.dart';
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
@@ -40,6 +42,10 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
             TypedGoRoute<AnalysisRoute>(
               path: 'analysisScreen',
               name: AnalysisScreen.screenName,
+            ),
+            TypedGoRoute<DetailCategoryRoute>(
+              path: 'detailCategoryScreen',
+              name: DetailCategoryScreen.screenName,
             ),
           ],
         ),
@@ -217,7 +223,25 @@ class AnalysisRoute extends GoRouteData with _$AnalysisRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return AnalysisScreen(kind: $extra);
+    return BlocProvider(
+      create: (context) => AnalysisCubit(
+        kind: $extra,
+        repository: context.read<TransactionRepository>(),
+      )..getGroupedTransactionByCategory(),
+      child: AnalysisScreen(kind: $extra),
+    );
+  }
+}
+
+@immutable
+class DetailCategoryRoute extends GoRouteData with _$DetailCategoryRoute {
+  final GroupedTransactionModel $extra;
+
+  const DetailCategoryRoute({required this.$extra});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailCategoryScreen(transactionModel: $extra,);
   }
 }
 

@@ -5,11 +5,12 @@ Future<void> showCurrencyBottomSheet(
   BuildContext context,
   ValueChanged<Currency> onSelectedCurrency,
 ) async {
+  final s = S.of(context);
 
   final currencies = [
-    CurrencyModel(currency: Currency.rub, title: "Российский рубль ₽"),
-    CurrencyModel(currency: Currency.usd, title: "Американский доллар \$"),
-    CurrencyModel(currency: Currency.eur, title: "Евро"),
+    CurrencyModel(currency: Currency.rub, title: s.russianRubl),
+    CurrencyModel(currency: Currency.usd, title: "${s.americanDollar} \$"),
+    CurrencyModel(currency: Currency.eur, title: s.euro),
   ];
 
   final selected = await showModalBottomSheet<Currency>(
@@ -31,7 +32,7 @@ Future<void> showCurrencyBottomSheet(
               background: Theme.of(context).colorScheme.error,
               contentColor: Colors.white,
               iconData: Icons.cancel_outlined,
-              title: "Отмена"),
+              title: s.cancel),
         ],
       );
     },

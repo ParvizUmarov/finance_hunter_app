@@ -67,6 +67,11 @@ class LightAppTheme {
           statusBarIconBrightness: Brightness.dark,
         ),
       ),
+      switchTheme: SwitchThemeData(
+        trackOutlineColor: WidgetStatePropertyAll(LightAppColors.outline),
+        trackColor: WidgetStatePropertyAll(LightAppColors.containerHighest),
+        thumbColor: WidgetStatePropertyAll(LightAppColors.outline)
+      ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: LightAppColors.surfaceContainer,
         clipBehavior: Clip.hardEdge,

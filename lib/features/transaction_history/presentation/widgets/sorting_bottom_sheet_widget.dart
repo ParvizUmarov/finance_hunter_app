@@ -4,6 +4,7 @@ Future<void> showSortingBottomSheet(
   BuildContext context,
   ValueChanged<SortedType> onSelectedSortingType,
 ) async {
+  final s = S.of(context);
   final selected = await showModalBottomSheet<String>(
     context: context,
     shape: RoundedRectangleBorder(
@@ -14,15 +15,15 @@ Future<void> showSortingBottomSheet(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            title: Text("Сортировка по дате"),
+            title: Text(s.sortByDate),
             onTap: () => context.pop(SortedType.byDate.label),
           ),
           ListTile(
-            title: Text("Сортировка по сумме"),
+            title: Text(s.sortByAmount),
             onTap: () => context.pop(SortedType.byAmount.label),
           ),
           ListTile(
-            title: Text("Без сортировки"),
+            title: Text(s.withoutSorting),
             onTap: () => context.pop(SortedType.none.label),
           ),
         ],

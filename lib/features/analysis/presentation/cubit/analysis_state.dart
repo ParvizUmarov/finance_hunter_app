@@ -1,6 +1,14 @@
 part of 'analysis_cubit.dart';
 
-@immutable
-sealed class AnalysisState {}
+@freezed
+class AnalysisState with _$AnalysisState {
+  const factory AnalysisState.initial() = AnalysisInitial;
 
-final class AnalysisInitial extends AnalysisState {}
+  const factory AnalysisState.loading() = AnalysisLoading;
+
+  const factory AnalysisState.success({
+    required List<GroupedTransactionModel> groupedTransactions,
+  }) = AnalysisSuccess;
+
+  const factory AnalysisState.error({required String message}) = AnalysisError;
+}

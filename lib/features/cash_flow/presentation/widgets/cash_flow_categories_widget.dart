@@ -5,6 +5,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final cubit = context.read<TransactionCubit>();
     return BlocStateBuilder<TransactionCubit, TransactionState>(
       cubit: cubit,
@@ -34,29 +35,13 @@ class CashFlowCategoriesWidget extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                title: "Всего",
+                title: s.total,
                 backgroundColor: LightAppColors.secondaryBrandColor,
-                child: CurrencyWidget(
-                  amount: transactionState.totalAmount,
-                ),
+                child: CurrencyWidget(amount: transactionState.totalAmount),
               ),
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: transactionState.transactions.length,
-                  itemBuilder: (context, index) {
-                    final TransactionModel transaction =
-                        transactionState.transactions[index];
-                    return CustomListTile(
-                      title: transaction.category.name,
-                      emoji: transaction.category.emoji,
-                      description: transaction.comment,
-                      addTrailing: true,
-                      child: CurrencyWidget(
-                        amount: transaction.amount,
-                      ),
-                    );
-                  },
+                child: TransactionListWidget(
+                  transactions: transactionState.transactions,
                 ),
               ),
             ],

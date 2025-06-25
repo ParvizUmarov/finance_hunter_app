@@ -4,7 +4,7 @@ class CustomListTile extends StatelessWidget {
   final String title;
   final String? data;
   final String? emoji;
-  final String? transactionDate;
+  final String? subTrailing;
   final String? description;
   final Widget? child;
   final EdgeInsetsGeometry? padding;
@@ -19,7 +19,7 @@ class CustomListTile extends StatelessWidget {
     required this.title,
     this.emoji,
     this.data,
-    this.transactionDate,
+    this.subTrailing,
     this.padding,
     this.description,
     this.trailingIconAsset,
@@ -85,8 +85,8 @@ class CustomListTile extends StatelessWidget {
             children: [
               if (child != null) child!,
               if (data != null) textWidget(context, data ?? ""),
-              if (transactionDate != null)
-                textWidget(context, transactionDate ?? ""),
+              if (subTrailing != null)
+                textWidget(context, subTrailing ?? ""),
             ],
           ),
         ),
@@ -99,7 +99,7 @@ class CustomListTile extends StatelessWidget {
     return Text(text, style: textTheme, overflow: TextOverflow.ellipsis);
   }
 
-  Widget? trailingWidget() => addTrailing
+  Widget? trailingWidget() => addTrailing || trailingIconAsset != null
       ? SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight)
       : null;
 
