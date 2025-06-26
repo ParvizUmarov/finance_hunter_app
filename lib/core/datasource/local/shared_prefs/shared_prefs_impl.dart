@@ -1,8 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'i_data_base.dart';
 
-class SharedPrefs implements IDataBase {
-  SharedPrefs();
+class SharedPrefsImpl implements IDataBase {
+  SharedPrefsImpl();
 
   late final SharedPreferences _prefs;
 

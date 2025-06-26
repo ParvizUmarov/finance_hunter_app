@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/data/data.dart';
@@ -12,15 +13,17 @@ class AppDependencies {
   late final TransactionRepository transactionRepository;
   late final ArticleRepository articleRepository;
   late final BankAccountRepository bankAccountRepository;
+  late final Connectivity connectivity;
 
   AppDependencies() {
     dio = Dio();
-    transactionRepository = TransactionRepositoryTestImpl(
+    transactionRepository = TransactionRepositoryImpl(
       transactionApiService: TransactionApiServiceTestImpl(
         dio
       ),
     );
     articleRepository = ArticleRepositoryTestImpl();
     bankAccountRepository = BankAccountRepositoryTestImpl();
+    connectivity = Connectivity();
   }
 }

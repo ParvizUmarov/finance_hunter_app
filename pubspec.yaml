@@ -27,6 +27,7 @@ dependencies:
   sensors_plus: ^6.1.1
   fuzzy: ^0.5.1
   dio: ^5.8.0+1
+  connectivity_plus: ^6.1.4
 
 dev_dependencies:
   flutter_gen_runner:

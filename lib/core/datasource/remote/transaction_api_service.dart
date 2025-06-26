@@ -1,31 +1,8 @@
 import 'dart:convert';
 
 import 'package:finance_hunter_app/core/core.dart';
-import 'package:finance_hunter_app/core/datasource/remote/base_api_service.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
-import 'package:finance_hunter_app/features/cash_flow/domain/models/transaction/transaction_model.dart';
-
-abstract interface class TransactionApiService {
-  Future<TransactionModel> getTransactionById(int transactionId);
-
-  Future<void> getTransactionByPeriod({
-    required int accountId,
-    required TransactionPeriodRequestBody requestBody,
-    required ValueChanged<List<TransactionModel>> onSuccess,
-    required ValueChanged<String> onError,
-  });
-
-  Future<TransactionResponseModel> addTransaction(
-    TransactionRequestBody requestBody,
-  );
-
-  Future<TransactionModel> updateTransaction(
-    int transactionId,
-    TransactionRequestBody requestBody,
-  );
-
-  Future<void> deleteTransaction(int transactionId);
-}
+import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class TransactionApiServiceTestImpl extends BaseApiService
     implements TransactionApiService {
@@ -34,31 +11,25 @@ class TransactionApiServiceTestImpl extends BaseApiService
   TransactionApiServiceTestImpl(super.dio);
 
   @override
-  Future<TransactionResponseModel> addTransaction(
-    TransactionRequestBody requestBody,
-  ) {
-    // TODO: implement addTransaction
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteTransaction(int transactionId) {
-    // TODO: implement deleteTransaction
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<TransactionModel> getTransactionById(int transactionId) {
-    // TODO: implement getTransactionById
-    throw UnimplementedError();
+  Future<void> addTransaction({
+    required TransactionRequestBody requestBody,
+    required Result<TransactionResponseModel> result,
+  }) async {
+    await safeRequest(
+      request: () async {
+        await Future.delayed(Duration(seconds: 2));
+        return transactionMockData;
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
   }
 
   @override
   Future<void> getTransactionByPeriod({
     required int accountId,
     required TransactionPeriodRequestBody requestBody,
-    required ValueChanged<List<TransactionModel>> onSuccess,
-    required ValueChanged<String> onError,
+    required Result<List<TransactionModel>> result,
   }) async {
     await safeRequest<List<TransactionModel>>(
       request: () async {
@@ -85,19 +56,77 @@ class TransactionApiServiceTestImpl extends BaseApiService
         }).toList();
         return filtered;
       },
-      onSuccess: onSuccess,
-      onError: onError,
+      onSuccess: result.onSuccess,
+      onError: result.onError,
     );
   }
 
   @override
-  Future<TransactionModel> updateTransaction(
-    int transactionId,
-    TransactionRequestBody requestBody,
-  ) {
-    // TODO: implement updateTransaction
-    throw UnimplementedError();
+  Future<void> deleteTransaction({
+    required int transactionId,
+    required Result<void> result,
+  }) async {
+    //TODO implement deleteTransaction
   }
+
+  @override
+  Future<void> getTransactionById({
+    required int transactionId,
+    required Result<TransactionModel> result,
+  }) async {
+    await safeRequest<TransactionModel>(
+      request: () async {
+        return TransactionModel(
+          id: 1,
+          account: AccountModel(
+            id: 1,
+            name: "account",
+            balance: "100",
+            currency: "RUB",
+          ),
+          category: CategoryModel(
+            id: 1,
+            name: "Category",
+            emoji: "emoji",
+            isIncome: true,
+          ),
+          amount: "1234",
+          transactionDate: DateTime.now(),
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
+  }
+
+  @override
+  Future<void> updateTransaction({
+    required int transactionId,
+    required TransactionRequestBody requestBody,
+    required Result<TransactionResponseModel> result,
+  }) async {
+    await safeRequest(
+      request: () async {
+        await Future.delayed(Duration(seconds: 2));
+        return transactionMockData;
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
+  }
+
+  TransactionResponseModel get transactionMockData => TransactionResponseModel(
+    id: 1,
+    accountId: 1,
+    categoryId: 1,
+    amount: "123",
+    transactionDate: DateTime.now(),
+    comment: 'comment',
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 
   String get _mockJson =>
       '''

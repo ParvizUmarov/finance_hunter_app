@@ -1,10 +1,4 @@
-import 'package:finance_hunter_app/core/core.dart';
-import 'package:finance_hunter_app/features/account/domain/domain.dart';
-import 'package:finance_hunter_app/features/app/presentation/cubit/currency_cubit/currency_cubit.dart';
-import 'package:finance_hunter_app/features/app/presentation/cubit/theme_cubit/theme_cubit.dart';
-import 'package:finance_hunter_app/features/articles/domain/domain.dart';
-import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
-import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
+import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
 
 class AppScreen extends StatelessWidget {
   final AppDependencies dependencies;
@@ -36,21 +30,37 @@ class AppScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => ThemeCubit(iDataBase: iDataBase)..init(),
         ),
+        BlocProvider(
+          create: (context) => InternetStatusCubit(dependencies.connectivity),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            title: 'Finance Hunter app',
-            localizationsDelegates: S.delegates,
-            supportedLocales: S.locales,
-            locale: Locale("ru"),
-            theme: state == ThemeMode.dark
-                ? DarkAppTheme.getThemeData()
-                : LightAppTheme.getThemeData(),
-            routerConfig: routeConfig,
+          return Directionality(
+            textDirection: TextDirection.ltr,
+            child: Stack(
+              children: [
+                MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Finance Hunter app',
+                  localizationsDelegates: S.delegates,
+                  supportedLocales: S.locales,
+                  locale: Locale("ru"),
+                  theme: state == ThemeMode.dark
+                      ? DarkAppTheme.getThemeData()
+                      : LightAppTheme.getThemeData(),
+                  routerConfig: routeConfig,
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: NoInternetConnectionBanner(),
+                ),
+              ],
+            ),
           );
-        }
+        },
       ),
     );
   }

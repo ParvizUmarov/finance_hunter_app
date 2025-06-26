@@ -1,10 +1,8 @@
-import 'package:finance_hunter_app/features/account/data/models/models.dart';
-
 import 'package:finance_hunter_app/core/core.dart';
-import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/models/transaction/transaction_model.dart';
 
-abstract class TransactionRepository {
+abstract interface class TransactionApiService {
 
   Future<void> getTransactionById({
     required int transactionId,
@@ -32,5 +30,4 @@ abstract class TransactionRepository {
     required int transactionId,
     required Result<void> result,
   });
-
 }

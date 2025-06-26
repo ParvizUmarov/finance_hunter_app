@@ -43,25 +43,27 @@ class TransactionCubit extends Cubit<TransactionState> {
     );
 
     await repository.getTransactionByPeriod(
-      accountId,
-      periodRequest,
-      (successResponse) {
-        transactions = _filterTransactionsByKind(successResponse);
-        transactions = _sortTransactions(sortedType, transactions);
-        final total = _calculateTotalAmount(transactions);
+      accountId: accountId,
+      requestBody: periodRequest,
+      result: Result(
+        onSuccess: (response) {
+          transactions = _filterTransactionsByKind(response);
+          transactions = _sortTransactions(sortedType, transactions);
+          final total = _calculateTotalAmount(transactions);
 
-        amount = total.toStringAsFixed(2);
+          amount = total.toStringAsFixed(2);
 
-        emit(
-          TransactionState.success(
-            transactions: transactions,
-            totalAmount: amount!,
-          ),
-        );
-      },
-      (errorMessage) {
-        emit(TransactionState.error(message: errorMessage));
-      },
+          emit(
+            TransactionState.success(
+              transactions: transactions,
+              totalAmount: amount!,
+            ),
+          );
+        },
+        onError: (message) {
+          emit(TransactionState.error(message: message.toString()));
+        },
+      ),
     );
   }
 
