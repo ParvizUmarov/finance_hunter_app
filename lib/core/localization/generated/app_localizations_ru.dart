@@ -40,4 +40,85 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get myHistory => 'Моя история';
+
+  @override
+  String get balance => 'Баланс';
+
+  @override
+  String get currency => 'Валюта';
+
+  @override
+  String get russianRubl => 'Российский рубль ₽';
+
+  @override
+  String get americanDollar => 'Американский доллар';
+
+  @override
+  String get euro => 'Евро';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get analysis => 'Анализ';
+
+  @override
+  String get amount => 'Сумма';
+
+  @override
+  String get periodStart => 'Период: начало';
+
+  @override
+  String get periodEnd => 'Период: конец';
+
+  @override
+  String get findAnArticle => 'Найти статью';
+
+  @override
+  String get total => 'Всего';
+
+  @override
+  String get beginning => 'Начало';
+
+  @override
+  String get end => 'Конец';
+
+  @override
+  String get sorting => 'Сортировка';
+
+  @override
+  String get noTransactionForThisPeriod => 'Нет транзакций за выбранный период';
+
+  @override
+  String get sortByDate => 'Сортировка по дате';
+
+  @override
+  String get sortByAmount => 'Сортировка по сумме';
+
+  @override
+  String get withoutSorting => 'Без сортировки';
+
+  @override
+  String get dartTheme => 'Темная тема';
+
+  @override
+  String get mainColor => 'Основной цвет';
+
+  @override
+  String get sounds => 'Звуки';
+
+  @override
+  String get haptics => 'Хаптики';
+
+  @override
+  String get password => 'Код пароль';
+
+  @override
+  String get synchronization => 'Синхронизация';
+
+  @override
+  String get language => 'Язык';
+
+  @override
+  String get aboutProgram => 'О программе';
 }

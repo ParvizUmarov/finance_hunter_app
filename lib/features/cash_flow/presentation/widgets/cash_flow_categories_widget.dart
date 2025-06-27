@@ -5,8 +5,8 @@ class CashFlowCategoriesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final cubit = context.read<TransactionCubit>();
-
     return BlocStateBuilder<TransactionCubit, TransactionState>(
       cubit: cubit,
       whenState:
@@ -27,6 +27,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
       onLoading: (ctx) => CustomShimmer(type: ShimmerType.categoriesList),
       onSuccess: (ctx, state) {
         final transactionState = state as TransactionSuccess;
+
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 1));
@@ -35,24 +36,15 @@ class CashFlowCategoriesWidget extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                title: "Всего",
-                backgroundColor: LightAppColors.secondaryBrandColor,
-                amount: "${transactionState.totalAmount} ₽",
+                title: s.total,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                child: CurrencyWidget(
+                  amount: transactionState.totalAmount,
+                ),
               ),
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: transactionState.transactions.length,
-                  itemBuilder: (context, index) {
-                    final TransactionModel transaction =
-                        transactionState.transactions[index];
-                    return CustomListTile(
-                      title: transaction.category.name,
-                      amount: "${transaction.amount} ₽",
-                      emoji: transaction.category.emoji,
-                      description: transaction.comment,
-                    );
-                  },
+                child: TransactionListWidget(
+                  transactions: transactionState.transactions,
                 ),
               ),
             ],

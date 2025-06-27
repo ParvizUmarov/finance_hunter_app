@@ -1,4 +1,4 @@
-import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
 
 class AccountScreen extends StatelessWidget {
   static const String screenName = "accountScreen";
@@ -7,13 +7,10 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Мой счет"),
-      ),
-      body: Center(
-        child: Text("Account Screen"),
-      ),
+    final s = S.of(context);
+    return OfflineAwareScaffold(
+      appBar: CustomAppBar(title: s.myAccount),
+      body: AccountViewBody(),
     );
   }
 }

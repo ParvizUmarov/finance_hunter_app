@@ -28,4 +28,10 @@ class TransactionDateFilter {
     final now = DateTime.now();
     return DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
   }
+
+  static DateTime defaultStartMonth() {
+    final now = DateTime.now();
+    final oneMonthAgo = DateTime(now.year, now.month - 1, now.day);
+    return DateTime(oneMonthAgo.year, oneMonthAgo.month, oneMonthAgo.day);
+  }
 }

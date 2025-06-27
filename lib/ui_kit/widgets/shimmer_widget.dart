@@ -1,7 +1,8 @@
+import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-enum ShimmerType { categoriesList }
+enum ShimmerType { categoriesList, myAccount }
 
 class CustomShimmer extends StatelessWidget {
   final ShimmerType type;
@@ -12,18 +13,22 @@ class CustomShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (type) {
       case ShimmerType.categoriesList:
-        return const _CategoriesListTileList();
+        return const _CategoriesListTileList(7);
+      case ShimmerType.myAccount:
+        return const _CategoriesListTileList(2);
     }
   }
 }
 
 class _CategoriesListTileList extends StatelessWidget {
-  const _CategoriesListTileList();
+  final int count;
+
+  const _CategoriesListTileList(this.count);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 7,
+      itemCount: count,
       itemBuilder: (context, index) {
         return _ShimmerCategoriesListTile();
       },
@@ -63,9 +68,13 @@ class _CustomShimmerBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: isDark ? DarkAppColors.surfaceContainer : Colors.grey.shade300,
+      highlightColor: isDark
+          ? DarkAppColors.onSurfaceVariant
+          : Colors.grey.shade100,
       child: child,
     );
   }

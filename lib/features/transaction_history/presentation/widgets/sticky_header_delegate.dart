@@ -16,7 +16,7 @@ class StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _getChildHeight();
 
   double _getChildHeight() {
-    return 70;
+    return 60;
   }
 
   @override

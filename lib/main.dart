@@ -1,7 +1,12 @@
 import 'core/core.dart';
 import 'features/features.dart';
 
-void main() {
-  final AppDependencies appDependencies = AppDependencies();
-  runApp(AppScreen(dependencies: appDependencies));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final IDataBase iDataBase = SharedPrefsImpl();
+  await iDataBase.init();
+  final AppDependencies appDependencies = AppDependencies(iDataBase);
+
+  runApp(AppScreen(dependencies: appDependencies, iDataBase: iDataBase));
 }

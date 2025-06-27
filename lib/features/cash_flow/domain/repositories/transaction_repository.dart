@@ -1,23 +1,35 @@
 import 'package:finance_hunter_app/features/account/data/models/models.dart';
-import '../../data/data.dart';
-import '../models/models.dart';
+
+import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
+import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 
 abstract class TransactionRepository {
-  Future<TransactionModel> getTransactionById(int transactionId);
 
-  Future<List<TransactionModel>> getTransactionByPeriod(
-    int accountId,
-    TransactionPeriodRequestBody requestBody,
-  );
+  Future<void> getTransactionById({
+    required int transactionId,
+    required Result<TransactionModel> result,
+  });
 
-  Future<TransactionResponseModel> addTransaction(
-    TransactionRequestBody requestBody,
-  );
+  Future<void> getTransactionByPeriod({
+    required int accountId,
+    required TransactionPeriodRequestBody requestBody,
+    required Result<List<TransactionModel>> result,
+  });
 
-  Future<TransactionModel> updateTransaction(
-    int transactionId,
-    TransactionRequestBody requestBody,
-  );
+  Future<void> addTransaction({
+    required TransactionRequestBody requestBody,
+    required Result<TransactionResponseModel> result,
+  });
 
-  Future<void> deleteTransaction(int transactionId);
+  Future<void> updateTransaction({
+    required int transactionId,
+    required TransactionRequestBody requestBody,
+    required Result<TransactionResponseModel> result,
+  });
+
+  Future<void> deleteTransaction({
+    required int transactionId,
+    required Result<void> result,
+  });
 }

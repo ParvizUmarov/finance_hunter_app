@@ -1,4 +1,10 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/account/domain/domain.dart';
+import 'package:finance_hunter_app/features/account/presentation/cubit/account_cubit.dart';
+import 'package:finance_hunter_app/features/analysis/data/data.dart';
+import 'package:finance_hunter_app/features/analysis/presentation/cubit/analysis_cubit.dart';
+import 'package:finance_hunter_app/features/articles/domain/domain.dart';
+import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
@@ -32,6 +38,14 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
             TypedGoRoute<TransactionHistoryRoute>(
               path: 'transactionHistoryScreen',
               name: TransactionHistoryScreen.screenName,
+            ),
+            TypedGoRoute<AnalysisRoute>(
+              path: 'analysisScreen',
+              name: AnalysisScreen.screenName,
+            ),
+            TypedGoRoute<DetailCategoryRoute>(
+              path: 'detailCategoryScreen',
+              name: DetailCategoryScreen.screenName,
             ),
           ],
         ),
@@ -186,17 +200,48 @@ class TransactionHistoryRoute extends GoRouteData
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
-      create: (context) => TransactionCubit(
-        kind: $extra,
-        repository: context.read<TransactionRepository>(),
-      )..getTransactionsForPeriod(
-        TransactionDateFilter(
-          startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
-          endDate: TransactionDateFilter.defaultEndTime(),
-        )
-      ),
+      create: (context) =>
+          TransactionCubit(
+            kind: $extra,
+            repository: context.read<TransactionRepository>(),
+          )..getTransactionsForPeriod(
+            TransactionDateFilter(
+              startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+              endDate: TransactionDateFilter.defaultEndTime(),
+            ),
+          ),
       child: TransactionHistoryScreen(kind: $extra),
     );
+  }
+}
+
+@immutable
+class AnalysisRoute extends GoRouteData with _$AnalysisRoute {
+  final TransactionKind $extra;
+
+  const AnalysisRoute({required this.$extra});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider(
+      create: (context) => AnalysisCubit(
+        kind: $extra,
+        repository: context.read<TransactionRepository>(),
+      )..getGroupedTransactionByCategory(),
+      child: AnalysisScreen(kind: $extra),
+    );
+  }
+}
+
+@immutable
+class DetailCategoryRoute extends GoRouteData with _$DetailCategoryRoute {
+  final GroupedTransactionModel $extra;
+
+  const DetailCategoryRoute({required this.$extra});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailCategoryScreen(transactionModel: $extra,);
   }
 }
 
@@ -206,7 +251,12 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const AccountScreen();
+    return BlocProvider(
+      create: (context) =>
+          AccountCubit(repository: context.read<BankAccountRepository>())
+            ..getAccounts(),
+      child: AccountScreen(),
+    );
   }
 }
 
@@ -216,7 +266,12 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const ArticlesScreen();
+    return BlocProvider(
+      create: (context) =>
+          ArticlesCubit(repository: context.read<ArticleRepository>())
+            ..getArticles(),
+      child: ArticlesScreen(),
+    );
   }
 }
 

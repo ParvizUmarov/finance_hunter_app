@@ -163,6 +163,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My history'**
   String get myHistory;
+
+  /// No description provided for @balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get balance;
+
+  /// No description provided for @currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
+
+  /// No description provided for @russianRubl.
+  ///
+  /// In en, this message translates to:
+  /// **'Российский рубль ₽'**
+  String get russianRubl;
+
+  /// No description provided for @americanDollar.
+  ///
+  /// In en, this message translates to:
+  /// **'The American dollar'**
+  String get americanDollar;
+
+  /// No description provided for @euro.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro'**
+  String get euro;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @analysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Analysis'**
+  String get analysis;
+
+  /// No description provided for @amount.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount'**
+  String get amount;
+
+  /// No description provided for @periodStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Period: beginning'**
+  String get periodStart;
+
+  /// No description provided for @periodEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Period: end'**
+  String get periodEnd;
+
+  /// No description provided for @findAnArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find an article'**
+  String get findAnArticle;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @beginning.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginning'**
+  String get beginning;
+
+  /// No description provided for @end.
+  ///
+  /// In en, this message translates to:
+  /// **'The end'**
+  String get end;
+
+  /// No description provided for @sorting.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting'**
+  String get sorting;
+
+  /// No description provided for @noTransactionForThisPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no transactions for the selected period'**
+  String get noTransactionForThisPeriod;
+
+  /// No description provided for @sortByDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by date'**
+  String get sortByDate;
+
+  /// No description provided for @sortByAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by amount'**
+  String get sortByAmount;
+
+  /// No description provided for @withoutSorting.
+  ///
+  /// In en, this message translates to:
+  /// **'Without sorting'**
+  String get withoutSorting;
+
+  /// No description provided for @dartTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark theme'**
+  String get dartTheme;
+
+  /// No description provided for @mainColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Main color'**
+  String get mainColor;
+
+  /// No description provided for @sounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get sounds;
+
+  /// No description provided for @haptics.
+  ///
+  /// In en, this message translates to:
+  /// **'Haptics'**
+  String get haptics;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Code password'**
+  String get password;
+
+  /// No description provided for @synchronization.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization'**
+  String get synchronization;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @aboutProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'About the program'**
+  String get aboutProgram;
 }
 
 class _AppLocalizationsDelegate

@@ -2,26 +2,34 @@ import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.d
 
 class CustomListTile extends StatelessWidget {
   final String title;
-  final String? amount;
+  final String? data;
   final String? emoji;
-  final String? transactionDate;
+  final String? subTrailing;
   final String? description;
+  final Widget? child;
   final EdgeInsetsGeometry? padding;
+  final bool addTrailing;
+  final Color emojiBackgroundColor;
   final String? trailingIconAsset;
   final Color? backgroundColor;
   final Function()? onTap;
+  final TextStyle? textStyle;
 
   const CustomListTile({
     super.key,
     required this.title,
     this.emoji,
-    this.amount,
-    this.transactionDate,
+    this.data,
+    this.subTrailing,
     this.padding,
     this.description,
     this.trailingIconAsset,
     this.backgroundColor,
     this.onTap,
+    this.addTrailing = false,
+    this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
+    this.child,
+    this.textStyle,
   });
 
   @override
@@ -38,11 +46,13 @@ class CustomListTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        contentPadding:
-            padding ?? EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+        contentPadding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         leading: leadingWidget(),
         title: titleWidget(context),
         trailing: trailingWidget(),
+        visualDensity: VisualDensity(horizontal: 0, vertical: 2),
+        minVerticalPadding: 0,
+        dense: true,
       ),
     );
   }
@@ -58,7 +68,7 @@ class CustomListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              textWidget(context, title),
+              textWidget(context, title, textStyle: textStyle),
               description == null
                   ? SizedBox.shrink()
                   : textWidget(
@@ -77,9 +87,9 @@ class CustomListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (amount != null) textWidget(context, amount ?? ""),
-              if (transactionDate != null)
-                textWidget(context, transactionDate ?? ""),
+              if (child != null) child!,
+              if (data != null) textWidget(context, data ?? "", textStyle: textStyle),
+              if (subTrailing != null) textWidget(context, subTrailing ?? "", textStyle: textStyle),
             ],
           ),
         ),
@@ -92,8 +102,9 @@ class CustomListTile extends StatelessWidget {
     return Text(text, style: textTheme, overflow: TextOverflow.ellipsis);
   }
 
-  Widget? trailingWidget() =>
-      SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight);
+  Widget? trailingWidget() => addTrailing || trailingIconAsset != null
+      ? SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight)
+      : null;
 
   Widget? leadingWidget() {
     return emoji == null
@@ -103,7 +114,7 @@ class CustomListTile extends StatelessWidget {
             width: 24,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: LightAppColors.secondaryBrandColor,
+              color: emojiBackgroundColor,
             ),
             child: Center(child: Text(emoji ?? "")),
           );

@@ -1,4 +1,4 @@
-import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/articles/presentation/utils/index.dart';
 
 class ArticlesScreen extends StatelessWidget {
   static const String screenName = "articlesScreen";
@@ -8,13 +8,9 @@ class ArticlesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(s.myArticles),
-      ),
-      body: Center(
-        child: Text("Articles Screen"),
-      ),
+    return OfflineAwareScaffold(
+      appBar: CustomAppBar(title: s.myArticles),
+      body: ArticleScreenBody(),
     );
   }
 }

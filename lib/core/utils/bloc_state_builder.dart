@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 
@@ -43,9 +45,14 @@ class BlocStateBuilder<C extends Cubit<S>, S> extends StatelessWidget {
               onLoading?.call(context) ?? const CircularProgressIndicator(),
           success: (data) =>
               onSuccess?.call(context, data) ?? Center(child: Text('Success')),
-          error: (message) =>
-              onError?.call(context, message) ??
-              ErrorBaseWidget(errorMessage: message),
+          error: (message) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message)),
+              );
+            });
+            return SizedBox.shrink();
+          },
         );
       },
     );

@@ -23,6 +23,15 @@ dependencies:
   intl: ^0.20.2
   flutter_bloc: ^9.1.1
   shimmer: ^3.0.0
+  shared_preferences: ^2.5.3
+  sensors_plus: ^6.1.1
+  fuzzy: ^0.5.1
+  dio: ^5.8.0+1
+  connectivity_plus: ^6.1.4
+  drift: ^2.27.0
+  sqlite3_flutter_libs: ^0.5.34
+  path_provider: ^2.1.5
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_gen_runner:
@@ -34,6 +43,7 @@ dev_dependencies:
   go_router_builder: ^3.0.0
   json_serializable: ^6.9.5
   freezed: ^3.0.6
+  drift_dev: ^2.27.0
 
 flutter_gen:
   output: lib/ui_kit/gen/

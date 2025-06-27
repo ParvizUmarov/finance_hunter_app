@@ -1,0 +1,1 @@
+export 'detail_category_body.dart';

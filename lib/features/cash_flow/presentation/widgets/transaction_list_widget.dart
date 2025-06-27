@@ -14,9 +14,12 @@ class TransactionListWidget extends StatelessWidget {
         final transaction = transactions[index];
         return CustomListTile(
           title: transaction.category.name,
-          amount: "${transaction.amount} ₽",
           emoji: transaction.category.emoji,
           description: transaction.comment,
+          addTrailing: true,
+          child: CurrencyWidget(
+            amount: transaction.amount,
+          ),
         );
       },
     );

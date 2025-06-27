@@ -1,0 +1,1 @@
+export 'presentation/view/detail_category_screen.dart';

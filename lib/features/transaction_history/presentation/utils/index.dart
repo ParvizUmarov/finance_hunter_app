@@ -7,3 +7,4 @@ export 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transac
 export 'package:finance_hunter_app/ui_kit/widgets/custom_list_tile.dart';
 export '../widgets/widgets.dart';
 export 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
+export 'package:finance_hunter_app/features/app/presentation/cubit/currency_cubit/currency_cubit.dart';
