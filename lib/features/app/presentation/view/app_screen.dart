@@ -1,3 +1,4 @@
+import 'package:finance_hunter_app/features/app/presentation/cubit/locale_cubit/locale_cubit.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
 
 class AppScreen extends StatelessWidget {
@@ -25,10 +26,15 @@ class AppScreen extends StatelessWidget {
           value: dependencies.bankAccountRepository,
         ),
         BlocProvider(
-          create: (context) => CurrencyCubit(iDataBase: iDataBase)..init(),
+          create: (context) => CurrencyCubit(
+            bankAccountRepository: dependencies.bankAccountRepository,
+          )..init(),
         ),
         BlocProvider(
           create: (context) => ThemeCubit(iDataBase: iDataBase)..init(),
+        ),
+        BlocProvider(
+          create: (context) => LocaleCubit(iDataBase: iDataBase)..init(),
         ),
         BlocProvider(
           create: (context) => InternetStatusCubit(dependencies.connectivity),
@@ -36,29 +42,17 @@ class AppScreen extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {
-          return Directionality(
-            textDirection: TextDirection.ltr,
-            child: Stack(
-              children: [
-                MaterialApp.router(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Finance Hunter app',
-                  localizationsDelegates: S.delegates,
-                  supportedLocales: S.locales,
-                  locale: Locale("ru"),
-                  theme: state == ThemeMode.dark
-                      ? DarkAppTheme.getThemeData()
-                      : LightAppTheme.getThemeData(),
-                  routerConfig: routeConfig,
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: NoInternetConnectionBanner(),
-                ),
-              ],
-            ),
+          final localeCubitState = context.watch<LocaleCubit>().state;
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'Finance Hunter app',
+            localizationsDelegates: S.delegates,
+            supportedLocales: S.locales,
+            locale: localeCubitState,
+            theme: state == ThemeMode.dark
+                ? DarkAppTheme.getThemeData()
+                : LightAppTheme.getThemeData(),
+            routerConfig: routeConfig,
           );
         },
       ),

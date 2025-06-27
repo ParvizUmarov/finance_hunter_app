@@ -15,7 +15,9 @@ class DateTimeContainer extends StatelessWidget {
       ),
       child: Text(
         CustomDateFormatter.formatDateWithYearAndMonth2(date),
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: LightAppColors.onSurface
+        ),
       ),
     );
   }

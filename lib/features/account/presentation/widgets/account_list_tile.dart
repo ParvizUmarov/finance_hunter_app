@@ -34,12 +34,18 @@ class AccountListTile extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
         leading: iconData == null
-            ? SvgPicture.asset(iconAsset!)
+            ? SvgPicture.asset(
+                iconAsset!,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.onSurface,
+                  BlendMode.srcIn,
+                ),
+              )
             : Icon(iconData, color: Colors.white),
         title: Text(
           title,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: contentColor ?? Theme.of(context).colorScheme.onSurface
+            color: contentColor ?? Theme.of(context).colorScheme.onSurface,
           ),
         ),
         onTap: () => context.pop(currency),

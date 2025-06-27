@@ -13,6 +13,7 @@ class CustomListTile extends StatelessWidget {
   final String? trailingIconAsset;
   final Color? backgroundColor;
   final Function()? onTap;
+  final TextStyle? textStyle;
 
   const CustomListTile({
     super.key,
@@ -28,6 +29,7 @@ class CustomListTile extends StatelessWidget {
     this.addTrailing = false,
     this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
     this.child,
+    this.textStyle,
   });
 
   @override
@@ -44,11 +46,13 @@ class CustomListTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        contentPadding:
-            padding ?? EdgeInsets.symmetric(vertical: 7, horizontal: 16),
+        contentPadding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         leading: leadingWidget(),
         title: titleWidget(context),
         trailing: trailingWidget(),
+        visualDensity: VisualDensity(horizontal: 0, vertical: 2),
+        minVerticalPadding: 0,
+        dense: true,
       ),
     );
   }
@@ -64,7 +68,7 @@ class CustomListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              textWidget(context, title),
+              textWidget(context, title, textStyle: textStyle),
               description == null
                   ? SizedBox.shrink()
                   : textWidget(
@@ -84,9 +88,8 @@ class CustomListTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (child != null) child!,
-              if (data != null) textWidget(context, data ?? ""),
-              if (subTrailing != null)
-                textWidget(context, subTrailing ?? ""),
+              if (data != null) textWidget(context, data ?? "", textStyle: textStyle),
+              if (subTrailing != null) textWidget(context, subTrailing ?? "", textStyle: textStyle),
             ],
           ),
         ),

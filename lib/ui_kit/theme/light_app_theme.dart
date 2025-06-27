@@ -7,7 +7,7 @@ import 'app_colors.dart';
 class LightAppTheme {
   const LightAppTheme._();
 
-  static final baseTextStyle = AppTextStyles.base;
+  static final baseTextStyle = AppTextStyles.light;
 
   static ThemeData getThemeData() {
     return ThemeData(
@@ -17,6 +17,8 @@ class LightAppTheme {
         brightness: Brightness.light,
         primary: LightAppColors.brandColor,
         onPrimary: LightAppColors.defaultColor,
+
+        tertiary: LightAppColors.secondaryBrandColor,
 
         surface: LightAppColors.surface,
         onSecondaryContainer: LightAppColors.surfaceContainerHigh,
@@ -55,7 +57,7 @@ class LightAppTheme {
       appBarTheme: AppBarTheme(
         centerTitle: true,
         backgroundColor: LightAppColors.brandColor,
-        titleTextStyle: AppTextStyles.base.titleLarge.copyWith(
+        titleTextStyle: AppTextStyles.light.titleLarge.copyWith(
           color: LightAppColors.onSurface,
         ),
         elevation: 0,
@@ -111,14 +113,14 @@ class LightAppTheme {
         }),
         cancelButtonStyle: TextButton.styleFrom(
           foregroundColor: LightAppColors.onSurface,
-          textStyle: AppTextStyles.base.labelLarge.copyWith(
+          textStyle: AppTextStyles.light.labelLarge.copyWith(
             fontWeight: FontWeight.w400,
             color: LightAppColors.onSurface,
           ),
         ),
         confirmButtonStyle: TextButton.styleFrom(
           foregroundColor: LightAppColors.onSurface,
-          textStyle: AppTextStyles.base.labelLarge.copyWith(
+          textStyle: AppTextStyles.light.labelLarge.copyWith(
             color: LightAppColors.onSurface,
           ),
         ),
@@ -138,7 +140,7 @@ class LightAppTheme {
         backgroundColor: LightAppColors.surfaceContainer,
         indicatorColor: LightAppColors.secondaryBrandColor,
         labelTextStyle: WidgetStatePropertyAll(
-          AppTextStyles.base.labelMedium.copyWith(
+          AppTextStyles.light.labelMedium.copyWith(
             color: LightAppColors.onSurfaceVariant,
             fontWeight: FontWeight.w600,
           ),

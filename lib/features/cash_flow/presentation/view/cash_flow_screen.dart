@@ -9,17 +9,13 @@ class CashFlowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(kind.title(context)),
-        actions: [
-          IconButton(
-            onPressed: () {
-              TransactionHistoryRoute($extra: kind).push(context);
-            },
-            icon: Icon(Icons.history),
-          ),
-        ],
+    return OfflineAwareScaffold(
+      appBar: CustomAppBar(
+        title: kind.title(context),
+        actionIcon: Icons.history,
+        onActionPressed: () {
+          TransactionHistoryRoute($extra: kind).push(context);
+        },
       ),
       body: CashFlowCategoriesWidget(),
       floatingActionButton: CustomFloatingActionButton(

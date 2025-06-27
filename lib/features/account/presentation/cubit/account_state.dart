@@ -7,7 +7,7 @@ class AccountState with _$AccountState {
   const factory AccountState.loading() = AccountLoading;
 
   const factory AccountState.success({
-    required List<BankAccountModel> accounts,
+    required BankAccountModel account,
     @Default(true) bool isBalanceHidden,
   }) = AccountSuccess;
 

@@ -3,8 +3,9 @@ import 'package:finance_hunter_app/features/app/presentation/cubit/currency_cubi
 
 class CurrencyWidget extends StatelessWidget {
   final String amount;
+  final Color? color;
 
-  const CurrencyWidget({super.key, required this.amount});
+  const CurrencyWidget({super.key, required this.amount, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +14,21 @@ class CurrencyWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(amount, style: Theme.of(context).textTheme.bodyLarge),
+        Text(
+          amount,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: color ?? Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
         const SizedBox(width: 4),
-        SvgPicture.asset(currencyCubit.state.icon, height: 15),
+        SvgPicture.asset(
+          currencyCubit.state.icon,
+          height: 15,
+          colorFilter: ColorFilter.mode(
+            color ?? Theme.of(context).colorScheme.onSurface,
+            BlendMode.srcIn,
+          ),
+        ),
       ],
     );
   }

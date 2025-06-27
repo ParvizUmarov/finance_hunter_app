@@ -1,4 +1,5 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/ui_kit/widgets/offline_aware_scaffold.dart';
 
 class MyExpensesScreen extends StatelessWidget {
   static const String screenName = "myExpensesScreen";
@@ -8,7 +9,7 @@ class MyExpensesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Scaffold(
+    return OfflineAwareScaffold(
       appBar: AppBar(
         title: Text(s.myIncome),
       ),

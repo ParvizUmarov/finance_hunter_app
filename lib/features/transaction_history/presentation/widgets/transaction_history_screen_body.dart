@@ -9,6 +9,8 @@ class TransactionHistoryScreenBody extends StatelessWidget {
     final transactionState = context.watch<TransactionCubit>();
     final isLoading = transactionState.state is TransactionLoading;
 
+    final customListTilePadding = EdgeInsets.symmetric(vertical: 2, horizontal: 16);
+
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(Duration(seconds: 1));
@@ -22,9 +24,10 @@ class TransactionHistoryScreenBody extends StatelessWidget {
             child: Column(
               children: [
                 CustomListTile(
+                  padding: customListTilePadding,
                   title: s.beginning,
                   data: transactionState.formattedStartDateTime,
-                  backgroundColor: LightAppColors.secondaryBrandColor,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
                   onTap: isLoading
                       ? null
                       : () async {
@@ -41,8 +44,9 @@ class TransactionHistoryScreenBody extends StatelessWidget {
                 ),
                 CustomListTile(
                   title: s.end,
+                  padding: customListTilePadding,
                   data: transactionState.formattedEndDateTime,
-                  backgroundColor: LightAppColors.secondaryBrandColor,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
                   onTap: isLoading
                       ? null
                       : () async {
@@ -64,17 +68,19 @@ class TransactionHistoryScreenBody extends StatelessWidget {
             pinned: true,
             delegate: StickyHeaderDelegate(
               child: CustomListTile(
+                padding: customListTilePadding,
                 title: s.amount,
-                backgroundColor: LightAppColors.secondaryBrandColor,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
                 child: CurrencyWidget(amount: transactionState.amount ?? "-"),
               ),
             ),
           ),
           SliverToBoxAdapter(
             child: CustomListTile(
+              padding: customListTilePadding,
               title: s.sorting,
               data: transactionState.sortedType.label,
-              backgroundColor: LightAppColors.secondaryBrandColor,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
               onTap: isLoading
                   ? null
                   : () async {

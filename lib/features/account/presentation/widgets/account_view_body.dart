@@ -39,49 +39,61 @@ class _AccountViewBodyState extends State<AccountViewBody> {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final currencyCubit = context.watch<CurrencyCubit>();
-    return BlocBuilder<AccountCubit, AccountState>(
-      builder: (context, state) {
-        if (state is AccountLoading) {
-          return const CustomShimmer(type: ShimmerType.myAccount);
-        } else if (state is AccountSuccess) {
-          final firstAccount = state.accounts.first;
-          return Column(
-            children: [
-              CustomListTile(
-                emoji: "💰",
-                title: s.balance,
-                backgroundColor: LightAppColors.secondaryBrandColor,
-                addTrailing: true,
-                emojiBackgroundColor: Colors.white,
-                child: BalanceSpoiler(
-                  balance: firstAccount.balance,
-                  currencyIcon: SvgPicture.asset(
-                    currencyCubit.state.icon,
-                    height: 18,
-                  ),
-                  isHidden: state.isBalanceHidden,
-                  onToggle: () => context.read<AccountCubit>().toggleBalanceVisibility(),
-                ),
-              ),
-              CustomListTile(
-                title: s.currency,
-                addTrailing: true,
-                backgroundColor: LightAppColors.secondaryBrandColor,
-                onTap: () async {
-                  await showCurrencyBottomSheet(context, (value) {
-                    context.read<CurrencyCubit>().selectCurrency(value);
-                  });
-                },
-                child: SvgPicture.asset(currencyCubit.state.icon, height: 18),
-              ),
-            ],
-          );
-        } else if (state is AccountError) {
-          return ErrorBaseWidget(errorMessage: state.message);
-        } else {
-          return const SizedBox.shrink();
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(Duration(seconds: 2));
+        if(context.mounted){
+          context.read<AccountCubit>().getAccounts();
         }
       },
+      child: BlocBuilder<AccountCubit, AccountState>(
+        builder: (context, state) {
+          if (state is AccountLoading) {
+            return const CustomShimmer(type: ShimmerType.myAccount);
+          } else if (state is AccountSuccess) {
+            final firstAccount = state.account;
+            return ListView(
+              children: [
+                CustomListTile(
+                  emoji: "💰",
+                  title: s.balance,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                  addTrailing: true,
+                  emojiBackgroundColor: Colors.white,
+                  child: BalanceSpoiler(
+                    balance: firstAccount.balance,
+                    isHidden: state.isBalanceHidden,
+                    onToggle: () =>
+                        context.read<AccountCubit>().toggleBalanceVisibility(),
+                  ),
+                ),
+                CustomListTile(
+                  title: s.currency,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                  addTrailing: true,
+                  onTap: () async {
+                    await showCurrencyBottomSheet(context, (value) async {
+                      await context.read<CurrencyCubit>().selectCurrency(value);
+                    });
+                  },
+                  child: SvgPicture.asset(
+                    currencyCubit.state.icon,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else if (state is AccountError) {
+            return ErrorBaseWidget(errorMessage: state.message);
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }

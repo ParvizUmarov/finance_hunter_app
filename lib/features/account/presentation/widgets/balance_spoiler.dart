@@ -4,14 +4,12 @@ import 'dart:ui';
 
 class BalanceSpoiler extends StatelessWidget {
   final String balance;
-  final Widget currencyIcon;
   final bool isHidden;
   final VoidCallback onToggle;
 
   const BalanceSpoiler({
     super.key,
     required this.balance,
-    required this.currencyIcon,
     required this.isHidden,
     required this.onToggle,
   });
@@ -22,14 +20,7 @@ class BalanceSpoiler extends StatelessWidget {
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(balance),
-              const SizedBox(width: 5),
-              currencyIcon,
-            ],
-          ),
+          CurrencyWidget(amount: balance),
           if (isHidden)
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
@@ -49,4 +40,3 @@ class BalanceSpoiler extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,5 @@
 
-abstract class IDataBase {
+abstract interface class IDataBase {
 
   Future<void> init();
 

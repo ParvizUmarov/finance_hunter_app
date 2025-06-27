@@ -807,15 +807,458 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   }
 }
 
+class $AccountTbTable extends AccountTb
+    with TableInfo<$AccountTbTable, AccountTbData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AccountTbTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _balanceMeta = const VerificationMeta(
+    'balance',
+  );
+  @override
+  late final GeneratedColumn<String> balance = GeneratedColumn<String>(
+    'balance',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _currencyMeta = const VerificationMeta(
+    'currency',
+  );
+  @override
+  late final GeneratedColumn<String> currency = GeneratedColumn<String>(
+    'currency',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<String> updatedAt = GeneratedColumn<String>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userId,
+    name,
+    balance,
+    currency,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'account_tb';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AccountTbData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('balance')) {
+      context.handle(
+        _balanceMeta,
+        balance.isAcceptableOrUnknown(data['balance']!, _balanceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_balanceMeta);
+    }
+    if (data.containsKey('currency')) {
+      context.handle(
+        _currencyMeta,
+        currency.isAcceptableOrUnknown(data['currency']!, _currencyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_currencyMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AccountTbData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AccountTbData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      balance: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}balance'],
+      )!,
+      currency: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}currency'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $AccountTbTable createAlias(String alias) {
+    return $AccountTbTable(attachedDatabase, alias);
+  }
+}
+
+class AccountTbData extends DataClass implements Insertable<AccountTbData> {
+  final int id;
+  final int userId;
+  final String name;
+  final String balance;
+  final String currency;
+  final String createdAt;
+  final String updatedAt;
+  const AccountTbData({
+    required this.id,
+    required this.userId,
+    required this.name,
+    required this.balance,
+    required this.currency,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    map['name'] = Variable<String>(name);
+    map['balance'] = Variable<String>(balance);
+    map['currency'] = Variable<String>(currency);
+    map['created_at'] = Variable<String>(createdAt);
+    map['updated_at'] = Variable<String>(updatedAt);
+    return map;
+  }
+
+  AccountTbCompanion toCompanion(bool nullToAbsent) {
+    return AccountTbCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      name: Value(name),
+      balance: Value(balance),
+      currency: Value(currency),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory AccountTbData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AccountTbData(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      name: serializer.fromJson<String>(json['name']),
+      balance: serializer.fromJson<String>(json['balance']),
+      currency: serializer.fromJson<String>(json['currency']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+      updatedAt: serializer.fromJson<String>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'name': serializer.toJson<String>(name),
+      'balance': serializer.toJson<String>(balance),
+      'currency': serializer.toJson<String>(currency),
+      'createdAt': serializer.toJson<String>(createdAt),
+      'updatedAt': serializer.toJson<String>(updatedAt),
+    };
+  }
+
+  AccountTbData copyWith({
+    int? id,
+    int? userId,
+    String? name,
+    String? balance,
+    String? currency,
+    String? createdAt,
+    String? updatedAt,
+  }) => AccountTbData(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    name: name ?? this.name,
+    balance: balance ?? this.balance,
+    currency: currency ?? this.currency,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  AccountTbData copyWithCompanion(AccountTbCompanion data) {
+    return AccountTbData(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      name: data.name.present ? data.name.value : this.name,
+      balance: data.balance.present ? data.balance.value : this.balance,
+      currency: data.currency.present ? data.currency.value : this.currency,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AccountTbData(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('name: $name, ')
+          ..write('balance: $balance, ')
+          ..write('currency: $currency, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, userId, name, balance, currency, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AccountTbData &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.name == this.name &&
+          other.balance == this.balance &&
+          other.currency == this.currency &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class AccountTbCompanion extends UpdateCompanion<AccountTbData> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<String> name;
+  final Value<String> balance;
+  final Value<String> currency;
+  final Value<String> createdAt;
+  final Value<String> updatedAt;
+  const AccountTbCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.balance = const Value.absent(),
+    this.currency = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  AccountTbCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+    required String name,
+    required String balance,
+    required String currency,
+    required String createdAt,
+    required String updatedAt,
+  }) : userId = Value(userId),
+       name = Value(name),
+       balance = Value(balance),
+       currency = Value(currency),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<AccountTbData> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+    Expression<String>? name,
+    Expression<String>? balance,
+    Expression<String>? currency,
+    Expression<String>? createdAt,
+    Expression<String>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (name != null) 'name': name,
+      if (balance != null) 'balance': balance,
+      if (currency != null) 'currency': currency,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  AccountTbCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userId,
+    Value<String>? name,
+    Value<String>? balance,
+    Value<String>? currency,
+    Value<String>? createdAt,
+    Value<String>? updatedAt,
+  }) {
+    return AccountTbCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      balance: balance ?? this.balance,
+      currency: currency ?? this.currency,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (balance.present) {
+      map['balance'] = Variable<String>(balance.value);
+    }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AccountTbCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('name: $name, ')
+          ..write('balance: $balance, ')
+          ..write('currency: $currency, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TransactionTbTable transactionTb = $TransactionTbTable(this);
+  late final $AccountTbTable accountTb = $AccountTbTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [transactionTb];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    transactionTb,
+    accountTb,
+  ];
 }
 
 typedef $$TransactionTbTableCreateCompanionBuilder =
@@ -1195,10 +1638,244 @@ typedef $$TransactionTbTableProcessedTableManager =
       TransactionTbData,
       PrefetchHooks Function()
     >;
+typedef $$AccountTbTableCreateCompanionBuilder =
+    AccountTbCompanion Function({
+      Value<int> id,
+      required int userId,
+      required String name,
+      required String balance,
+      required String currency,
+      required String createdAt,
+      required String updatedAt,
+    });
+typedef $$AccountTbTableUpdateCompanionBuilder =
+    AccountTbCompanion Function({
+      Value<int> id,
+      Value<int> userId,
+      Value<String> name,
+      Value<String> balance,
+      Value<String> currency,
+      Value<String> createdAt,
+      Value<String> updatedAt,
+    });
+
+class $$AccountTbTableFilterComposer
+    extends Composer<_$AppDatabase, $AccountTbTable> {
+  $$AccountTbTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get balance => $composableBuilder(
+    column: $table.balance,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get currency => $composableBuilder(
+    column: $table.currency,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AccountTbTableOrderingComposer
+    extends Composer<_$AppDatabase, $AccountTbTable> {
+  $$AccountTbTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get userId => $composableBuilder(
+    column: $table.userId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get balance => $composableBuilder(
+    column: $table.balance,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get currency => $composableBuilder(
+    column: $table.currency,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AccountTbTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AccountTbTable> {
+  $$AccountTbTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get balance =>
+      $composableBuilder(column: $table.balance, builder: (column) => column);
+
+  GeneratedColumn<String> get currency =>
+      $composableBuilder(column: $table.currency, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$AccountTbTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AccountTbTable,
+          AccountTbData,
+          $$AccountTbTableFilterComposer,
+          $$AccountTbTableOrderingComposer,
+          $$AccountTbTableAnnotationComposer,
+          $$AccountTbTableCreateCompanionBuilder,
+          $$AccountTbTableUpdateCompanionBuilder,
+          (
+            AccountTbData,
+            BaseReferences<_$AppDatabase, $AccountTbTable, AccountTbData>,
+          ),
+          AccountTbData,
+          PrefetchHooks Function()
+        > {
+  $$AccountTbTableTableManager(_$AppDatabase db, $AccountTbTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AccountTbTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AccountTbTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AccountTbTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> balance = const Value.absent(),
+                Value<String> currency = const Value.absent(),
+                Value<String> createdAt = const Value.absent(),
+                Value<String> updatedAt = const Value.absent(),
+              }) => AccountTbCompanion(
+                id: id,
+                userId: userId,
+                name: name,
+                balance: balance,
+                currency: currency,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userId,
+                required String name,
+                required String balance,
+                required String currency,
+                required String createdAt,
+                required String updatedAt,
+              }) => AccountTbCompanion.insert(
+                id: id,
+                userId: userId,
+                name: name,
+                balance: balance,
+                currency: currency,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AccountTbTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AccountTbTable,
+      AccountTbData,
+      $$AccountTbTableFilterComposer,
+      $$AccountTbTableOrderingComposer,
+      $$AccountTbTableAnnotationComposer,
+      $$AccountTbTableCreateCompanionBuilder,
+      $$AccountTbTableUpdateCompanionBuilder,
+      (
+        AccountTbData,
+        BaseReferences<_$AppDatabase, $AccountTbTable, AccountTbData>,
+      ),
+      AccountTbData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$TransactionTbTableTableManager get transactionTb =>
       $$TransactionTbTableTableManager(_db, _db.transactionTb);
+  $$AccountTbTableTableManager get accountTb =>
+      $$AccountTbTableTableManager(_db, _db.accountTb);
 }

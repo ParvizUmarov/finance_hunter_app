@@ -26,7 +26,12 @@ class TransactionRepositoryImpl implements TransactionRepository {
           result.onSuccess(response);
         },
         onError: (message) async {
-          final cachedTransactions = await localDb.getCachedTransactions();
+          result.onError(message);
+
+          final cachedTransactions = await localDb.getCachedTransactions(
+            requestBody.startDate,
+            requestBody.endDate,
+          );
           result.onSuccess(cachedTransactions);
         },
       ),

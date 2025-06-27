@@ -4,7 +4,8 @@ import 'package:flutter/rendering.dart';
 class AppTextStyles {
   const AppTextStyles._();
 
-  static final base = _Base();
+  static final light = _Light();
+  static final dark = _Dark();
 }
 
 abstract class _AppTextTheme {
@@ -39,109 +40,216 @@ abstract class _AppTextTheme {
   TextStyle get labelSmall;
 }
 
-class _Base implements _AppTextTheme {
+class _Light implements _AppTextTheme {
   @override
   TextStyle get displayLarge => TextStyle(
-      fontSize: 57,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 57,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get displayMedium => TextStyle(
-      fontSize: 45,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 45,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get displaySmall => TextStyle(
-      fontSize: 36,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 36,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get headlineLarge => TextStyle(
-      fontSize: 32,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 32,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get headlineMedium => TextStyle(
-      fontSize: 28,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 28,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get headlineSmall => TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 24,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get titleLarge => TextStyle(
-      fontSize: 22,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 22,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get titleMedium => TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
-      color: LightAppColors.onSurface
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get titleSmall => TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      color: LightAppColors.onSurface
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get bodyLarge => TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get bodyMedium => TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get bodySmall => TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w400,
-      color: LightAppColors.onSurface
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get labelLarge => TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-      color: LightAppColors.onSurface
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get labelMedium => TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.w500,
-      color: LightAppColors.onSurface
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: LightAppColors.onSurface,
   );
 
   @override
   TextStyle get labelSmall => TextStyle(
-      fontSize: 11,
-      fontWeight: FontWeight.w500,
-      color: LightAppColors.onSurface
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    color: LightAppColors.onSurface,
+  );
+}
+
+class _Dark implements _AppTextTheme {
+  @override
+  TextStyle get displayLarge => TextStyle(
+    fontSize: 57,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get displayMedium => TextStyle(
+    fontSize: 45,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get displaySmall => TextStyle(
+    fontSize: 36,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get headlineLarge => TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get headlineMedium => TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get headlineSmall => TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get titleLarge => TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get titleMedium => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get titleSmall => TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get bodyLarge => TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get bodyMedium => TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get bodySmall => TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get labelLarge => TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get labelMedium => TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: DarkAppColors.onSurface,
+  );
+
+  @override
+  TextStyle get labelSmall => TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    color: DarkAppColors.onSurface,
   );
 }

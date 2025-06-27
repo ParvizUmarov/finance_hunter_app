@@ -7,7 +7,7 @@ import 'app_colors.dart';
 class DarkAppTheme {
   const DarkAppTheme._();
 
-  static final baseTextStyle = AppTextStyles.base;
+  static final baseTextStyle = AppTextStyles.dark;
 
   ///TODO нужно поработать над темной цветой гаммой
 
@@ -23,7 +23,11 @@ class DarkAppTheme {
         surface: DarkAppColors.surface,
         onSurface: DarkAppColors.onSurface,
         onSurfaceVariant: DarkAppColors.onSurfaceVariant,
-        onSecondaryContainer: DarkAppColors.onSecondaryContainer,
+        onSecondaryContainer: DarkAppColors.surfaceContainerHigh,
+
+        outlineVariant: DarkAppColors.outlineVariant,
+
+        tertiary: DarkAppColors.secondaryBrandColor,
 
         error: DarkAppColors.error,
         onError: DarkAppColors.onError,
@@ -56,15 +60,24 @@ class DarkAppTheme {
         centerTitle: true,
         backgroundColor: DarkAppColors.brandColor,
         titleTextStyle: baseTextStyle.titleLarge.copyWith(
-          color: DarkAppColors.onSurface,
+          color: LightAppColors.onSurface,
+        ),
+        iconTheme: IconThemeData(
+          color: LightAppColors.onSurface
+        ),
+        actionsIconTheme: IconThemeData(
+          color: LightAppColors.onSurface,
         ),
         elevation: 0,
         shadowColor: const Color(0xFF1C1C1C),
         systemOverlayStyle: const SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.transparent,
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
         ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: DarkAppColors.onSurfaceVariant
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: DarkAppColors.surfaceContainer,
@@ -88,6 +101,7 @@ class DarkAppTheme {
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
         ),

@@ -11,32 +11,40 @@ class AnalysisScreenBody extends StatelessWidget {
       children: [
         CustomListTile(
           title: s.periodStart,
+          onTap: analysisCubit.state is AnalysisLoading
+              ? null
+              : () async {
+                  await customShowDatePicker(
+                    initialDate: analysisCubit.selectedStartDateTime,
+                    context: context,
+                    onSelectedDate: (selectedDate) {
+                      context
+                          .read<AnalysisCubit>()
+                          .getGroupedTransactionByCategory(
+                            TransactionDateFilter(startDate: selectedDate),
+                          );
+                    },
+                  );
+                },
           child: DateTimeContainer(date: analysisCubit.selectedStartDateTime),
-          onTap: () async {
-            await customShowDatePicker(
-              initialDate: analysisCubit.selectedStartDateTime,
-              context: context,
-              onSelectedDate: (selectedDate) {
-                context.read<AnalysisCubit>().getGroupedTransactionByCategory(
-                  TransactionDateFilter(startDate: selectedDate),
-                );
-              },
-            );
-          },
         ),
         CustomListTile(
           title: s.periodEnd,
-          onTap: () async {
-            await customShowDatePicker(
-              initialDate: analysisCubit.selectedEndDateTime,
-              context: context,
-              onSelectedDate: (selectedDate) {
-                context.read<AnalysisCubit>().getGroupedTransactionByCategory(
-                  TransactionDateFilter(endDate: selectedDate),
-                );
-              },
-            );
-          },
+          onTap: analysisCubit.state is AnalysisLoading
+              ? null
+              : () async {
+                  await customShowDatePicker(
+                    initialDate: analysisCubit.selectedEndDateTime,
+                    context: context,
+                    onSelectedDate: (selectedDate) {
+                      context
+                          .read<AnalysisCubit>()
+                          .getGroupedTransactionByCategory(
+                            TransactionDateFilter(endDate: selectedDate),
+                          );
+                    },
+                  );
+                },
           child: DateTimeContainer(date: analysisCubit.selectedEndDateTime),
         ),
         CustomListTile(

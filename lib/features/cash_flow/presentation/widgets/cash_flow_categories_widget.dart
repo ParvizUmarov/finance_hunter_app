@@ -27,6 +27,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
       onLoading: (ctx) => CustomShimmer(type: ShimmerType.categoriesList),
       onSuccess: (ctx, state) {
         final transactionState = state as TransactionSuccess;
+
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 1));
@@ -36,8 +37,10 @@ class CashFlowCategoriesWidget extends StatelessWidget {
             children: [
               CustomListTile(
                 title: s.total,
-                backgroundColor: LightAppColors.secondaryBrandColor,
-                child: CurrencyWidget(amount: transactionState.totalAmount),
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                child: CurrencyWidget(
+                  amount: transactionState.totalAmount,
+                ),
               ),
               Expanded(
                 child: TransactionListWidget(

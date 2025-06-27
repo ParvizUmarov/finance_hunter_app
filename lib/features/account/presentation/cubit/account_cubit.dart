@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,12 +19,33 @@ class AccountCubit extends Cubit<AccountState> {
   Future<void> getAccounts() async {
     emit(AccountState.loading());
 
-    try {
-      _accounts = await _repository.getUserAccounts();
-      emit(AccountState.success(accounts: _accounts));
-    } catch (e) {
-      emit(AccountState.error(message: e.toString()));
-    }
+    await _repository.getUserAccounts(
+      result: Result(
+        onSuccess: (response) {
+          _accounts = response;
+          if (_accounts.isEmpty) {
+            emit(
+              AccountState.success(
+                account: BankAccountModel(
+                  id: 1,
+                  userId: 1,
+                  name: "name",
+                  balance: "-",
+                  currency: "RUB",
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                ),
+              ),
+            );
+          } else {
+            emit(AccountState.success(account: _accounts.first));
+          }
+        },
+        onError: (message) {
+          emit(AccountState.error(message: message.toString()));
+        },
+      ),
+    );
   }
 
   void toggleBalanceVisibility() {
@@ -32,5 +54,4 @@ class AccountCubit extends Cubit<AccountState> {
       emit(current.copyWith(isBalanceHidden: !current.isBalanceHidden));
     }
   }
-
 }

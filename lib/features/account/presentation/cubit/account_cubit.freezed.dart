@@ -110,16 +110,10 @@ String toString() {
 
 
 class AccountSuccess implements AccountState {
-  const AccountSuccess({required final  List<BankAccountModel> accounts, this.isBalanceHidden = true}): _accounts = accounts;
+  const AccountSuccess({required this.account, this.isBalanceHidden = true});
   
 
- final  List<BankAccountModel> _accounts;
- List<BankAccountModel> get accounts {
-  if (_accounts is EqualUnmodifiableListView) return _accounts;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_accounts);
-}
-
+ final  BankAccountModel account;
 @JsonKey() final  bool isBalanceHidden;
 
 /// Create a copy of AccountState
@@ -132,16 +126,16 @@ $AccountSuccessCopyWith<AccountSuccess> get copyWith => _$AccountSuccessCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&const DeepCollectionEquality().equals(other._accounts, _accounts)&&(identical(other.isBalanceHidden, isBalanceHidden) || other.isBalanceHidden == isBalanceHidden));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&(identical(other.account, account) || other.account == account)&&(identical(other.isBalanceHidden, isBalanceHidden) || other.isBalanceHidden == isBalanceHidden));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_accounts),isBalanceHidden);
+int get hashCode => Object.hash(runtimeType,account,isBalanceHidden);
 
 @override
 String toString() {
-  return 'AccountState.success(accounts: $accounts, isBalanceHidden: $isBalanceHidden)';
+  return 'AccountState.success(account: $account, isBalanceHidden: $isBalanceHidden)';
 }
 
 
@@ -152,11 +146,11 @@ abstract mixin class $AccountSuccessCopyWith<$Res> implements $AccountStateCopyW
   factory $AccountSuccessCopyWith(AccountSuccess value, $Res Function(AccountSuccess) _then) = _$AccountSuccessCopyWithImpl;
 @useResult
 $Res call({
- List<BankAccountModel> accounts, bool isBalanceHidden
+ BankAccountModel account, bool isBalanceHidden
 });
 
 
-
+$BankAccountModelCopyWith<$Res> get account;
 
 }
 /// @nodoc
@@ -169,15 +163,24 @@ class _$AccountSuccessCopyWithImpl<$Res>
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? accounts = null,Object? isBalanceHidden = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? account = null,Object? isBalanceHidden = null,}) {
   return _then(AccountSuccess(
-accounts: null == accounts ? _self._accounts : accounts // ignore: cast_nullable_to_non_nullable
-as List<BankAccountModel>,isBalanceHidden: null == isBalanceHidden ? _self.isBalanceHidden : isBalanceHidden // ignore: cast_nullable_to_non_nullable
+account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
+as BankAccountModel,isBalanceHidden: null == isBalanceHidden ? _self.isBalanceHidden : isBalanceHidden // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
 
-
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BankAccountModelCopyWith<$Res> get account {
+  
+  return $BankAccountModelCopyWith<$Res>(_self.account, (value) {
+    return _then(_self.copyWith(account: value));
+  });
+}
 }
 
 /// @nodoc

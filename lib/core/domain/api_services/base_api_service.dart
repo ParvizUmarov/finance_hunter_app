@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:finance_hunter_app/core/datasource/data/error/api_exception.dart';
+import 'package:finance_hunter_app/core/core.dart';
 
 abstract class BaseApiService {
   final Dio dio;

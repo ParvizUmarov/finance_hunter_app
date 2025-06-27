@@ -9,7 +9,7 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Scaffold(
+    return OfflineAwareScaffold(
       appBar: AppBar(
         title: Text(s.myHistory),
         actions: [

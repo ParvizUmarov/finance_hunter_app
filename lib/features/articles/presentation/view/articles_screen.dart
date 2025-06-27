@@ -8,8 +8,8 @@ class ArticlesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(s.myArticles)),
+    return OfflineAwareScaffold(
+      appBar: CustomAppBar(title: s.myArticles),
       body: ArticleScreenBody(),
     );
   }

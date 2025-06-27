@@ -1,3 +1,4 @@
+import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,6 +22,7 @@ class CustomShimmer extends StatelessWidget {
 
 class _CategoriesListTileList extends StatelessWidget {
   final int count;
+
   const _CategoriesListTileList(this.count);
 
   @override
@@ -66,9 +68,13 @@ class _CustomShimmerBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: isDark ? DarkAppColors.surfaceContainer : Colors.grey.shade300,
+      highlightColor: isDark
+          ? DarkAppColors.onSurfaceVariant
+          : Colors.grey.shade100,
       child: child,
     );
   }

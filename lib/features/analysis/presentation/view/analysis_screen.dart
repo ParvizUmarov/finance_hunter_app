@@ -9,10 +9,11 @@ class AnalysisScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Scaffold(
+    return OfflineAwareScaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Text(s.analysis),
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
       body: AnalysisScreenBody(),
     );

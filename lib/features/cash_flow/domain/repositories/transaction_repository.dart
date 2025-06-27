@@ -32,5 +32,4 @@ abstract class TransactionRepository {
     required int transactionId,
     required Result<void> result,
   });
-
 }
