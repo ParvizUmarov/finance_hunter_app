@@ -4,8 +4,12 @@ import 'package:finance_hunter_app/core/core.dart';
 
 class TransactionRepositoryImpl implements TransactionRepository {
   final TransactionApiService transactionApiService;
+  final LocalTransactionDataSource localDb;
 
-  TransactionRepositoryImpl({required this.transactionApiService});
+  TransactionRepositoryImpl({
+    required this.transactionApiService,
+    required this.localDb,
+  });
 
   @override
   Future<void> getTransactionByPeriod({
@@ -17,11 +21,13 @@ class TransactionRepositoryImpl implements TransactionRepository {
       accountId: accountId,
       requestBody: requestBody,
       result: Result(
-        onSuccess: (response) {
+        onSuccess: (response) async {
+          await localDb.cacheTransactions(response);
           result.onSuccess(response);
         },
-        onError: (message) {
-          result.onError(message);
+        onError: (message) async {
+          final cachedTransactions = await localDb.getCachedTransactions();
+          result.onSuccess(cachedTransactions);
         },
       ),
     );
