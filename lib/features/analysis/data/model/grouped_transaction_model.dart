@@ -24,3 +24,4 @@ abstract class GroupedTransactionModel with _$GroupedTransactionModel {
   factory GroupedTransactionModel.fromJson(Map<String, dynamic> json) =>
       _$GroupedTransactionModelFromJson(json);
 }
+

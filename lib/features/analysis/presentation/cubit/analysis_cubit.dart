@@ -42,9 +42,10 @@ class AnalysisCubit extends Cubit<AnalysisState> {
       requestBody: periodRequest,
       result: Result(
         onSuccess: (response) {
+          groupedTransactionModels = _groupedTransactions(response);
           emit(
             AnalysisState.success(
-              groupedTransactions: _groupedTransactions(response),
+              groupedTransactions: groupedTransactionModels,
             ),
           );
         },
