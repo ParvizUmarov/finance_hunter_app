@@ -38,11 +38,13 @@ class _AccountViewBodyState extends State<AccountViewBody> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+
     final currencyCubit = context.watch<CurrencyCubit>();
+
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(Duration(seconds: 2));
-        if(context.mounted){
+        if (context.mounted) {
           context.read<AccountCubit>().getAccounts();
         }
       },
@@ -83,6 +85,21 @@ class _AccountViewBodyState extends State<AccountViewBody> {
                       Theme.of(context).colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                AspectRatio(
+                  aspectRatio: 1.5,
+                  child: BarChartWithSegmentedControl(
+                    key: ValueKey(state.selectedPeriod),
+                    entries: state.transactions
+                        .map(
+                          (t) => BalanceEntry(
+                            date: t.transactionDate,
+                            amount: double.tryParse(t.amount) ?? 0.0,
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ],

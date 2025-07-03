@@ -241,7 +241,7 @@ class DetailCategoryRoute extends GoRouteData with _$DetailCategoryRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailCategoryScreen(transactionModel: $extra,);
+    return DetailCategoryScreen(transactionModel: $extra);
   }
 }
 
@@ -252,9 +252,10 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
-      create: (context) =>
-          AccountCubit(repository: context.read<BankAccountRepository>())
-            ..getAccounts(),
+      create: (context) => AccountCubit(
+        repository: context.read<BankAccountRepository>(),
+        transactionRepository: context.read<TransactionRepository>(),
+      )..getAccounts(),
       child: AccountScreen(),
     );
   }

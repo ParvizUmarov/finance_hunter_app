@@ -1,8 +1,6 @@
-
-
+import 'package:custom_fl_chart/custom_fl_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart_feature/pie_chart_feature.dart';
 
 import 'center_percent_box.dart';
 
@@ -26,13 +24,13 @@ class _InteractivePieChartState extends State<InteractivePieChart> {
 
     final data = isEmpty
         ? [
-      PieChartDataItem(
-        title: 'No data',
-        value: 1,
-        emoji: '🕳️',
-        color: Colors.grey.shade300,
-      ),
-    ]
+            PieChartDataItem(
+              title: 'No data',
+              value: 1,
+              emoji: '🕳️',
+              color: Colors.grey.shade300,
+            ),
+          ]
         : widget.data;
 
     final total = data.fold(0, (sum, item) => sum + item.value.toInt());

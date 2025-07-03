@@ -1,6 +1,6 @@
+import 'package:custom_fl_chart/custom_fl_chart.dart';
+import 'package:custom_fl_chart/src/pie_chart_widget/interactive_pie_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart_feature/pie_chart_feature.dart';
-import 'package:pie_chart_feature/src/widget/interactive_pie_chart.dart';
 
 class CustomPieChartWidget extends StatefulWidget {
   final List<PieChartDataItem> data;

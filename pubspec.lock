@@ -241,6 +241,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  custom_fl_chart:
+    dependency: "direct main"
+    description:
+      path: "packages/custom_fl_chart"
+      relative: true
+    source: path
+    version: "0.0.1"
   dart_style:
     dependency: transitive
     description:
@@ -749,13 +756,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
-  pie_chart_feature:
-    dependency: "direct main"
-    description:
-      path: "packages/pie_chart_feature"
-      relative: true
-    source: path
-    version: "0.0.1"
   platform:
     dependency: transitive
     description:

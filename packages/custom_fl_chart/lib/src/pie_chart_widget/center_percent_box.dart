@@ -1,5 +1,5 @@
+import 'package:custom_fl_chart/custom_fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pie_chart_feature/pie_chart_feature.dart';
 
 class CenterPercentBox extends StatelessWidget {
   final bool isEmpty;
@@ -29,11 +29,22 @@ class CenterPercentBox extends StatelessWidget {
               )
             : Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: data.map((item) {
                   final percent = (item.value * 100 / total).toStringAsFixed(2);
                   return Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        margin: const EdgeInsets.only(right: 4),
+                        decoration: BoxDecoration(
+                          color: item.color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                       Text(
                         "$percent%",
                         style: TextStyle(fontSize: 7),

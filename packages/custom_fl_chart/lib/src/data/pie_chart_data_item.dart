@@ -16,18 +16,18 @@ class PieChartDataItem {
 
   static final Map<String, Color> _colorCache = {};
 
+  static final List<Color> _allowedColors = [
+    Color(0xFFFCE300),
+    Color(0xFF2AE881),
+  ];
+
   static Color _generateColor(String key) {
     if (_colorCache.containsKey(key)) {
       return _colorCache[key]!;
     }
 
     final random = Random(key.hashCode);
-    final color = Color.fromARGB(
-      255,
-      random.nextInt(256),
-      random.nextInt(256),
-      random.nextInt(256),
-    );
+    final color = _allowedColors[random.nextInt(_allowedColors.length)];
 
     _colorCache[key] = color;
     return color;

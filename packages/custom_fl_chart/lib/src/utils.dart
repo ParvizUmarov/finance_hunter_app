@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+
+
 final Map<String, Color> _categoryColorCache = {};
 
 Color getColorForTitle(String title) {
