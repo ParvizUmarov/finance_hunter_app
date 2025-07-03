@@ -12,17 +12,21 @@ class ArticlesCubit extends Cubit<ArticlesState> {
   ArticlesCubit({required this.repository})
     : super(const ArticlesState.initial());
 
-  List<ArticleModel> _allArticles = [];
+  List<CategoryModel> _allArticles = [];
 
   Future<void> getArticles() async {
     emit(ArticlesState.loading());
-    try {
-      final response = await repository.getMyArticles();
-      _allArticles = response;
-      emit(ArticlesState.success(articles: _allArticles));
-    } catch (e) {
-      emit(ArticlesState.error(message: e.toString()));
-    }
+    await repository.getMyArticles(
+      Result(
+        onSuccess: (response) {
+          _allArticles = response;
+          emit(ArticlesState.success(articles: _allArticles));
+        },
+        onError: (message) {
+          emit(ArticlesState.error(message: message.toString()));
+        },
+      ),
+    );
   }
 
   void searchArticles(String query) {
@@ -31,11 +35,11 @@ class ArticlesCubit extends Cubit<ArticlesState> {
       return;
     }
 
-    final fuse = Fuzzy<ArticleModel>(
+    final fuse = Fuzzy<CategoryModel>(
       _allArticles,
-      options: FuzzyOptions<ArticleModel>(
+      options: FuzzyOptions<CategoryModel>(
         keys: [
-          WeightedKey<ArticleModel>(
+          WeightedKey<CategoryModel>(
             getter: (article) => article.name,
             weight: 1,
             name: 'name',

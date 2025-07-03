@@ -27,7 +27,6 @@ class CashFlowCategoriesWidget extends StatelessWidget {
       onLoading: (ctx) => CustomShimmer(type: ShimmerType.categoriesList),
       onSuccess: (ctx, state) {
         final transactionState = state as TransactionSuccess;
-
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 1));

@@ -110,7 +110,7 @@ String toString() {
 
 
 class AccountSuccess implements AccountState {
-  const AccountSuccess({required this.account, required final  List<TransactionModel> transactions, this.isBalanceHidden = true, this.selectedPeriod = ChartPeriod.days}): _transactions = transactions;
+  const AccountSuccess({required this.account, required final  List<TransactionModel> transactions, this.isBalanceHidden = true}): _transactions = transactions;
   
 
  final  BankAccountModel account;
@@ -122,7 +122,6 @@ class AccountSuccess implements AccountState {
 }
 
 @JsonKey() final  bool isBalanceHidden;
-@JsonKey() final  ChartPeriod selectedPeriod;
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
@@ -134,16 +133,16 @@ $AccountSuccessCopyWith<AccountSuccess> get copyWith => _$AccountSuccessCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&(identical(other.account, account) || other.account == account)&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.isBalanceHidden, isBalanceHidden) || other.isBalanceHidden == isBalanceHidden)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountSuccess&&(identical(other.account, account) || other.account == account)&&const DeepCollectionEquality().equals(other._transactions, _transactions)&&(identical(other.isBalanceHidden, isBalanceHidden) || other.isBalanceHidden == isBalanceHidden));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,account,const DeepCollectionEquality().hash(_transactions),isBalanceHidden,selectedPeriod);
+int get hashCode => Object.hash(runtimeType,account,const DeepCollectionEquality().hash(_transactions),isBalanceHidden);
 
 @override
 String toString() {
-  return 'AccountState.success(account: $account, transactions: $transactions, isBalanceHidden: $isBalanceHidden, selectedPeriod: $selectedPeriod)';
+  return 'AccountState.success(account: $account, transactions: $transactions, isBalanceHidden: $isBalanceHidden)';
 }
 
 
@@ -154,7 +153,7 @@ abstract mixin class $AccountSuccessCopyWith<$Res> implements $AccountStateCopyW
   factory $AccountSuccessCopyWith(AccountSuccess value, $Res Function(AccountSuccess) _then) = _$AccountSuccessCopyWithImpl;
 @useResult
 $Res call({
- BankAccountModel account, List<TransactionModel> transactions, bool isBalanceHidden, ChartPeriod selectedPeriod
+ BankAccountModel account, List<TransactionModel> transactions, bool isBalanceHidden
 });
 
 
@@ -171,13 +170,12 @@ class _$AccountSuccessCopyWithImpl<$Res>
 
 /// Create a copy of AccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? account = null,Object? transactions = null,Object? isBalanceHidden = null,Object? selectedPeriod = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? account = null,Object? transactions = null,Object? isBalanceHidden = null,}) {
   return _then(AccountSuccess(
 account: null == account ? _self.account : account // ignore: cast_nullable_to_non_nullable
 as BankAccountModel,transactions: null == transactions ? _self._transactions : transactions // ignore: cast_nullable_to_non_nullable
 as List<TransactionModel>,isBalanceHidden: null == isBalanceHidden ? _self.isBalanceHidden : isBalanceHidden // ignore: cast_nullable_to_non_nullable
-as bool,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
-as ChartPeriod,
+as bool,
   ));
 }
 

@@ -7,3 +7,4 @@ export 'cash_flow/cash_flow.dart';
 export 'transaction_history/transaction_history.dart';
 export 'analysis/analysis.dart';
 export 'detail_category/detail_category.dart';
+export 'operation_detail/operation_detail.dart';

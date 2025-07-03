@@ -1,7 +1,10 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/widgets/show_transaction_general_dialog.dart';
 
 abstract class TransactionKind {
   String title(BuildContext context);
+
+  String operationDetailTitle(BuildContext context);
 
   void onFloatingButtonTap(BuildContext context);
 }
@@ -15,7 +18,12 @@ class IncomeTransaction extends TransactionKind {
 
   @override
   void onFloatingButtonTap(BuildContext context) {
-    const MyExpensesRoute().push(context);
+    showOperationDetailDialog(context, this);
+  }
+
+  @override
+  String operationDetailTitle(BuildContext context) {
+    return "Мои доходы";
   }
 }
 
@@ -28,6 +36,11 @@ class ExpensesTransaction extends TransactionKind {
 
   @override
   void onFloatingButtonTap(BuildContext context) {
-    const MyExpensesRoute().push(context);
+    showOperationDetailDialog(context, this);
+  }
+
+  @override
+  String operationDetailTitle(BuildContext context) {
+    return "Мои расходы";
   }
 }

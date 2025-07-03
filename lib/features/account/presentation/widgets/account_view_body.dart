@@ -91,7 +91,6 @@ class _AccountViewBodyState extends State<AccountViewBody> {
                 AspectRatio(
                   aspectRatio: 1.5,
                   child: BarChartWithSegmentedControl(
-                    key: ValueKey(state.selectedPeriod),
                     entries: state.transactions
                         .map(
                           (t) => BalanceEntry(

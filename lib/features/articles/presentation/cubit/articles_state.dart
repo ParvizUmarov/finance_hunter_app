@@ -7,7 +7,7 @@ class ArticlesState with _$ArticlesState {
   const factory ArticlesState.loading() = ArticleLoading;
 
   const factory ArticlesState.success({
-    required List<ArticleModel> articles,
+    required List<CategoryModel> articles,
   }) = ArticleSuccess;
 
   const factory ArticlesState.error({

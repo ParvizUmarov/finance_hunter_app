@@ -25,6 +25,7 @@ class AppDependencies {
 
   late final TransactionApiService transactionApiService;
   late final AccountApiService accountApiService;
+  late final CategoryApiService categoryApiService;
 
   AppDependencies(IDataBase iDataBase) {
     dio = Dio();
@@ -35,6 +36,7 @@ class AppDependencies {
 
     transactionApiService = TransactionApiServiceTestImpl(dio);
     accountApiService = AccountApiServiceTestImpl(dio);
+    categoryApiService = CategoryApiServiceTestImpl(dio);
 
     localTransactionDataSource = LocalTransactionDatasourceImpl(
       db: appDatabase,
@@ -51,7 +53,9 @@ class AppDependencies {
       localDb: localTransactionDataSource,
     );
 
-    articleRepository = ArticleRepositoryTestImpl();
+    articleRepository = ArticleRepositoryTestImpl(
+      categoryApiService: categoryApiService,
+    );
     bankAccountRepository = BankAccountRepositoryImpl(
       accountApiService: accountApiService,
       localDb: localAccountDataSource,
