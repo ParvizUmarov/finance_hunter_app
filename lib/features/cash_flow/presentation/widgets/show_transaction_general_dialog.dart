@@ -1,7 +1,11 @@
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 import 'package:finance_hunter_app/features/operation_detail/presentation/view/operation_detail_screen.dart';
 
-void showOperationDetailDialog(BuildContext context, TransactionKind kind) {
+void showOperationDetailDialog({
+  required BuildContext context,
+  required TransactionKind kind,
+  TransactionModel? transactionModel,
+}) {
   showGeneralDialog(
     context: context,
     barrierDismissible: true,
@@ -10,7 +14,10 @@ void showOperationDetailDialog(BuildContext context, TransactionKind kind) {
     barrierLabel: kind.operationDetailTitle(context),
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (context, animation, secondaryAnimation) {
-      return OperationDetailScreen(kind: kind,);
+      return OperationDetailScreen(
+        kind: kind,
+        transactionModel: transactionModel,
+      );
     },
     transitionBuilder: (context, animation, secondaryAnimation, child) {
       return SlideTransition(

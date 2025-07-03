@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 

@@ -1,4 +1,4 @@
-import 'package:finance_hunter_app/features/cash_flow/domain/models/category/category_model.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/models/transaction/transaction_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

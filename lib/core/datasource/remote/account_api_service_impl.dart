@@ -12,7 +12,7 @@ class AccountApiServiceTestImpl extends BaseApiService
   }) async {
     await safeRequest(
       request: () async {
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 1));
         return [_getTestDataModel()];
       },
       onSuccess: result.onSuccess,

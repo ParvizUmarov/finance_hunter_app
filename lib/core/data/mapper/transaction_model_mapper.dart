@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:finance_hunter_app/core/datasource/local/local_datasource/app_database.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class TransactionModelMapper {

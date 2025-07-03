@@ -1,5 +1,3 @@
-import 'package:finance_hunter_app/features/account/data/models/models.dart';
-
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';

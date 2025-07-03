@@ -1,5 +1,6 @@
 import 'package:finance_hunter_app/features/app/presentation/cubit/locale_cubit/locale_cubit.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
 class AppScreen extends StatelessWidget {
   final AppDependencies dependencies;
@@ -19,8 +20,8 @@ class AppScreen extends StatelessWidget {
         RepositoryProvider<TransactionRepository>.value(
           value: dependencies.transactionRepository,
         ),
-        RepositoryProvider<ArticleRepository>.value(
-          value: dependencies.articleRepository,
+        RepositoryProvider<CategoryRepository>.value(
+          value: dependencies.categoryRepository,
         ),
         RepositoryProvider<BankAccountRepository>.value(
           value: dependencies.bankAccountRepository,

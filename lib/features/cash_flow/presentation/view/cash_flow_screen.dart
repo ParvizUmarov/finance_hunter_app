@@ -17,7 +17,7 @@ class CashFlowScreen extends StatelessWidget {
           TransactionHistoryRoute($extra: kind).push(context);
         },
       ),
-      body: CashFlowCategoriesWidget(),
+      body: CashFlowCategoriesWidget(kind: kind,),
       floatingActionButton: CustomFloatingActionButton(
         onTap: () {
           kind.onFloatingButtonTap(context);

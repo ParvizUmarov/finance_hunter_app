@@ -6,6 +6,7 @@ import 'package:finance_hunter_app/features/analysis/presentation/cubit/analysis
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
 import 'package:finance_hunter_app/features/features.dart';
@@ -269,7 +270,7 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
       create: (context) =>
-          ArticlesCubit(repository: context.read<ArticleRepository>())
+          ArticlesCubit(repository: context.read<CategoryRepository>())
             ..getArticles(),
       child: ArticlesScreen(),
     );

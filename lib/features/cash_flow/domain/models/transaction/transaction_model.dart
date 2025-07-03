@@ -1,6 +1,7 @@
-import 'package:finance_hunter_app/features/cash_flow/domain/models/category/category_model.dart';
+import 'package:finance_hunter_app/features/account/domain/domain.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/models/transaction/account_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'account_model.dart';
 
 part 'transaction_model.freezed.dart';
 part 'transaction_model.g.dart';
