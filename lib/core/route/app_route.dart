@@ -6,6 +6,7 @@ import 'package:finance_hunter_app/features/analysis/presentation/cubit/analysis
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
+import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
 import 'package:finance_hunter_app/features/features.dart';
@@ -31,10 +32,6 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
           path: '/',
           name: CashFlowScreen.expensesScreenName,
           routes: [
-            TypedGoRoute<MyExpensesRoute>(
-              path: 'myExpensesScreen',
-              name: MyExpensesScreen.screenName,
-            ),
             TypedGoRoute<TransactionHistoryRoute>(
               path: 'transactionHistoryScreen',
               name: TransactionHistoryScreen.screenName,
@@ -181,16 +178,6 @@ class IncomeRoute extends GoRouteData with _$IncomeRoute {
 }
 
 @immutable
-class MyExpensesRoute extends GoRouteData with _$MyExpensesRoute {
-  const MyExpensesRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const MyExpensesScreen();
-  }
-}
-
-@immutable
 class TransactionHistoryRoute extends GoRouteData
     with _$TransactionHistoryRoute {
   final TransactionKind $extra;
@@ -241,7 +228,7 @@ class DetailCategoryRoute extends GoRouteData with _$DetailCategoryRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailCategoryScreen(transactionModel: $extra,);
+    return DetailCategoryScreen(transactionModel: $extra);
   }
 }
 
@@ -252,9 +239,10 @@ class AccountRoute extends GoRouteData with _$AccountRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
-      create: (context) =>
-          AccountCubit(repository: context.read<BankAccountRepository>())
-            ..getAccounts(),
+      create: (context) => AccountCubit(
+        repository: context.read<BankAccountRepository>(),
+        transactionRepository: context.read<TransactionRepository>(),
+      )..getAccounts(),
       child: AccountScreen(),
     );
   }
@@ -268,7 +256,7 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider(
       create: (context) =>
-          ArticlesCubit(repository: context.read<ArticleRepository>())
+          ArticlesCubit(repository: context.read<CategoryRepository>())
             ..getArticles(),
       child: ArticlesScreen(),
     );

@@ -46,7 +46,8 @@ class CustomListTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        contentPadding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+        contentPadding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         leading: leadingWidget(),
         title: titleWidget(context),
         trailing: trailingWidget(),
@@ -88,8 +89,10 @@ class CustomListTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (child != null) child!,
-              if (data != null) textWidget(context, data ?? "", textStyle: textStyle),
-              if (subTrailing != null) textWidget(context, subTrailing ?? "", textStyle: textStyle),
+              if (data != null)
+                textWidget(context, data ?? "", textStyle: textStyle),
+              if (subTrailing != null)
+                textWidget(context, subTrailing ?? "", textStyle: textStyle),
             ],
           ),
         ),

@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/data/models/request/update_bank_account_request_body.dart';
 import 'package:finance_hunter_app/features/account/domain/models/bank_account/bank_account_model.dart';
-import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
-import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class AccountApiServiceTestImpl extends BaseApiService
     implements AccountApiService {
@@ -16,7 +12,7 @@ class AccountApiServiceTestImpl extends BaseApiService
   }) async {
     await safeRequest(
       request: () async {
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(Duration(seconds: 1));
         return [_getTestDataModel()];
       },
       onSuccess: result.onSuccess,

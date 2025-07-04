@@ -17,6 +17,7 @@ class BalanceSpoiler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onToggle,
       child: Stack(
         alignment: Alignment.centerRight,
         children: [

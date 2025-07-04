@@ -1,7 +1,6 @@
-import '../models/models.dart';
+import 'package:finance_hunter_app/core/data/models/result.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 
 abstract class CategoryRepository {
-  Future<List<CategoryModel>> getListOfAllCategories();
-
-  Future<List<CategoryModel>> getListOfCategoryByType(bool isIncome);
+  Future<void> getListOfAllCategories(Result<List<CategoryModel>> result);
 }

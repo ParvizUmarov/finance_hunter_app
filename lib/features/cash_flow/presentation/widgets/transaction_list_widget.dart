@@ -2,8 +2,13 @@ import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.d
 
 class TransactionListWidget extends StatelessWidget {
   final List<TransactionModel> transactions;
+  final TransactionKind kind;
 
-  const TransactionListWidget({super.key, required this.transactions});
+  const TransactionListWidget({
+    super.key,
+    required this.transactions,
+    required this.kind,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +22,19 @@ class TransactionListWidget extends StatelessWidget {
           emoji: transaction.category.emoji,
           description: transaction.comment,
           addTrailing: true,
-          child: CurrencyWidget(
-            amount: transaction.amount,
-          ),
+          onTap: () {
+            showOperationDetailDialog(
+              context: context,
+              kind: kind,
+              transactionModel: transaction,
+              onRefresh: () async {
+                await context
+                    .read<TransactionCubit>()
+                    .getTransactionsForPeriod();
+              },
+            );
+          },
+          child: CurrencyWidget(amount: transaction.amount),
         );
       },
     );

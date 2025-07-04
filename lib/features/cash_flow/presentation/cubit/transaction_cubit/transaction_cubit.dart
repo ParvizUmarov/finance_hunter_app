@@ -27,7 +27,7 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   String get formattedEndDateTime {
     if (selectedEndDateTime == null) return "-";
-    return CustomDateFormatter.formatDate(selectedEndDateTime!);
+    return CustomDateFormatter.formatDateTime(selectedEndDateTime!);
   }
 
   Future<void> getTransactionsForPeriod([TransactionDateFilter? filter]) async {

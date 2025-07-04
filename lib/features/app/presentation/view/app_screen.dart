@@ -1,5 +1,7 @@
 import 'package:finance_hunter_app/features/app/presentation/cubit/locale_cubit/locale_cubit.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/operation_detail/presentation/cubit/operation_detail_cubit.dart';
 
 class AppScreen extends StatelessWidget {
   final AppDependencies dependencies;
@@ -19,8 +21,8 @@ class AppScreen extends StatelessWidget {
         RepositoryProvider<TransactionRepository>.value(
           value: dependencies.transactionRepository,
         ),
-        RepositoryProvider<ArticleRepository>.value(
-          value: dependencies.articleRepository,
+        RepositoryProvider<CategoryRepository>.value(
+          value: dependencies.categoryRepository,
         ),
         RepositoryProvider<BankAccountRepository>.value(
           value: dependencies.bankAccountRepository,
@@ -37,7 +39,17 @@ class AppScreen extends StatelessWidget {
           create: (context) => LocaleCubit(iDataBase: iDataBase)..init(),
         ),
         BlocProvider(
-          create: (context) => InternetStatusCubit(dependencies.connectivity),
+          create: (context) => InternetStatusCubit(
+            dependencies.connectivity,
+            dependencies.transactionRepository,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => OperationDetailCubit(
+            transactionRepository: dependencies.transactionRepository,
+            categoryRepository: dependencies.categoryRepository,
+            bankAccountRepository: dependencies.bankAccountRepository,
+          ),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(

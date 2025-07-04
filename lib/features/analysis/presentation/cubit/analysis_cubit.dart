@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/analysis/data/data.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/request/transaction_period_request_body.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_kind.dart';
@@ -42,9 +43,10 @@ class AnalysisCubit extends Cubit<AnalysisState> {
       requestBody: periodRequest,
       result: Result(
         onSuccess: (response) {
+          groupedTransactionModels = _groupedTransactions(response);
           emit(
             AnalysisState.success(
-              groupedTransactions: _groupedTransactions(response),
+              groupedTransactions: groupedTransactionModels,
             ),
           );
         },

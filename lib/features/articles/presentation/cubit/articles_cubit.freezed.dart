@@ -110,11 +110,11 @@ String toString() {
 
 
 class ArticleSuccess implements ArticlesState {
-  const ArticleSuccess({required final  List<ArticleModel> articles}): _articles = articles;
+  const ArticleSuccess({required final  List<CategoryModel> articles}): _articles = articles;
   
 
- final  List<ArticleModel> _articles;
- List<ArticleModel> get articles {
+ final  List<CategoryModel> _articles;
+ List<CategoryModel> get articles {
   if (_articles is EqualUnmodifiableListView) return _articles;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_articles);
@@ -151,7 +151,7 @@ abstract mixin class $ArticleSuccessCopyWith<$Res> implements $ArticlesStateCopy
   factory $ArticleSuccessCopyWith(ArticleSuccess value, $Res Function(ArticleSuccess) _then) = _$ArticleSuccessCopyWithImpl;
 @useResult
 $Res call({
- List<ArticleModel> articles
+ List<CategoryModel> articles
 });
 
 
@@ -171,7 +171,7 @@ class _$ArticleSuccessCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? articles = null,}) {
   return _then(ArticleSuccess(
 articles: null == articles ? _self._articles : articles // ignore: cast_nullable_to_non_nullable
-as List<ArticleModel>,
+as List<CategoryModel>,
   ));
 }
 

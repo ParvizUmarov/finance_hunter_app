@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
@@ -66,7 +67,14 @@ class TransactionApiServiceTestImpl extends BaseApiService
     required int transactionId,
     required Result<void> result,
   }) async {
-    //TODO implement deleteTransaction
+    await safeRequest(
+      request: () async {
+        await Future.delayed(Duration(seconds: 2));
+        return;
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
   }
 
   @override

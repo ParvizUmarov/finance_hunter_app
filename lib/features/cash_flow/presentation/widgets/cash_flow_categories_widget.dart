@@ -1,7 +1,9 @@
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
 class CashFlowCategoriesWidget extends StatelessWidget {
-  const CashFlowCategoriesWidget({super.key});
+  final TransactionKind kind;
+
+  const CashFlowCategoriesWidget({super.key, required this.kind});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,6 @@ class CashFlowCategoriesWidget extends StatelessWidget {
       onLoading: (ctx) => CustomShimmer(type: ShimmerType.categoriesList),
       onSuccess: (ctx, state) {
         final transactionState = state as TransactionSuccess;
-
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(Duration(seconds: 1));
@@ -38,13 +39,12 @@ class CashFlowCategoriesWidget extends StatelessWidget {
               CustomListTile(
                 title: s.total,
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
-                child: CurrencyWidget(
-                  amount: transactionState.totalAmount,
-                ),
+                child: CurrencyWidget(amount: transactionState.totalAmount),
               ),
               Expanded(
                 child: TransactionListWidget(
                   transactions: transactionState.transactions,
+                  kind: kind,
                 ),
               ),
             ],

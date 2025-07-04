@@ -16,7 +16,7 @@ class LightAppTheme {
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: LightAppColors.brandColor,
-        onPrimary: LightAppColors.defaultColor,
+        onPrimary: Colors.white,
 
         tertiary: LightAppColors.secondaryBrandColor,
 

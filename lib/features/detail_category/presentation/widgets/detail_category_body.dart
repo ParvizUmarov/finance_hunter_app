@@ -25,7 +25,7 @@ class DetailCategoryBody extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                 title: transaction.category.name,
                 emoji: transaction.category.emoji,
-                subTrailing: CustomDateFormatter.formatDate(transaction.createdAt),
+                subTrailing: CustomDateFormatter.formatDateTime(transaction.createdAt),
                 addTrailing: true,
                 description: transaction.comment,
                 child: CurrencyWidget(amount: transaction.amount),

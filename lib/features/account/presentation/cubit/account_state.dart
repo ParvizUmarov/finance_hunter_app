@@ -8,6 +8,7 @@ class AccountState with _$AccountState {
 
   const factory AccountState.success({
     required BankAccountModel account,
+    required List<TransactionModel> transactions,
     @Default(true) bool isBalanceHidden,
   }) = AccountSuccess;
 
