@@ -1,8 +1,8 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/widgets/show_transaction_general_dialog.dart';
 
 abstract class TransactionKind {
-
   String title(BuildContext context);
 
   String operationDetailTitle(BuildContext context);
@@ -21,7 +21,13 @@ class IncomeTransaction extends TransactionKind {
 
   @override
   void onFloatingButtonTap(BuildContext context) {
-    showOperationDetailDialog(context: context, kind: this);
+    showOperationDetailDialog(
+      context: context,
+      kind: this,
+      onRefresh: () async {
+        await context.read<TransactionCubit>().getTransactionsForPeriod();
+      },
+    );
   }
 
   @override
@@ -44,7 +50,13 @@ class ExpensesTransaction extends TransactionKind {
 
   @override
   void onFloatingButtonTap(BuildContext context) {
-    showOperationDetailDialog(context: context, kind: this);
+    showOperationDetailDialog(
+      context: context,
+      kind: this,
+      onRefresh: () async {
+        await context.read<TransactionCubit>().getTransactionsForPeriod();
+      },
+    );
   }
 
   @override

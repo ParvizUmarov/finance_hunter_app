@@ -209,33 +209,133 @@ $OperationFormFieldsCopyWith<$Res> get fields {
 
 
 class OperationDetailSaved implements OperationDetailState {
-  const OperationDetailSaved();
+  const OperationDetailSaved({required this.isEditSaved});
   
 
+ final  bool isEditSaved;
 
-
+/// Create a copy of OperationDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OperationDetailSavedCopyWith<OperationDetailSaved> get copyWith => _$OperationDetailSavedCopyWithImpl<OperationDetailSaved>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperationDetailSaved);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperationDetailSaved&&(identical(other.isEditSaved, isEditSaved) || other.isEditSaved == isEditSaved));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,isEditSaved);
 
 @override
 String toString() {
-  return 'OperationDetailState.saved()';
+  return 'OperationDetailState.saved(isEditSaved: $isEditSaved)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $OperationDetailSavedCopyWith<$Res> implements $OperationDetailStateCopyWith<$Res> {
+  factory $OperationDetailSavedCopyWith(OperationDetailSaved value, $Res Function(OperationDetailSaved) _then) = _$OperationDetailSavedCopyWithImpl;
+@useResult
+$Res call({
+ bool isEditSaved
+});
 
 
+
+
+}
+/// @nodoc
+class _$OperationDetailSavedCopyWithImpl<$Res>
+    implements $OperationDetailSavedCopyWith<$Res> {
+  _$OperationDetailSavedCopyWithImpl(this._self, this._then);
+
+  final OperationDetailSaved _self;
+  final $Res Function(OperationDetailSaved) _then;
+
+/// Create a copy of OperationDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? isEditSaved = null,}) {
+  return _then(OperationDetailSaved(
+isEditSaved: null == isEditSaved ? _self.isEditSaved : isEditSaved // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class OperationDetailDeleted implements OperationDetailState {
+  const OperationDetailDeleted({required this.isEditMode});
+  
+
+ final  bool isEditMode;
+
+/// Create a copy of OperationDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OperationDetailDeletedCopyWith<OperationDetailDeleted> get copyWith => _$OperationDetailDeletedCopyWithImpl<OperationDetailDeleted>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OperationDetailDeleted&&(identical(other.isEditMode, isEditMode) || other.isEditMode == isEditMode));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,isEditMode);
+
+@override
+String toString() {
+  return 'OperationDetailState.delete(isEditMode: $isEditMode)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OperationDetailDeletedCopyWith<$Res> implements $OperationDetailStateCopyWith<$Res> {
+  factory $OperationDetailDeletedCopyWith(OperationDetailDeleted value, $Res Function(OperationDetailDeleted) _then) = _$OperationDetailDeletedCopyWithImpl;
+@useResult
+$Res call({
+ bool isEditMode
+});
+
+
+
+
+}
+/// @nodoc
+class _$OperationDetailDeletedCopyWithImpl<$Res>
+    implements $OperationDetailDeletedCopyWith<$Res> {
+  _$OperationDetailDeletedCopyWithImpl(this._self, this._then);
+
+  final OperationDetailDeleted _self;
+  final $Res Function(OperationDetailDeleted) _then;
+
+/// Create a copy of OperationDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? isEditMode = null,}) {
+  return _then(OperationDetailDeleted(
+isEditMode: null == isEditMode ? _self.isEditMode : isEditMode // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

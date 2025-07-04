@@ -3,11 +3,13 @@ import 'package:finance_hunter_app/features/operation_detail/presentation/utils/
 class CommentFieldWidget extends StatelessWidget {
   final String comment;
   final TextEditingController commentController;
+  final bool isSaving;
 
   const CommentFieldWidget({
     super.key,
     required this.comment,
     required this.commentController,
+    required this.isSaving,
   });
 
   @override
@@ -24,9 +26,7 @@ class CommentFieldWidget extends StatelessWidget {
       ),
       child: TextField(
         controller: commentController,
-        onChanged: (value) {
-          //context.read<OperationDetailCubit>().changeComment(value);
-        },
+        readOnly: isSaving,
         decoration: InputDecoration(
           hintText: "Комментарий",
           border: InputBorder.none,

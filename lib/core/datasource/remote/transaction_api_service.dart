@@ -67,7 +67,14 @@ class TransactionApiServiceTestImpl extends BaseApiService
     required int transactionId,
     required Result<void> result,
   }) async {
-    //TODO implement deleteTransaction
+    await safeRequest(
+      request: () async {
+        await Future.delayed(Duration(seconds: 2));
+        return;
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
   }
 
   @override

@@ -32,10 +32,6 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
           path: '/',
           name: CashFlowScreen.expensesScreenName,
           routes: [
-            TypedGoRoute<MyExpensesRoute>(
-              path: 'myExpensesScreen',
-              name: MyExpensesScreen.screenName,
-            ),
             TypedGoRoute<TransactionHistoryRoute>(
               path: 'transactionHistoryScreen',
               name: TransactionHistoryScreen.screenName,
@@ -178,16 +174,6 @@ class IncomeRoute extends GoRouteData with _$IncomeRoute {
       )..getTransactionsForPeriod(),
       child: CashFlowScreen(kind: kind),
     );
-  }
-}
-
-@immutable
-class MyExpensesRoute extends GoRouteData with _$MyExpensesRoute {
-  const MyExpensesRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const MyExpensesScreen();
   }
 }
 

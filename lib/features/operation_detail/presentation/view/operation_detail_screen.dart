@@ -7,10 +7,12 @@ class OperationDetailScreen extends StatefulWidget {
     super.key,
     required this.kind,
     this.transactionModel,
+    required this.onSuccess,
   });
 
   final TransactionKind kind;
   final TransactionModel? transactionModel;
+  final Function() onSuccess;
 
   @override
   State<OperationDetailScreen> createState() => _OperationDetailScreenState();
@@ -30,13 +32,14 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
     );
 
     commentController.addListener(() {
-      context.read<OperationDetailCubit>().changeComment(commentController.text);
+      context.read<OperationDetailCubit>().changeComment(
+        commentController.text,
+      );
     });
 
     amountController.addListener(() {
       context.read<OperationDetailCubit>().changeAmount(amountController.text);
     });
-
   }
 
   @override
@@ -45,6 +48,8 @@ class _OperationDetailScreenState extends State<OperationDetailScreen> {
       kind: widget.kind,
       commentController: commentController,
       amountController: amountController,
+      transactionModel: widget.transactionModel,
+      onSuccess: widget.onSuccess,
     );
   }
 }

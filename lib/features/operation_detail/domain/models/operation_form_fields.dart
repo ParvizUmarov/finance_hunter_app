@@ -22,25 +22,18 @@ extension OperationFormFieldsX on OperationFormFields {
     final errors = <String>[];
 
     if (account == null) {
-      errors.add('Счет не выбран');
+      errors.add('Пожалуйста, выберите счёт.');
     }
 
     if (category == null) {
-      errors.add('Категория не выбрана');
+      errors.add('Пожалуйста, выберите категорию операции.');
     }
 
     final parsedAmount = double.tryParse(amount);
     if (parsedAmount == null || parsedAmount <= 0) {
-      errors.add('Некорректная сумма');
+      errors.add('Введите корректную сумму больше нуля.');
     }
 
-    if (comment.trim().isEmpty) {
-      errors.add('Комментарий пустой');
-    }
-
-    return errors.isEmpty ? null : errors.join('\n');
+    return errors.isEmpty ? null : errors.map((e) => '• $e').join('\n');
   }
-
-  bool get isValid => validationError == null;
 }
-

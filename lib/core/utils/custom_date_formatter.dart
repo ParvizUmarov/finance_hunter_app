@@ -4,9 +4,19 @@ import 'package:intl/intl.dart';
 class CustomDateFormatter {
   const CustomDateFormatter._();
 
-  static String formatDateTime(DateTime date){
+  static String formatDateTime(DateTime date) {
     var inputFormat = DateFormat('HH:mm');
     return inputFormat.format(date);
+  }
+
+  static DateTime combineDateAndTime(DateTime date, TimeOfDay time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    ).toUtc();
   }
 
   static String formatTimeOfDay(TimeOfDay time) {
@@ -15,7 +25,7 @@ class CustomDateFormatter {
     return "$hour:$minute";
   }
 
-  static String formatDate(DateTime date){
+  static String formatDate(DateTime date) {
     var inputFormat = DateFormat('dd.MM.yyyy');
     return inputFormat.format(date);
   }

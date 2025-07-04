@@ -8,7 +8,8 @@ abstract class ApiException implements Exception {
 }
 
 class NoInternetException extends ApiException {
-  NoInternetException() : super("Нет соединения с интернетом");
+  NoInternetException([String? message])
+      : super(message ?? "Нет соединения с интернетом");
 }
 
 class TimeoutException extends ApiException {
@@ -40,7 +41,7 @@ class CancelledRequestException extends ApiException {
 
 class UnknownApiException extends ApiException {
   UnknownApiException([String? message])
-      : super("Неизвестная ошибка: ${message ?? 'без сообщения'}");
+      : super(message ?? 'Что-то пошло не так');
 }
 
 class ParseDataException extends ApiException {

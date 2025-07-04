@@ -16,7 +16,11 @@ class OperationDetailState with _$OperationDetailState {
     String? errorMessage,
   }) = OperationDetailReady;
 
-  const factory OperationDetailState.saved() = OperationDetailSaved;
+  const factory OperationDetailState.saved({required bool isEditSaved}) =
+      OperationDetailSaved;
+
+  const factory OperationDetailState.delete({required bool isEditMode}) =
+      OperationDetailDeleted;
 
   const factory OperationDetailState.error({required String message}) =
       OperationDetailError;

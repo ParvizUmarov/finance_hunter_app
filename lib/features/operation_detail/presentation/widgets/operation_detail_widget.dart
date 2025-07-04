@@ -6,11 +6,14 @@ class OperationDetailWidget extends StatelessWidget {
     required this.kind,
     required this.commentController,
     required this.amountController,
+    this.transactionModel, required this.onSuccess,
   });
 
   final TransactionKind kind;
   final TextEditingController commentController;
   final TextEditingController amountController;
+  final TransactionModel? transactionModel;
+  final Function() onSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,9 @@ class OperationDetailWidget extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              await context.read<OperationDetailCubit>().submit();
+              await context.read<OperationDetailCubit>().submit(
+                transactionModel?.id,
+              );
             },
             icon: Icon(Icons.check),
           ),
@@ -37,6 +42,8 @@ class OperationDetailWidget extends StatelessWidget {
         kind: kind,
         amountController: amountController,
         commentController: commentController,
+        transactionModel: transactionModel,
+        onSuccess: onSuccess,
       ),
     );
   }

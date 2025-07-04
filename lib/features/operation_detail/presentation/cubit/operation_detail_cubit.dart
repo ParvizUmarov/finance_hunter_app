@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
@@ -24,7 +23,6 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
   final TransactionRepository _transactionRepository;
   final CategoryRepository _categoryRepository;
   final BankAccountRepository _bankAccountRepository;
-  TransactionKind _kind = IncomeTransaction();
 
   TransactionModel? _initialModel;
 
@@ -35,7 +33,6 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     TransactionKind kind,
     TransactionModel? initialModel,
   ) async {
-    _kind = kind;
     _initialModel = initialModel;
     emit(const OperationDetailState.loading());
 
@@ -88,6 +85,8 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
   void changeAccount(AccountModel account) {
     final state = this.state;
     if (state is OperationDetailReady) {
+      if (state.isSaving) return;
+
       emit(
         state.copyWith(
           fields: state.fields.copyWith(account: account),
@@ -136,6 +135,7 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
   void changeComment(String comment) {
     final state = this.state;
     if (state is OperationDetailReady) {
+      if (state.isSaving) return;
       emit(
         state.copyWith(
           fields: state.fields.copyWith(comment: comment),
@@ -147,7 +147,10 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
 
   void changeAmount(String amount) {
     final state = this.state;
+
     if (state is OperationDetailReady) {
+      if (state.isSaving) return;
+
       emit(
         state.copyWith(
           fields: state.fields.copyWith(amount: amount),
@@ -157,45 +160,73 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     }
   }
 
-  Future<void> submit() async {
+  void cleanErrorState() {
     final s = state;
     if (s is! OperationDetailReady) return;
 
-    if (!s.fields.isValid) {
+    if (s.fields.validationError != null) {
+      emit(s.copyWith(errorMessage: null));
+    }
+  }
+
+  Future<void> submit(int? transactionId) async {
+    final s = state;
+    if (s is! OperationDetailReady) return;
+
+    if (s.isSaving) return;
+
+    if (s.fields.validationError != null) {
       emit(s.copyWith(errorMessage: s.fields.validationError));
       return;
     }
 
     emit(s.copyWith(isSaving: true, errorMessage: null));
 
+    final transactionDate = CustomDateFormatter.combineDateAndTime(
+      s.fields.date,
+      s.fields.time,
+    );
+
     if (s.isEditMode) {
+      final model = TransactionModel(
+        id: transactionId ?? 0,
+        account: s.fields.account!,
+        category: s.fields.category!,
+        amount: s.fields.amount,
+        transactionDate: transactionDate,
+        comment: s.fields.comment,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
       await _transactionRepository.updateTransaction(
-        transactionId: 0,
-        requestBody: TransactionRequestBody(
-          accountId: s.fields.account?.id ?? 0,
-        ),
+        model: model,
         result: Result(
           onSuccess: (response) {
-            emit(const OperationDetailState.saved());
+            emit(const OperationDetailState.saved(isEditSaved: true));
           },
           onError: (message) {
-            emit(
-              s.copyWith(
-                isSaving: false,
-                errorMessage: 'Ошибка обновления: $message',
-              ),
-            );
+            emit(s.copyWith(isSaving: false));
           },
         ),
       );
     } else {
+      final model = TransactionModel(
+        id: DateTime.now().millisecondsSinceEpoch,
+        account: s.fields.account!,
+        category: s.fields.category!,
+        amount: s.fields.amount,
+        transactionDate: transactionDate,
+        comment: s.fields.comment,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
       await _transactionRepository.addTransaction(
-        requestBody: TransactionRequestBody(
-          accountId: s.fields.account?.id ?? 0,
-        ),
+        model: model,
         result: Result(
           onSuccess: (response) {
-            emit(const OperationDetailState.saved());
+            emit(const OperationDetailState.saved(isEditSaved: false));
           },
           onError: (message) {
             emit(
@@ -210,12 +241,47 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     }
   }
 
+  Future<void> delete(TransactionModel? transaction) async {
+    final s = state;
+    if (s is! OperationDetailReady) return;
+
+    if (s.isSaving) return;
+
+    emit(s.copyWith(isSaving: true, errorMessage: null));
+
+    if (transaction != null) {
+      await _transactionRepository.deleteTransaction(
+        transaction: transaction,
+        result: Result(
+          onSuccess: (response) {
+            log("delete edit transaction success");
+            emit(OperationDetailState.delete(isEditMode: true));
+          },
+          onError: (message) {
+            emit(
+              s.copyWith(
+                isSaving: false,
+                errorMessage: "Ошибка при удалении транзакции",
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      emit(OperationDetailState.delete(isEditMode: false));
+    }
+  }
+
   Future<void> _getCategories() async {
     if (_categories.isEmpty) {
       await _categoryRepository.getListOfAllCategories(
         Result(
           onSuccess: (response) {
             _categories = response;
+            final current = state;
+            if(current is OperationDetailReady){
+              emit(current.copyWith(categories: response));
+            }
           },
           onError: (message) {},
         ),

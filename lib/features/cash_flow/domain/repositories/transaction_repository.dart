@@ -16,18 +16,20 @@ abstract class TransactionRepository {
   });
 
   Future<void> addTransaction({
-    required TransactionRequestBody requestBody,
+    required TransactionModel model,
     required Result<TransactionResponseModel> result,
   });
 
   Future<void> updateTransaction({
-    required int transactionId,
-    required TransactionRequestBody requestBody,
+    required TransactionModel model,
     required Result<TransactionResponseModel> result,
   });
 
   Future<void> deleteTransaction({
-    required int transactionId,
+    required TransactionModel transaction,
     required Result<void> result,
   });
+
+  Future<void> syncPending();
+
 }

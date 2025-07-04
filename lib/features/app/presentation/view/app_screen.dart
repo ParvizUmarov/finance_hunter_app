@@ -39,7 +39,10 @@ class AppScreen extends StatelessWidget {
           create: (context) => LocaleCubit(iDataBase: iDataBase)..init(),
         ),
         BlocProvider(
-          create: (context) => InternetStatusCubit(dependencies.connectivity),
+          create: (context) => InternetStatusCubit(
+            dependencies.connectivity,
+            dependencies.transactionRepository,
+          ),
         ),
         BlocProvider(
           create: (context) => OperationDetailCubit(
@@ -47,7 +50,7 @@ class AppScreen extends StatelessWidget {
             categoryRepository: dependencies.categoryRepository,
             bankAccountRepository: dependencies.bankAccountRepository,
           ),
-        )
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {

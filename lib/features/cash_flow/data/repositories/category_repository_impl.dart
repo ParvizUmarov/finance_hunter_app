@@ -1,18 +1,32 @@
-import 'package:finance_hunter_app/core/data/models/result.dart';
-import 'package:finance_hunter_app/core/domain/api_services/category_api_service.dart';
+import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/articles/domain/models/category_model.dart';
 
 import '../../domain/domain.dart';
 
-class CategoryRepositoryTestImpl implements CategoryRepository {
+class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryApiService categoryApiService;
+  final LocalCategoryDatasource localCategoryDb;
 
-  CategoryRepositoryTestImpl({required this.categoryApiService});
+  CategoryRepositoryImpl({
+    required this.categoryApiService,
+    required this.localCategoryDb,
+  });
 
   @override
   Future<void> getListOfAllCategories(
     Result<List<CategoryModel>> result,
   ) async {
-    await categoryApiService.getCategories(result: result);
+    await categoryApiService.getCategories(
+      result: Result(
+        onSuccess: (response) async {
+          await localCategoryDb.cacheCategories(response);
+          result.onSuccess(response);
+        },
+        onError: (message) async {
+          final categories = await localCategoryDb.getCachedTransactions();
+          result.onSuccess(categories);
+        },
+      ),
+    );
   }
 }

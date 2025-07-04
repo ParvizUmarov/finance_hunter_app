@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/cash_flow/data/models/request/transaction_request_body.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
@@ -9,10 +10,13 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
   LocalTransactionDatasourceImpl({required this.db, required this.mapper});
 
   @override
-  Future<void> cacheTransaction(TransactionModel transaction) async {
+  Future<void> upsertTransaction(
+    TransactionModel model,
+    SyncState state,
+  ) async {
     await db
         .into(db.transactionTb)
-        .insertOnConflictUpdate(mapper.toTableData(transaction));
+        .insertOnConflictUpdate(mapper.toTableData(model, state));
   }
 
   @override
@@ -20,7 +24,9 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
     await db.batch((batch) {
       batch.insertAllOnConflictUpdate(
         db.transactionTb,
-        transactions.map((t) => mapper.toTableData(t)).toList(),
+        transactions
+            .map((t) => mapper.toTableData(t, SyncState.synced))
+            .toList(),
       );
     });
   }
@@ -44,7 +50,8 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
     DateTime? startDate,
     DateTime? endDate,
   ) async {
-    final query = db.select(db.transactionTb);
+    final query = db.select(db.transactionTb)
+      ..where((t) => t.syncState.isNotIn([SyncState.delete.index]));
 
     if (startDate != null) {
       query.where(
@@ -64,5 +71,39 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
 
     final rows = await query.get();
     return rows.map((r) => mapper.toModel(r)).toList();
+  }
+
+  @override
+  Future<List<TransactionPendingModel>> getPending() async {
+    final rows = await (db.select(
+      db.transactionTb,
+    )..where((t) => t.syncState.isBiggerThanValue(0))).get();
+    return rows
+        .map(
+          (t) => TransactionPendingModel(
+            state: SyncState.values[t.syncState],
+            transactionModel: mapper.toModel(t),
+          ),
+        )
+        .toList();
+  }
+
+  @override
+  Future<void> markSynced(int localId, int serverId) async {
+    await (db.update(
+      db.transactionTb,
+    )..where((t) => t.id.equals(localId))).write(
+      TransactionTbCompanion(
+        serverId: Value(serverId),
+        syncState: Value(SyncState.synced.index),
+      ),
+    );
+  }
+
+  @override
+  Future<void> removeLocal(int localId) async {
+    await (db.delete(
+      db.transactionTb,
+    )..where((t) => t.id.equals(localId))).go();
   }
 }

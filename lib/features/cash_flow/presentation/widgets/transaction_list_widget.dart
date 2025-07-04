@@ -27,6 +27,11 @@ class TransactionListWidget extends StatelessWidget {
               context: context,
               kind: kind,
               transactionModel: transaction,
+              onRefresh: () async {
+                await context
+                    .read<TransactionCubit>()
+                    .getTransactionsForPeriod();
+              },
             );
           },
           child: CurrencyWidget(amount: transaction.amount),

@@ -2,10 +2,14 @@ import 'package:finance_hunter_app/features/operation_detail/presentation/utils/
 
 class DeleteOperationButton extends StatelessWidget {
   final TransactionKind kind;
+  final bool isSaving;
+  final TransactionModel? transaction;
 
   const DeleteOperationButton({
     super.key,
     required this.kind,
+    required this.isSaving,
+    this.transaction,
   });
 
   @override
@@ -16,10 +20,16 @@ class DeleteOperationButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
-        onPressed: () {
-          context.pop();
-        },
-        child: Text(kind.operationDeleteButtonTitle(context)),
+        onPressed: isSaving
+            ? null
+            : () async {
+                await context.read<OperationDetailCubit>().delete(
+                  transaction,
+                );
+              },
+        child: isSaving
+            ? Center(child: CircularProgressIndicator(color: Colors.white))
+            : Text(kind.operationDeleteButtonTitle(context)),
       ),
     );
   }
