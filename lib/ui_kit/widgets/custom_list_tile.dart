@@ -14,7 +14,6 @@ class CustomListTile extends StatelessWidget {
   final Color? backgroundColor;
   final Function()? onTap;
   final TextStyle? textStyle;
-  final TextEditingController? controller;
 
   const CustomListTile({
     super.key,
@@ -31,7 +30,6 @@ class CustomListTile extends StatelessWidget {
     this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
     this.child,
     this.textStyle,
-    this.controller,
   });
 
   @override
@@ -91,7 +89,6 @@ class CustomListTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (child != null) child!,
-              if (controller != null) textField(controller!),
               if (data != null)
                 textWidget(context, data ?? "", textStyle: textStyle),
               if (subTrailing != null)
@@ -124,29 +121,5 @@ class CustomListTile extends StatelessWidget {
             ),
             child: Center(child: Text(emoji ?? "")),
           );
-  }
-
-  Widget textField(TextEditingController controller) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        IntrinsicWidth(
-          child: TextField(
-            controller: controller,
-            keyboardType: TextInputType.number,
-            style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-            ),
-          ),
-        ),
-        CurrencyWidget(amount: "")
-      ],
-    );
   }
 }

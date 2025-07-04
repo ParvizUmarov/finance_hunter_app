@@ -48,14 +48,22 @@ class OperationDetailScreenBody extends StatelessWidget {
               CustomListTile(
                 title: "Счет",
                 addTrailing: true,
-                // data: model.account?.name,
                 child: DropdownButton<AccountModel>(
                   isExpanded: true,
+                  isDense: true,
+                  alignment: Alignment.centerRight,
                   value: state.fields.account,
                   underline: SizedBox(),
+                  icon: SizedBox.shrink(),
                   items: state.accounts
                       .map(
-                        (a) => DropdownMenuItem(value: a, child: Text(a.name)),
+                        (a) => DropdownMenuItem(
+                          value: a,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(a.name),
+                          ),
+                        ),
                       )
                       .toList(),
                   onChanged: (a) {
@@ -82,7 +90,10 @@ class OperationDetailScreenBody extends StatelessWidget {
                   );
                 },
               ),
-              CustomListTile(title: "Сумма", controller: amountController),
+              CustomListTile(
+                title: "Сумма",
+                child: AmountTextField(controller: amountController),
+              ),
               CustomListTile(
                 title: "Дата",
                 data: CustomDateFormatter.formatDate(model.date),
@@ -139,7 +150,6 @@ class OperationDetailScreenBody extends StatelessWidget {
     List<CategoryModel> categories,
     CategoryModel? selectedCategory,
   ) async {
-    final s = S.of(context);
     final selected = await showModalBottomSheet<CategoryModel>(
       isScrollControlled: true,
       context: context,
@@ -165,7 +175,7 @@ class OperationDetailScreenBody extends StatelessWidget {
                   )
                   .toList(),
             );
-          }
+          },
         );
       },
     );

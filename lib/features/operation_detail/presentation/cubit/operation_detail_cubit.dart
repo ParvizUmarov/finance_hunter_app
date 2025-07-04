@@ -12,8 +12,7 @@ part 'operation_detail_state.dart';
 part 'operation_detail_cubit.freezed.dart';
 
 class OperationDetailCubit extends Cubit<OperationDetailState> {
-  OperationDetailCubit(
-    this.kind, {
+  OperationDetailCubit({
     required TransactionRepository transactionRepository,
     required CategoryRepository categoryRepository,
     required BankAccountRepository bankAccountRepository,
@@ -25,83 +24,145 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
   final TransactionRepository _transactionRepository;
   final CategoryRepository _categoryRepository;
   final BankAccountRepository _bankAccountRepository;
-  final TransactionKind kind;
+  TransactionKind _kind = IncomeTransaction();
+
+  TransactionModel? _initialModel;
 
   List<CategoryModel> _categories = [];
   List<AccountModel> _accounts = [];
 
-  Future<void> create() async {
-    emit(
-      OperationDetailState.ready(
-        kind: kind,
-        isEditMode: false,
-        fields: OperationFormFields(
-          account: null,
-          category: null,
-          amount: '0',
-          date: DateTime.now(),
-          time: TimeOfDay.now(),
-          comment: '',
-        ),
-        accounts: _accounts,
-        categories: _categories,
-      ),
-    );
-  }
+  Future<void> init(
+    TransactionKind kind,
+    TransactionModel? initialModel,
+  ) async {
+    _kind = kind;
+    _initialModel = initialModel;
+    emit(const OperationDetailState.loading());
 
-  Future<void> edit(TransactionModel model) async {
-    emit(
-      OperationDetailState.ready(
-        kind: kind,
-        isEditMode: true,
-        fields: OperationFormFields(
-          account: model.account,
-          category: model.category,
-          amount: model.amount,
-          date: model.transactionDate,
-          time: TimeOfDay.fromDateTime(model.transactionDate),
-          comment: model.comment ?? '',
+    await _getBankAccounts();
+    await _getCategories();
+
+    if (_initialModel != null) {
+      final account =
+          (_accounts
+              .where((a) => a.id == _initialModel?.category.id)
+              .singleOrNull) ??
+          _accounts.first;
+
+      emit(
+        OperationDetailState.ready(
+          kind: kind,
+          isEditMode: true,
+          fields: OperationFormFields(
+            account: account,
+            category: initialModel!.category,
+            amount: initialModel.amount,
+            date: initialModel.transactionDate,
+            time: TimeOfDay.fromDateTime(initialModel.transactionDate),
+            comment: initialModel.comment ?? '',
+          ),
+          accounts: _accounts,
+          categories: _categories,
         ),
-        accounts: _accounts,
-        categories: _categories,
-      ),
-    );
+      );
+    } else {
+      emit(
+        OperationDetailState.ready(
+          kind: kind,
+          isEditMode: false,
+          fields: OperationFormFields(
+            account: _accounts.isEmpty ? null : _accounts.first,
+            category: null,
+            amount: '0',
+            date: DateTime.now(),
+            time: TimeOfDay.now(),
+            comment: '',
+          ),
+          accounts: _accounts,
+          categories: _categories,
+        ),
+      );
+    }
   }
 
   void changeAccount(AccountModel account) {
     final state = this.state;
     if (state is OperationDetailReady) {
-      emit(state.copyWith(fields: state.fields.copyWith(account: account)));
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(account: account),
+          errorMessage: null,
+        ),
+      );
     }
   }
 
   void changeCategory(CategoryModel category) {
     final state = this.state;
     if (state is OperationDetailReady) {
-      emit(state.copyWith(fields: state.fields.copyWith(category: category)));
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(category: category),
+          errorMessage: null,
+        ),
+      );
     }
   }
 
   void changeDate(DateTime date) {
     final state = this.state;
     if (state is OperationDetailReady) {
-      emit(state.copyWith(fields: state.fields.copyWith(date: date)));
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(date: date),
+          errorMessage: null,
+        ),
+      );
     }
   }
 
   void changeTime(TimeOfDay time) {
     final state = this.state;
     if (state is OperationDetailReady) {
-      emit(state.copyWith(fields: state.fields.copyWith(time: time)));
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(time: time),
+          errorMessage: null,
+        ),
+      );
     }
   }
 
-  Future<void> submit(String comment, String amount) async {
+  void changeComment(String comment) {
+    final state = this.state;
+    if (state is OperationDetailReady) {
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(comment: comment),
+          errorMessage: null,
+        ),
+      );
+    }
+  }
+
+  void changeAmount(String amount) {
+    final state = this.state;
+    if (state is OperationDetailReady) {
+      emit(
+        state.copyWith(
+          fields: state.fields.copyWith(amount: amount),
+          errorMessage: null,
+        ),
+      );
+    }
+  }
+
+  Future<void> submit() async {
     final s = state;
     if (s is! OperationDetailReady) return;
 
     if (!s.fields.isValid) {
-      emit(s.copyWith(errorMessage: 'Заполните все поля'));
+      emit(s.copyWith(errorMessage: s.fields.validationError));
       return;
     }
 
@@ -121,7 +182,7 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
             emit(
               s.copyWith(
                 isSaving: false,
-                errorMessage: 'Ошибка сохранения: $message',
+                errorMessage: 'Ошибка обновления: $message',
               ),
             );
           },
@@ -162,41 +223,12 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     }
   }
 
-  Future<void> initData() async {
-    emit(OperationDetailState.loading());
-
-    await _getBankAccounts();
-    await _getCategories();
-
-    final currentFields = (state is OperationDetailReady)
-        ? (state as OperationDetailReady).fields
-        : OperationFormFields(
-      account: null,
-      category: null,
-      amount: '0',
-      date: DateTime.now(),
-      time: TimeOfDay.now(),
-      comment: '',
-    );
-
-    emit(
-      OperationDetailState.ready(
-        kind: kind,
-        isEditMode: state is OperationDetailReady ? (state as OperationDetailReady).isEditMode : false,
-        fields: currentFields,
-        accounts: _accounts,
-        categories: _categories,
-      ),
-    );
-  }
-
   Future<void> _getBankAccounts() async {
     if (_accounts.isEmpty) {
       await _bankAccountRepository.getUserAccounts(
         result: Result(
           onSuccess: (response) {
             _accounts = response.map((b) => _toAccountModel(b)).toList();
-            log("account: $_accounts");
           },
           onError: (message) {},
         ),

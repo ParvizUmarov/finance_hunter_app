@@ -18,11 +18,29 @@ abstract class OperationFormFields with _$OperationFormFields {
 }
 
 extension OperationFormFieldsX on OperationFormFields {
-  bool get isValid {
-    return account != null &&
-        category != null &&
-        double.tryParse(amount) != null &&
-        double.tryParse(amount)! > 0 &&
-        comment.trim().isNotEmpty;
+  String? get validationError {
+    final errors = <String>[];
+
+    if (account == null) {
+      errors.add('Счет не выбран');
+    }
+
+    if (category == null) {
+      errors.add('Категория не выбрана');
+    }
+
+    final parsedAmount = double.tryParse(amount);
+    if (parsedAmount == null || parsedAmount <= 0) {
+      errors.add('Некорректная сумма');
+    }
+
+    if (comment.trim().isEmpty) {
+      errors.add('Комментарий пустой');
+    }
+
+    return errors.isEmpty ? null : errors.join('\n');
   }
+
+  bool get isValid => validationError == null;
 }
+

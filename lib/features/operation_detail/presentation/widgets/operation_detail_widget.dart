@@ -26,13 +26,8 @@ class OperationDetailWidget extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.read<OperationDetailCubit>().submit(
-                  commentController.text,
-                  amountController.text,
-                );
-              });
+            onPressed: () async {
+              await context.read<OperationDetailCubit>().submit();
             },
             icon: Icon(Icons.check),
           ),

@@ -1,6 +1,7 @@
 import 'package:finance_hunter_app/features/app/presentation/cubit/locale_cubit/locale_cubit.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/operation_detail/presentation/cubit/operation_detail_cubit.dart';
 
 class AppScreen extends StatelessWidget {
   final AppDependencies dependencies;
@@ -40,6 +41,13 @@ class AppScreen extends StatelessWidget {
         BlocProvider(
           create: (context) => InternetStatusCubit(dependencies.connectivity),
         ),
+        BlocProvider(
+          create: (context) => OperationDetailCubit(
+            transactionRepository: dependencies.transactionRepository,
+            categoryRepository: dependencies.categoryRepository,
+            bankAccountRepository: dependencies.bankAccountRepository,
+          ),
+        )
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {
