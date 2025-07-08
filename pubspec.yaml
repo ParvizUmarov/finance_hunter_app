@@ -35,6 +35,8 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.34
   path_provider: ^2.1.5
   path: ^1.9.1
+  pretty_dio_logger: ^1.4.0
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_gen_runner:
@@ -67,6 +69,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/icons/
     - assets/images/
 

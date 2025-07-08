@@ -1,3 +1,4 @@
+import 'package:finance_hunter_app/core/utils/date_only_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'transaction_period_request_body.freezed.dart';
@@ -9,8 +10,8 @@ abstract class TransactionPeriodRequestBody
     with _$TransactionPeriodRequestBody {
   const factory TransactionPeriodRequestBody({
     required int accountId,
-    DateTime? startDate,
-    DateTime? endDate,
+    @DateOnlyConverter() DateTime? startDate,
+    @DateOnlyConverter() DateTime? endDate,
   }) = _TransactionPeriodRequestBody;
 
   factory TransactionPeriodRequestBody.fromJson(Map<String, dynamic> json) =>

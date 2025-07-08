@@ -10,18 +10,14 @@ _TransactionPeriodRequestBody _$TransactionPeriodRequestBodyFromJson(
   Map<String, dynamic> json,
 ) => _TransactionPeriodRequestBody(
   accountId: (json['accountId'] as num).toInt(),
-  startDate: json['startDate'] == null
-      ? null
-      : DateTime.parse(json['startDate'] as String),
-  endDate: json['endDate'] == null
-      ? null
-      : DateTime.parse(json['endDate'] as String),
+  startDate: const DateOnlyConverter().fromJson(json['startDate'] as String?),
+  endDate: const DateOnlyConverter().fromJson(json['endDate'] as String?),
 );
 
 Map<String, dynamic> _$TransactionPeriodRequestBodyToJson(
   _TransactionPeriodRequestBody instance,
 ) => <String, dynamic>{
   'accountId': instance.accountId,
-  'startDate': instance.startDate?.toIso8601String(),
-  'endDate': instance.endDate?.toIso8601String(),
+  'startDate': const DateOnlyConverter().toJson(instance.startDate),
+  'endDate': const DateOnlyConverter().toJson(instance.endDate),
 };

@@ -2,9 +2,9 @@ import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/account/data/models/request/update_bank_account_request_body.dart';
 import 'package:finance_hunter_app/features/account/domain/models/bank_account/bank_account_model.dart';
 
-class AccountApiServiceTestImpl extends BaseApiService
+class AccountApiServiceImpl extends BaseApiService
     implements AccountApiService {
-  AccountApiServiceTestImpl(super.dio);
+  AccountApiServiceImpl(super.dio);
 
   @override
   Future<void> getUserBankAccount({
@@ -12,8 +12,9 @@ class AccountApiServiceTestImpl extends BaseApiService
   }) async {
     await safeRequest(
       request: () async {
-        await Future.delayed(Duration(seconds: 1));
-        return [_getTestDataModel()];
+        final response = await dio.get('accounts');
+        final List data = response.data as List;
+        return data.map((e) => BankAccountModel.fromJson(e)).toList();
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
@@ -26,27 +27,16 @@ class AccountApiServiceTestImpl extends BaseApiService
     required UpdateBankAccountRequestBody requestBody,
     required Result<BankAccountModel> result,
   }) async {
-    await safeRequest<BankAccountModel>(
+    await safeRequest(
       request: () async {
-        await Future.delayed(Duration(seconds: 2));
-        return _getTestDataModel();
+        final response = await dio.put(
+          'accounts/$accountId',
+          data: requestBody.toJson(),
+        );
+        return BankAccountModel.fromJson(response.data);
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
     );
   }
-
-  BankAccountModel _getTestDataModel() {
-    return BankAccountModel(
-      id: 151,
-      userId: 151,
-      name: "БОМЖ",
-      balance: "1.00",
-      currency: "RUB",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-  }
-
-
 }

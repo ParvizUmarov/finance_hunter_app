@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionPeriodRequestBody {
 
- int get accountId; DateTime? get startDate; DateTime? get endDate;
+ int get accountId;@DateOnlyConverter() DateTime? get startDate;@DateOnlyConverter() DateTime? get endDate;
 /// Create a copy of TransactionPeriodRequestBody
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $TransactionPeriodRequestBodyCopyWith<$Res>  {
   factory $TransactionPeriodRequestBodyCopyWith(TransactionPeriodRequestBody value, $Res Function(TransactionPeriodRequestBody) _then) = _$TransactionPeriodRequestBodyCopyWithImpl;
 @useResult
 $Res call({
- int accountId, DateTime? startDate, DateTime? endDate
+ int accountId,@DateOnlyConverter() DateTime? startDate,@DateOnlyConverter() DateTime? endDate
 });
 
 
@@ -82,12 +82,12 @@ as DateTime?,
 @JsonSerializable()
 
 class _TransactionPeriodRequestBody implements TransactionPeriodRequestBody {
-  const _TransactionPeriodRequestBody({required this.accountId, this.startDate, this.endDate});
+  const _TransactionPeriodRequestBody({required this.accountId, @DateOnlyConverter() this.startDate, @DateOnlyConverter() this.endDate});
   factory _TransactionPeriodRequestBody.fromJson(Map<String, dynamic> json) => _$TransactionPeriodRequestBodyFromJson(json);
 
 @override final  int accountId;
-@override final  DateTime? startDate;
-@override final  DateTime? endDate;
+@override@DateOnlyConverter() final  DateTime? startDate;
+@override@DateOnlyConverter() final  DateTime? endDate;
 
 /// Create a copy of TransactionPeriodRequestBody
 /// with the given fields replaced by the non-null parameter values.
@@ -122,7 +122,7 @@ abstract mixin class _$TransactionPeriodRequestBodyCopyWith<$Res> implements $Tr
   factory _$TransactionPeriodRequestBodyCopyWith(_TransactionPeriodRequestBody value, $Res Function(_TransactionPeriodRequestBody) _then) = __$TransactionPeriodRequestBodyCopyWithImpl;
 @override @useResult
 $Res call({
- int accountId, DateTime? startDate, DateTime? endDate
+ int accountId,@DateOnlyConverter() DateTime? startDate,@DateOnlyConverter() DateTime? endDate
 });
 
 

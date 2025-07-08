@@ -33,16 +33,17 @@ class AppDependencies {
   late final CategoryApiService categoryApiService;
 
   AppDependencies(IDataBase iDataBase) {
-    dio = Dio();
+    dio = DioHandler.dio;
+
     appDatabase = AppDatabase();
     connectivity = Connectivity();
     transactionModelMapper = TransactionModelMapper();
     accountMapper = AccountMapper();
     categoryMapper = CategoryMapper();
 
-    transactionApiService = TransactionApiServiceTestImpl(dio);
-    accountApiService = AccountApiServiceTestImpl(dio);
-    categoryApiService = CategoryApiServiceTestImpl(dio);
+    transactionApiService = TransactionApiServiceImpl(dio);
+    accountApiService = AccountApiServiceImpl(dio);
+    categoryApiService = CategoryApiServiceImpl(dio);
 
     localTransactionDataSource = LocalTransactionDatasourceImpl(
       db: appDatabase,
