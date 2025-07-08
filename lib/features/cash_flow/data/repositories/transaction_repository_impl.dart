@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/core/core.dart';
@@ -26,6 +28,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
           result.onSuccess(response);
         },
         onError: (message) async {
+          if(message is! NoInternetException){
+            result.onError(message);
+          }
           final cachedTransactions = await localDb.getCachedTransactions(
             requestBody.startDate,
             requestBody.endDate,

@@ -14,13 +14,13 @@ class TransactionApiServiceImpl extends BaseApiService
     required TransactionRequestBody requestBody,
     required Result<TransactionResponseModel> result,
   }) async {
-    await safeRequest(
+    await safeRequest<TransactionResponseModel>(
       request: () async {
         final response = await dio.post(
           'transactions',
           data: requestBody.toJson(),
         );
-        return TransactionResponseModel.fromJson(response.data);
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
@@ -39,8 +39,7 @@ class TransactionApiServiceImpl extends BaseApiService
           'transactions/account/$accountId/period',
           queryParameters: requestBody.toJson(),
         );
-        final List data = response.data as List;
-        return data.map((e) => TransactionModel.fromJson(e)).toList();
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
@@ -69,7 +68,7 @@ class TransactionApiServiceImpl extends BaseApiService
     await safeRequest<TransactionModel>(
       request: () async {
         final response = await dio.get('transactions/$transactionId');
-        return TransactionModel.fromJson(response.data);
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
@@ -82,13 +81,13 @@ class TransactionApiServiceImpl extends BaseApiService
     required TransactionRequestBody requestBody,
     required Result<TransactionResponseModel> result,
   }) async {
-    await safeRequest(
+    await safeRequest<TransactionResponseModel>(
       request: () async {
         final response = await dio.put(
           'transactions/$transactionId',
           data: requestBody.toJson(),
         );
-        return TransactionResponseModel.fromJson(response.data);
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,

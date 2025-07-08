@@ -10,11 +10,10 @@ class AccountApiServiceImpl extends BaseApiService
   Future<void> getUserBankAccount({
     required Result<List<BankAccountModel>> result,
   }) async {
-    await safeRequest(
+    await safeRequest<List<BankAccountModel>>(
       request: () async {
         final response = await dio.get('accounts');
-        final List data = response.data as List;
-        return data.map((e) => BankAccountModel.fromJson(e)).toList();
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
@@ -27,13 +26,13 @@ class AccountApiServiceImpl extends BaseApiService
     required UpdateBankAccountRequestBody requestBody,
     required Result<BankAccountModel> result,
   }) async {
-    await safeRequest(
+    await safeRequest<BankAccountModel>(
       request: () async {
         final response = await dio.put(
           'accounts/$accountId',
           data: requestBody.toJson(),
         );
-        return BankAccountModel.fromJson(response.data);
+        return response.data;
       },
       onSuccess: result.onSuccess,
       onError: result.onError,
