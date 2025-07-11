@@ -22,7 +22,7 @@ abstract class TransactionRepository {
 
   Future<void> updateTransaction({
     required TransactionModel model,
-    required Result<TransactionResponseModel> result,
+    required Result<TransactionModel> result,
   });
 
   Future<void> deleteTransaction({

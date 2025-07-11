@@ -21,7 +21,7 @@ class TransactionHistoryScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: TransactionHistoryScreenBody(),
+      body: TransactionHistoryScreenBody(kind: kind),
     );
   }
 }

@@ -14,23 +14,27 @@ class DeleteOperationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: FilledButton(
-        style: FilledButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-        onPressed: isSaving
-            ? null
-            : () async {
-                await context.read<OperationDetailCubit>().delete(
-                  transaction,
-                );
-              },
-        child: isSaving
-            ? Center(child: CircularProgressIndicator(color: Colors.white))
-            : Text(kind.operationDeleteButtonTitle(context)),
-      ),
-    );
+    return transaction == null
+        ? SizedBox.shrink()
+        : Padding(
+            padding: const EdgeInsets.all(15),
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+              onPressed: isSaving
+                  ? null
+                  : () async {
+                      await context.read<OperationDetailCubit>().delete(
+                        transaction,
+                      );
+                    },
+              child: isSaving
+                  ? Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    )
+                  : Text(kind.operationDeleteButtonTitle(context)),
+            ),
+          );
   }
 }

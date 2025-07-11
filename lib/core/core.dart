@@ -9,3 +9,6 @@ export 'utils/utils.dart';
 export 'datasource/datasource.dart';
 export 'data/data.dart';
 export 'domain/domain.dart';
+export 'package:flutter_dotenv/flutter_dotenv.dart';
+export 'package:worker_manager/worker_manager.dart';
+export 'package:dio/dio.dart';

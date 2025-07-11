@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:drift/drift.dart';
 import 'package:finance_hunter_app/core/core.dart';
-import 'package:finance_hunter_app/features/cash_flow/data/models/request/transaction_request_body.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 
 class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
@@ -10,13 +11,21 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
   LocalTransactionDatasourceImpl({required this.db, required this.mapper});
 
   @override
-  Future<void> upsertTransaction(
+  Future<TransactionModel> upsertTransaction(
     TransactionModel model,
     SyncState state,
   ) async {
-    await db
+    final tableCompanion = mapper.toTableData(model, state);
+
+    final insertedId = await db
         .into(db.transactionTb)
-        .insertOnConflictUpdate(mapper.toTableData(model, state));
+        .insertOnConflictUpdate(tableCompanion);
+
+    final inserted = await (db.select(db.transactionTb)
+      ..where((tbl) => tbl.localId.equals(insertedId)))
+        .getSingle();
+
+    return mapper.toModel(inserted);
   }
 
   @override
@@ -40,7 +49,7 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
   Future<TransactionModel?> getCachedTransactionById(int id) async {
     final findTransaction = await (db.select(
       db.transactionTb,
-    )..where((t) => t.id.equals(id))).getSingleOrNull();
+    )..where((t) => t.localId.equals(id))).getSingleOrNull();
 
     return findTransaction != null ? mapper.toModel(findTransaction) : null;
   }
@@ -92,9 +101,9 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
   Future<void> markSynced(int localId, int serverId) async {
     await (db.update(
       db.transactionTb,
-    )..where((t) => t.id.equals(localId))).write(
+    )..where((t) => t.localId.equals(localId))).write(
       TransactionTbCompanion(
-        serverId: Value(serverId),
+        id: Value(serverId),
         syncState: Value(SyncState.synced.index),
       ),
     );
@@ -104,6 +113,6 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
   Future<void> removeLocal(int localId) async {
     await (db.delete(
       db.transactionTb,
-    )..where((t) => t.id.equals(localId))).go();
+    )..where((t) => t.localId.equals(localId))).go();
   }
 }

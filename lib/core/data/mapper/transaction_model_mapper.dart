@@ -9,7 +9,9 @@ class TransactionModelMapper {
   TransactionTbCompanion toTableData(TransactionModel model, SyncState state) =>
       TransactionTbCompanion(
         id: Value(model.id),
-        serverId: Value(model.id),
+        localId: model.localId != null
+            ? Value(model.localId!)
+            : const Value.absent(),
         accountId: Value(model.account.id),
         accountName: Value(model.account.name),
         balance: Value(model.account.balance),
@@ -28,7 +30,8 @@ class TransactionModelMapper {
 
   TransactionModel toModel(TransactionTbData r) {
     return TransactionModel(
-      id: r.id,
+      id: r.id ?? 0,
+      localId: r.localId,
       account: AccountModel(
         id: r.accountId,
         name: r.accountName,
@@ -36,7 +39,7 @@ class TransactionModelMapper {
         currency: r.currency,
       ),
       category: CategoryModel(
-        id: r.id,
+        id: r.categoryId,
         name: r.categoryName,
         emoji: r.emoji,
         isIncome: r.isIncome,
@@ -71,7 +74,12 @@ class TransactionModelMapper {
         balance: "",
         currency: "",
       ),
-      category: CategoryModel(id: r.id, name: '', emoji: '', isIncome: false),
+      category: CategoryModel(
+        id: r.categoryId,
+        name: '',
+        emoji: '',
+        isIncome: false,
+      ),
       amount: r.amount,
       transactionDate: DateTime.parse(r.transactionDate),
       createdAt: DateTime.now(),

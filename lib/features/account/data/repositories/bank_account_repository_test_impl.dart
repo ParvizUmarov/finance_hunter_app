@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/core/core.dart';
 
 import '../../domain/domain.dart';
@@ -25,6 +27,7 @@ class BankAccountRepositoryImpl implements BankAccountRepository {
           result.onSuccess(response);
         },
         onError: (message) async {
+          log("error message=$message");
           final response = await localDb.getCachedAccounts();
           result.onSuccess(response);
           //result.onError(message);

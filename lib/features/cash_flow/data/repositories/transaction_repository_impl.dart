@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:finance_hunter_app/core/core.dart';
@@ -17,15 +19,24 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required TransactionPeriodRequestBody requestBody,
     required Result<List<TransactionModel>> result,
   }) async {
+    await syncPending();
+
     await transactionApiService.getTransactionByPeriod(
       accountId: accountId,
       requestBody: requestBody,
       result: Result(
         onSuccess: (response) async {
           await localDb.cacheTransactions(response);
-          result.onSuccess(response);
+          final cachedTransaction = await localDb.getCachedTransactions(
+            requestBody.startDate,
+            requestBody.endDate,
+          );
+          result.onSuccess(cachedTransaction);
         },
         onError: (message) async {
+          if (message is! NoInternetException) {
+            result.onError(message);
+          }
           final cachedTransactions = await localDb.getCachedTransactions(
             requestBody.startDate,
             requestBody.endDate,
@@ -41,10 +52,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required TransactionModel model,
     required Result<TransactionResponseModel> result,
   }) async {
-    final localId = DateTime.now().millisecondsSinceEpoch;
-
-    final localCopy = model.copyWith(id: localId);
-    await localDb.upsertTransaction(localCopy, SyncState.add);
+    final savedModel = await localDb.upsertTransaction(model, SyncState.add);
 
     final requestBody = TransactionRequestBody(
       accountId: model.account.id,
@@ -58,18 +66,14 @@ class TransactionRepositoryImpl implements TransactionRepository {
       requestBody: requestBody,
       result: Result(
         onSuccess: (resp) async {
-          await localDb.markSynced(localId, resp.id);
+          await localDb.markSynced(savedModel.localId ?? 0, resp.id);
           result.onSuccess(resp);
         },
         onError: (error) async {
           if (error is NoInternetException) {
-            result.onError(
-              NoInternetException(
-                'Сохранено локально. Отправим при подключении.',
-              ),
-            );
+            result.onSuccess(model.toResponseModel());
           } else {
-            result.onError(UnknownApiException('Ошибка: $error'));
+            result.onError(UnknownApiException(error.toString()));
           }
         },
       ),
@@ -79,9 +83,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
   @override
   Future<void> updateTransaction({
     required TransactionModel model,
-    required Result<TransactionResponseModel> result,
+    required Result<TransactionModel> result,
   }) async {
-    await localDb.upsertTransaction(model, SyncState.update);
+    final savedModel = await localDb.upsertTransaction(model, SyncState.update);
 
     final requestModel = TransactionRequestBody(
       accountId: model.account.id,
@@ -96,14 +100,14 @@ class TransactionRepositoryImpl implements TransactionRepository {
       requestBody: requestModel,
       result: Result(
         onSuccess: (resp) async {
-          await localDb.markSynced(model.id, resp.id);
+          await localDb.markSynced(savedModel.localId ?? 0, resp.id);
           result.onSuccess(resp);
         },
         onError: (error) async {
           if (error is NoInternetException) {
-            result.onError(NoInternetException('Изменения сохранены офлайн.'));
+            result.onSuccess(model);
           } else {
-            result.onError(UnknownApiException('Ошибка обновления: $error'));
+            result.onError(error);
           }
         },
       ),
@@ -126,9 +130,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
         },
         onError: (message) async {
           if (message is NoInternetException) {
-            result.onError(
-              NoInternetException('Удалим при следующем подключении.'),
-            );
+            result.onSuccess(() {});
           } else {
             result.onError(message);
           }
@@ -153,7 +155,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
     final list = await localDb.getPending();
     for (final t in list) {
       await _syncOne<TransactionModel>(
-        t.transactionModel.id,
+        t.transactionModel.localId ?? 0,
         t.state,
         Result(onSuccess: (_) {}, onError: (_) {}),
       );
@@ -185,7 +187,6 @@ class TransactionRepositoryImpl implements TransactionRepository {
             result: Result(
               onSuccess: (resp) async {
                 await localDb.markSynced(localId, resp.id);
-                original.onSuccess(resp as T);
               },
               onError: handleError,
             ),
@@ -194,6 +195,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
         case SyncState.update:
           final model = await localDb.getCachedTransactionById(localId);
+          log("model for sync update: $model");
           if (model == null) return;
           await transactionApiService.updateTransaction(
             transactionId: model.id,

@@ -15,6 +15,10 @@ class CenterPercentBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxItems = 5;
+    final visibleItems = data.take(maxItems).toList();
+    final hasMore = data.length > maxItems;
+
     return SizedBox(
       width: 140,
       height: 140,
@@ -31,36 +35,42 @@ class CenterPercentBox extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: data.map((item) {
-                  final percent = (item.value * 100 / total).toStringAsFixed(2);
-                  return Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 6,
-                        height: 6,
-                        margin: const EdgeInsets.only(right: 4),
-                        decoration: BoxDecoration(
-                          color: item.color,
-                          shape: BoxShape.circle,
+                children: [
+                  ...visibleItems.map((item) {
+                    final percent = (item.value * 100 / total).toStringAsFixed(
+                      2,
+                    );
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          margin: const EdgeInsets.only(right: 4),
+                          decoration: BoxDecoration(
+                            color: item.color,
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "$percent%",
-                        style: TextStyle(fontSize: 7),
-                      ),
-                      const SizedBox(width: 4),
-                      Flexible(
-                        child: Text(
-                          item.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 7),
+                        Text("$percent%", style: const TextStyle(fontSize: 7)),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            item.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 7),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+                      ],
+                    );
+                  }),
+                  if (hasMore)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Text("…", style: TextStyle(fontSize: 7)),
+                    ),
+                ],
               ),
       ),
     );

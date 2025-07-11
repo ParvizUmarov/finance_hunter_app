@@ -42,7 +42,9 @@ class CashFlowCategoriesWidget extends StatelessWidget {
                 child: CurrencyWidget(amount: transactionState.totalAmount),
               ),
               Expanded(
-                child: TransactionListWidget(
+                child: transactionState.transactions.isEmpty
+                    ? TransactionEmptyWidget()
+                    : TransactionListWidget(
                   transactions: transactionState.transactions,
                   kind: kind,
                 ),

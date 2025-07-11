@@ -23,7 +23,7 @@ abstract interface class TransactionApiService {
   Future<void> updateTransaction({
     required int transactionId,
     required TransactionRequestBody requestBody,
-    required Result<TransactionResponseModel> result,
+    required Result<TransactionModel> result,
   });
 
   Future<void> deleteTransaction({

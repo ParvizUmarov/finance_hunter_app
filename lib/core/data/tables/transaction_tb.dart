@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 
 class TransactionTb extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().nullable()();
 
-  IntColumn get serverId => integer().nullable()();
+  IntColumn get localId => integer().autoIncrement()();
   IntColumn get accountId => integer()();
   TextColumn get accountName => text()();
   TextColumn get balance => text()();
@@ -18,7 +18,4 @@ class TransactionTb extends Table {
   TextColumn get createdAt => text()();
   TextColumn get updatedAt => text()();
   IntColumn get syncState => integer()();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }

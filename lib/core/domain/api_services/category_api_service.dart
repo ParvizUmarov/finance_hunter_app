@@ -3,4 +3,9 @@ import 'package:finance_hunter_app/features/articles/domain/models/category_mode
 
 abstract interface class CategoryApiService {
   Future<void> getCategories({required Result<List<CategoryModel>> result});
+
+  Future<void> getCategoriesByType({
+    required Result<List<CategoryModel>> result,
+    required bool isIncome,
+  });
 }

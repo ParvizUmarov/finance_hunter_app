@@ -37,7 +37,7 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     emit(const OperationDetailState.loading());
 
     await _getBankAccounts();
-    await _getCategories();
+    await _getCategories(kind);
 
     if (_initialModel != null) {
       final account =
@@ -169,7 +169,7 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     }
   }
 
-  Future<void> submit(int? transactionId) async {
+  Future<void> submit(TransactionModel? transaction) async {
     final s = state;
     if (s is! OperationDetailReady) return;
 
@@ -189,13 +189,14 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
 
     if (s.isEditMode) {
       final model = TransactionModel(
-        id: transactionId ?? 0,
+        id: transaction?.id ?? 0,
+        localId: transaction?.localId,
         account: s.fields.account!,
         category: s.fields.category!,
         amount: s.fields.amount,
         transactionDate: transactionDate,
         comment: s.fields.comment,
-        createdAt: DateTime.now(),
+        createdAt: transaction?.createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       );
 
@@ -206,13 +207,13 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
             emit(const OperationDetailState.saved(isEditSaved: true));
           },
           onError: (message) {
-            emit(s.copyWith(isSaving: false));
+            emit(s.copyWith(isSaving: false, errorMessage: message.toString()));
           },
         ),
       );
     } else {
       final model = TransactionModel(
-        id: DateTime.now().millisecondsSinceEpoch,
+        id: -1,
         account: s.fields.account!,
         category: s.fields.category!,
         amount: s.fields.amount,
@@ -254,7 +255,6 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
         transaction: transaction,
         result: Result(
           onSuccess: (response) {
-            log("delete edit transaction success");
             emit(OperationDetailState.delete(isEditMode: true));
           },
           onError: (message) {
@@ -272,21 +272,20 @@ class OperationDetailCubit extends Cubit<OperationDetailState> {
     }
   }
 
-  Future<void> _getCategories() async {
-    if (_categories.isEmpty) {
-      await _categoryRepository.getListOfAllCategories(
-        Result(
-          onSuccess: (response) {
-            _categories = response;
-            final current = state;
-            if(current is OperationDetailReady){
-              emit(current.copyWith(categories: response));
-            }
-          },
-          onError: (message) {},
-        ),
-      );
-    }
+  Future<void> _getCategories(TransactionKind kind) async {
+    await _categoryRepository.getListOfCategoriesByType(
+      kind is IncomeTransaction,
+      Result(
+        onSuccess: (response) {
+          _categories = response;
+          final current = state;
+          if (current is OperationDetailReady) {
+            emit(current.copyWith(categories: response));
+          }
+        },
+        onError: (message) {},
+      ),
+    );
   }
 
   Future<void> _getBankAccounts() async {
