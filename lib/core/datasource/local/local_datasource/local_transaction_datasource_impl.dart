@@ -25,7 +25,6 @@ class LocalTransactionDatasourceImpl implements LocalTransactionDataSource {
       ..where((tbl) => tbl.localId.equals(insertedId)))
         .getSingle();
 
-    final transactions = await (db.select(db.transactionTb)).get();
     return mapper.toModel(inserted);
   }
 
