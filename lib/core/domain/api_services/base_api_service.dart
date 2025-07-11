@@ -32,6 +32,9 @@ abstract class BaseApiService {
   }
 
   Exception _handleDioError(DioException e) {
+    final statusCode = e.response?.statusCode;
+    final data = e.response?.data;
+
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
         return ConnectionException();
@@ -40,9 +43,16 @@ abstract class BaseApiService {
       case DioExceptionType.sendTimeout:
         return SendTimeoutException();
       case DioExceptionType.badResponse:
-        final statusCode = e.response?.statusCode;
-        final data = e.response?.data;
-        return ServerException(statusCode: statusCode, message: data);
+        switch (statusCode) {
+          case 400:
+            return BadRequestException();
+          case 401:
+            return UnauthorizedException();
+          case 404:
+            return NotFoundException();
+          default:
+            return ServerException(message: data, statusCode ?? 500);
+        }
       case DioExceptionType.cancel:
         return CancelledRequestException();
       case DioExceptionType.unknown:
@@ -54,9 +64,6 @@ abstract class BaseApiService {
   Future<void> checkInternetConnection() async {
     final List<ConnectivityResult> connectivityResult = await (Connectivity()
         .checkConnectivity());
-
-    log("network status: $connectivityResult");
-
     if (connectivityResult.contains(ConnectivityResult.none)) {
       throw NoInternetException();
     }

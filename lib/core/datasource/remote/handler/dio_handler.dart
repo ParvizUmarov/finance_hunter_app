@@ -1,3 +1,4 @@
+import 'package:finance_hunter_app/core/datasource/remote/interceptors/interceptors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:finance_hunter_app/core/core.dart';
@@ -31,6 +32,7 @@ class DioHandler {
     dio.interceptors.add(
       IsolateDeserializeInterceptor(ResponseDeserializers()),
     );
+    dio.interceptors.add(RetryInterceptor(dio: dio));
 
     return dio;
   }

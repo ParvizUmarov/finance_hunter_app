@@ -12,7 +12,7 @@ abstract class TransactionResponseModel with _$TransactionResponseModel {
     required int categoryId,
     required String amount,
     required DateTime transactionDate,
-    required String comment,
+    required String? comment,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _TransactionResponseModel;

@@ -79,9 +79,9 @@ class TransactionApiServiceImpl extends BaseApiService
   Future<void> updateTransaction({
     required int transactionId,
     required TransactionRequestBody requestBody,
-    required Result<TransactionResponseModel> result,
+    required Result<TransactionModel> result,
   }) async {
-    await safeRequest<TransactionResponseModel>(
+    await safeRequest<TransactionModel>(
       request: () async {
         final response = await dio.put(
           'transactions/$transactionId',

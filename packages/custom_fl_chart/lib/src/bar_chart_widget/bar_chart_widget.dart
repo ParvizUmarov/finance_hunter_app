@@ -24,8 +24,37 @@ class _BarChartWithSegmentedControlState
   ChartPeriod selectedPeriod = ChartPeriod.days;
 
   List<BalanceEntry> get filteredEntries {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final fromDate = today.subtract(const Duration(days: 29));
+
     if (selectedPeriod == ChartPeriod.days) {
-      return widget.entries;
+      final filtered = widget.entries.where((entry) {
+        final entryDate = DateTime(
+          entry.date.year,
+          entry.date.month,
+          entry.date.day,
+        );
+        return entryDate.isAfter(fromDate.subtract(const Duration(days: 1))) &&
+            entryDate.isBefore(today.add(const Duration(days: 1)));
+      });
+
+      final Map<DateTime, double> dailySums = {};
+
+      for (var entry in filtered) {
+        final date = DateTime(
+          entry.date.year,
+          entry.date.month,
+          entry.date.day,
+        );
+        dailySums[date] = (dailySums[date] ?? 0) + entry.amount;
+      }
+
+      final result = dailySums.entries.map((e) {
+        return BalanceEntry(date: e.key, amount: e.value);
+      }).toList()..sort((a, b) => a.date.compareTo(b.date));
+
+      return result;
     } else {
       final Map<String, double> monthlySums = {};
 
@@ -34,11 +63,27 @@ class _BarChartWithSegmentedControlState
         monthlySums[key] = (monthlySums[key] ?? 0) + entry.amount;
       }
 
+      final now = DateTime.now();
+      final currentMonthKey = DateFormat('yyyy-MM').format(now);
+
       final list = monthlySums.entries.map((e) {
-        final date = DateFormat('yyyy-MM').parse('${e.key}-01');
+        final yearMonth = e.key.split('-');
+        final year = int.parse(yearMonth[0]);
+        final month = int.parse(yearMonth[1]);
+
+        DateTime date;
+
+        if (e.key == currentMonthKey) {
+          date = DateTime(now.year, now.month, now.day);
+        } else {
+          final firstDayNextMonth = (month < 12)
+              ? DateTime(year, month + 1, 1)
+              : DateTime(year + 1, 1, 1);
+          date = firstDayNextMonth.subtract(const Duration(days: 1));
+        }
+
         return BalanceEntry(date: date, amount: e.value);
-      }).toList()
-        ..sort((a, b) => a.date.compareTo(b.date));
+      }).toList()..sort((a, b) => a.date.compareTo(b.date));
 
       return list;
     }

@@ -55,8 +55,38 @@ class _InteractivePieChartState extends State<InteractivePieChart> {
                   showTitle: false,
                 );
               }),
+
+              pieTouchData: PieTouchData(
+                touchCallback: (event, response) {
+                  if (!event.isInterestedForInteractions ||
+                      response == null ||
+                      response.touchedSection == null) {
+                    setState(() => touchedIndex = null);
+                    return;
+                  }
+
+                  setState(() {
+                    touchedIndex = response.touchedSection!.touchedSectionIndex;
+                  });
+                },
+              ),
             ),
           ),
+          if (touchedIndex != null && touchedIndex! < data.length)
+            Positioned(
+              bottom: 1,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${data[touchedIndex!].emoji} ${data[touchedIndex!].title}: ${data[touchedIndex!].value.toStringAsFixed(2)}',
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ),
+            ),
           ClipRect(
             child: CenterPercentBox(isEmpty: isEmpty, data: data, total: total),
           ),

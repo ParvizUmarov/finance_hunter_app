@@ -4,7 +4,7 @@ import 'package:finance_hunter_app/features/cash_flow/domain/models/transaction/
 abstract class LocalTransactionDataSource {
   Future<void> cacheTransactions(List<TransactionModel> transactions);
 
-  Future<void> upsertTransaction(TransactionModel model, SyncState state);
+  Future<TransactionModel> upsertTransaction(TransactionModel model, SyncState state);
 
   Future<void> markSynced(int localId, int serverId);
 

@@ -27,7 +27,19 @@ class PieChartDataItem {
     }
 
     final random = Random(key.hashCode);
-    final color = _allowedColors[random.nextInt(_allowedColors.length)];
+
+    if (_colorCache.length < _allowedColors.length) {
+      final color = _allowedColors[_colorCache.length];
+      _colorCache[key] = color;
+      return color;
+    }
+
+    final color = Color.fromARGB(
+      255,
+      100 + random.nextInt(156),
+      100 + random.nextInt(156),
+      100 + random.nextInt(156),
+    );
 
     _colorCache[key] = color;
     return color;

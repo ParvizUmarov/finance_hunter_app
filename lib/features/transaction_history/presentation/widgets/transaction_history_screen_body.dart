@@ -1,7 +1,9 @@
 import 'package:finance_hunter_app/features/transaction_history/presentation/utils/index.dart';
 
 class TransactionHistoryScreenBody extends StatelessWidget {
-  const TransactionHistoryScreenBody({super.key});
+  final TransactionKind kind;
+
+  const TransactionHistoryScreenBody({super.key, required this.kind});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,10 @@ class TransactionHistoryScreenBody extends StatelessWidget {
     final transactionState = context.watch<TransactionCubit>();
     final isLoading = transactionState.state is TransactionLoading;
 
-    final customListTilePadding = EdgeInsets.symmetric(vertical: 2, horizontal: 16);
+    final customListTilePadding = EdgeInsets.symmetric(
+      vertical: 2,
+      horizontal: 16,
+    );
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -90,7 +95,10 @@ class TransactionHistoryScreenBody extends StatelessWidget {
                     },
             ),
           ),
-          TransactionHistoryList(transactionState: transactionState.state),
+          TransactionHistoryList(
+            transactionState: transactionState.state,
+            kind: kind,
+          ),
         ],
       ),
     );

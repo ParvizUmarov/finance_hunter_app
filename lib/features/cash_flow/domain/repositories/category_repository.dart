@@ -3,4 +3,9 @@ import 'package:finance_hunter_app/features/articles/domain/models/category_mode
 
 abstract class CategoryRepository {
   Future<void> getListOfAllCategories(Result<List<CategoryModel>> result);
+
+  Future<void> getListOfCategoriesByType(
+    bool isIncome,
+    Result<List<CategoryModel>> result,
+  );
 }

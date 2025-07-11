@@ -31,6 +31,8 @@ class AccountCubit extends Cubit<AccountState> {
     await _bankAccountRepository.getUserAccounts(
       result: Result(
         onSuccess: (response) async {
+
+          log("success response: $response");
           _accounts = response;
           if (_accounts.isEmpty) {
             emit(

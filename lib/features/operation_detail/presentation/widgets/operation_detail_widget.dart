@@ -31,7 +31,7 @@ class OperationDetailWidget extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await context.read<OperationDetailCubit>().submit(
-                transactionModel?.id,
+                transactionModel,
               );
             },
             icon: Icon(Icons.check),

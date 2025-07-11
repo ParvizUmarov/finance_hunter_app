@@ -14,20 +14,24 @@ class $TransactionTbTable extends TransactionTb
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
     'id',
     aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _serverIdMeta = const VerificationMeta(
-    'serverId',
-  );
-  @override
-  late final GeneratedColumn<int> serverId = GeneratedColumn<int>(
-    'server_id',
-    aliasedName,
     true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
+  );
+  static const VerificationMeta _localIdMeta = const VerificationMeta(
+    'localId',
+  );
+  @override
+  late final GeneratedColumn<int> localId = GeneratedColumn<int>(
+    'local_id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _accountIdMeta = const VerificationMeta(
     'accountId',
@@ -185,7 +189,7 @@ class $TransactionTbTable extends TransactionTb
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    serverId,
+    localId,
     accountId,
     accountName,
     balance,
@@ -216,10 +220,10 @@ class $TransactionTbTable extends TransactionTb
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('server_id')) {
+    if (data.containsKey('local_id')) {
       context.handle(
-        _serverIdMeta,
-        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+        _localIdMeta,
+        localId.isAcceptableOrUnknown(data['local_id']!, _localIdMeta),
       );
     }
     if (data.containsKey('account_id')) {
@@ -345,7 +349,7 @@ class $TransactionTbTable extends TransactionTb
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {localId};
   @override
   TransactionTbData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -353,11 +357,11 @@ class $TransactionTbTable extends TransactionTb
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
-      )!,
-      serverId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}server_id'],
       ),
+      localId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}local_id'],
+      )!,
       accountId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}account_id'],
@@ -425,8 +429,8 @@ class $TransactionTbTable extends TransactionTb
 
 class TransactionTbData extends DataClass
     implements Insertable<TransactionTbData> {
-  final int id;
-  final int? serverId;
+  final int? id;
+  final int localId;
   final int accountId;
   final String accountName;
   final String balance;
@@ -442,8 +446,8 @@ class TransactionTbData extends DataClass
   final String updatedAt;
   final int syncState;
   const TransactionTbData({
-    required this.id,
-    this.serverId,
+    this.id,
+    required this.localId,
     required this.accountId,
     required this.accountName,
     required this.balance,
@@ -462,10 +466,10 @@ class TransactionTbData extends DataClass
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    if (!nullToAbsent || serverId != null) {
-      map['server_id'] = Variable<int>(serverId);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
     }
+    map['local_id'] = Variable<int>(localId);
     map['account_id'] = Variable<int>(accountId);
     map['account_name'] = Variable<String>(accountName);
     map['balance'] = Variable<String>(balance);
@@ -487,10 +491,8 @@ class TransactionTbData extends DataClass
 
   TransactionTbCompanion toCompanion(bool nullToAbsent) {
     return TransactionTbCompanion(
-      id: Value(id),
-      serverId: serverId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(serverId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      localId: Value(localId),
       accountId: Value(accountId),
       accountName: Value(accountName),
       balance: Value(balance),
@@ -516,8 +518,8 @@ class TransactionTbData extends DataClass
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TransactionTbData(
-      id: serializer.fromJson<int>(json['id']),
-      serverId: serializer.fromJson<int?>(json['serverId']),
+      id: serializer.fromJson<int?>(json['id']),
+      localId: serializer.fromJson<int>(json['localId']),
       accountId: serializer.fromJson<int>(json['accountId']),
       accountName: serializer.fromJson<String>(json['accountName']),
       balance: serializer.fromJson<String>(json['balance']),
@@ -538,8 +540,8 @@ class TransactionTbData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'serverId': serializer.toJson<int?>(serverId),
+      'id': serializer.toJson<int?>(id),
+      'localId': serializer.toJson<int>(localId),
       'accountId': serializer.toJson<int>(accountId),
       'accountName': serializer.toJson<String>(accountName),
       'balance': serializer.toJson<String>(balance),
@@ -558,8 +560,8 @@ class TransactionTbData extends DataClass
   }
 
   TransactionTbData copyWith({
-    int? id,
-    Value<int?> serverId = const Value.absent(),
+    Value<int?> id = const Value.absent(),
+    int? localId,
     int? accountId,
     String? accountName,
     String? balance,
@@ -575,8 +577,8 @@ class TransactionTbData extends DataClass
     String? updatedAt,
     int? syncState,
   }) => TransactionTbData(
-    id: id ?? this.id,
-    serverId: serverId.present ? serverId.value : this.serverId,
+    id: id.present ? id.value : this.id,
+    localId: localId ?? this.localId,
     accountId: accountId ?? this.accountId,
     accountName: accountName ?? this.accountName,
     balance: balance ?? this.balance,
@@ -595,7 +597,7 @@ class TransactionTbData extends DataClass
   TransactionTbData copyWithCompanion(TransactionTbCompanion data) {
     return TransactionTbData(
       id: data.id.present ? data.id.value : this.id,
-      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      localId: data.localId.present ? data.localId.value : this.localId,
       accountId: data.accountId.present ? data.accountId.value : this.accountId,
       accountName: data.accountName.present
           ? data.accountName.value
@@ -625,7 +627,7 @@ class TransactionTbData extends DataClass
   String toString() {
     return (StringBuffer('TransactionTbData(')
           ..write('id: $id, ')
-          ..write('serverId: $serverId, ')
+          ..write('localId: $localId, ')
           ..write('accountId: $accountId, ')
           ..write('accountName: $accountName, ')
           ..write('balance: $balance, ')
@@ -647,7 +649,7 @@ class TransactionTbData extends DataClass
   @override
   int get hashCode => Object.hash(
     id,
-    serverId,
+    localId,
     accountId,
     accountName,
     balance,
@@ -668,7 +670,7 @@ class TransactionTbData extends DataClass
       identical(this, other) ||
       (other is TransactionTbData &&
           other.id == this.id &&
-          other.serverId == this.serverId &&
+          other.localId == this.localId &&
           other.accountId == this.accountId &&
           other.accountName == this.accountName &&
           other.balance == this.balance &&
@@ -686,8 +688,8 @@ class TransactionTbData extends DataClass
 }
 
 class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
-  final Value<int> id;
-  final Value<int?> serverId;
+  final Value<int?> id;
+  final Value<int> localId;
   final Value<int> accountId;
   final Value<String> accountName;
   final Value<String> balance;
@@ -704,7 +706,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   final Value<int> syncState;
   const TransactionTbCompanion({
     this.id = const Value.absent(),
-    this.serverId = const Value.absent(),
+    this.localId = const Value.absent(),
     this.accountId = const Value.absent(),
     this.accountName = const Value.absent(),
     this.balance = const Value.absent(),
@@ -722,7 +724,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   });
   TransactionTbCompanion.insert({
     this.id = const Value.absent(),
-    this.serverId = const Value.absent(),
+    this.localId = const Value.absent(),
     required int accountId,
     required String accountName,
     required String balance,
@@ -752,7 +754,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
        syncState = Value(syncState);
   static Insertable<TransactionTbData> custom({
     Expression<int>? id,
-    Expression<int>? serverId,
+    Expression<int>? localId,
     Expression<int>? accountId,
     Expression<String>? accountName,
     Expression<String>? balance,
@@ -770,7 +772,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (serverId != null) 'server_id': serverId,
+      if (localId != null) 'local_id': localId,
       if (accountId != null) 'account_id': accountId,
       if (accountName != null) 'account_name': accountName,
       if (balance != null) 'balance': balance,
@@ -789,8 +791,8 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   }
 
   TransactionTbCompanion copyWith({
-    Value<int>? id,
-    Value<int?>? serverId,
+    Value<int?>? id,
+    Value<int>? localId,
     Value<int>? accountId,
     Value<String>? accountName,
     Value<String>? balance,
@@ -808,7 +810,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   }) {
     return TransactionTbCompanion(
       id: id ?? this.id,
-      serverId: serverId ?? this.serverId,
+      localId: localId ?? this.localId,
       accountId: accountId ?? this.accountId,
       accountName: accountName ?? this.accountName,
       balance: balance ?? this.balance,
@@ -832,8 +834,8 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (serverId.present) {
-      map['server_id'] = Variable<int>(serverId.value);
+    if (localId.present) {
+      map['local_id'] = Variable<int>(localId.value);
     }
     if (accountId.present) {
       map['account_id'] = Variable<int>(accountId.value);
@@ -884,7 +886,7 @@ class TransactionTbCompanion extends UpdateCompanion<TransactionTbData> {
   String toString() {
     return (StringBuffer('TransactionTbCompanion(')
           ..write('id: $id, ')
-          ..write('serverId: $serverId, ')
+          ..write('localId: $localId, ')
           ..write('accountId: $accountId, ')
           ..write('accountName: $accountName, ')
           ..write('balance: $balance, ')
@@ -2128,8 +2130,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$TransactionTbTableCreateCompanionBuilder =
     TransactionTbCompanion Function({
-      Value<int> id,
-      Value<int?> serverId,
+      Value<int?> id,
+      Value<int> localId,
       required int accountId,
       required String accountName,
       required String balance,
@@ -2147,8 +2149,8 @@ typedef $$TransactionTbTableCreateCompanionBuilder =
     });
 typedef $$TransactionTbTableUpdateCompanionBuilder =
     TransactionTbCompanion Function({
-      Value<int> id,
-      Value<int?> serverId,
+      Value<int?> id,
+      Value<int> localId,
       Value<int> accountId,
       Value<String> accountName,
       Value<String> balance,
@@ -2179,8 +2181,8 @@ class $$TransactionTbTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get serverId => $composableBuilder(
-    column: $table.serverId,
+  ColumnFilters<int> get localId => $composableBuilder(
+    column: $table.localId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2269,8 +2271,8 @@ class $$TransactionTbTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get serverId => $composableBuilder(
-    column: $table.serverId,
+  ColumnOrderings<int> get localId => $composableBuilder(
+    column: $table.localId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -2357,8 +2359,8 @@ class $$TransactionTbTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<int> get serverId =>
-      $composableBuilder(column: $table.serverId, builder: (column) => column);
+  GeneratedColumn<int> get localId =>
+      $composableBuilder(column: $table.localId, builder: (column) => column);
 
   GeneratedColumn<int> get accountId =>
       $composableBuilder(column: $table.accountId, builder: (column) => column);
@@ -2446,8 +2448,8 @@ class $$TransactionTbTableTableManager
               $$TransactionTbTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
-                Value<int?> serverId = const Value.absent(),
+                Value<int?> id = const Value.absent(),
+                Value<int> localId = const Value.absent(),
                 Value<int> accountId = const Value.absent(),
                 Value<String> accountName = const Value.absent(),
                 Value<String> balance = const Value.absent(),
@@ -2464,7 +2466,7 @@ class $$TransactionTbTableTableManager
                 Value<int> syncState = const Value.absent(),
               }) => TransactionTbCompanion(
                 id: id,
-                serverId: serverId,
+                localId: localId,
                 accountId: accountId,
                 accountName: accountName,
                 balance: balance,
@@ -2482,8 +2484,8 @@ class $$TransactionTbTableTableManager
               ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
-                Value<int?> serverId = const Value.absent(),
+                Value<int?> id = const Value.absent(),
+                Value<int> localId = const Value.absent(),
                 required int accountId,
                 required String accountName,
                 required String balance,
@@ -2500,7 +2502,7 @@ class $$TransactionTbTableTableManager
                 required int syncState,
               }) => TransactionTbCompanion.insert(
                 id: id,
-                serverId: serverId,
+                localId: localId,
                 accountId: accountId,
                 accountName: accountName,
                 balance: balance,

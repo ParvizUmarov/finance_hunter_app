@@ -1,9 +1,15 @@
+import 'package:finance_hunter_app/features/cash_flow/presentation/widgets/show_transaction_general_dialog.dart';
 import 'package:finance_hunter_app/features/transaction_history/presentation/utils/index.dart';
 
 class TransactionHistoryList extends StatelessWidget {
   final TransactionState transactionState;
+  final TransactionKind kind;
 
-  const TransactionHistoryList({super.key, required this.transactionState});
+  const TransactionHistoryList({
+    super.key,
+    required this.transactionState,
+    required this.kind,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +37,28 @@ class TransactionHistoryList extends StatelessWidget {
             ),
             addTrailing: true,
             description: transaction.comment,
-            child: CurrencyWidget(
-              amount: transaction.amount,
-            ),
+            child: CurrencyWidget(amount: transaction.amount),
+            onTap: () {
+              showOperationDetailDialog(
+                context: context,
+                kind: kind,
+                transactionModel: transaction,
+                onRefresh: () async {
+                  await context
+                      .read<TransactionCubit>()
+                      .getTransactionsForPeriod();
+                },
+              );
+            },
           );
         }, childCount: successState.transactions.length),
       );
-    } else if(transactionState is TransactionError){
+    } else if (transactionState is TransactionError) {
       final error = transactionState as TransactionError;
-      return SliverToBoxAdapter(child: ErrorBaseWidget(errorMessage: error.message,));
-    } else{
+      return SliverToBoxAdapter(
+        child: ErrorBaseWidget(errorMessage: error.message),
+      );
+    } else {
       return const SizedBox.shrink();
     }
   }

@@ -18,4 +18,19 @@ class CategoryApiServiceImpl extends BaseApiService
       onError: result.onError,
     );
   }
+
+  @override
+  Future<void> getCategoriesByType({
+    required Result<List<CategoryModel>> result,
+    required bool isIncome,
+  }) async {
+    await safeRequest<List<CategoryModel>>(
+      request: () async {
+        final response = await dio.get('categories/type/$isIncome');
+        return response.data;
+      },
+      onSuccess: result.onSuccess,
+      onError: result.onError,
+    );
+  }
 }
