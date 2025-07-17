@@ -9,3 +9,4 @@ export 'detail_category/detail_category.dart';
 export 'operation_detail/operation_detail.dart';
 export 'app_lock/app_lock.dart';
 export 'splash/splash.dart';
+export 'about_app/about_app.dart';

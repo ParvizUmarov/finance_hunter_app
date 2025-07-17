@@ -14,7 +14,6 @@ class AnalysisGraphics extends StatelessWidget {
         .map((item) => item.toPieItem())
         .toList();
 
-    log("pie items: $pieItems");
     return CustomPieChartWidget(data: pieItems);
   }
 }

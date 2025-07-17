@@ -98,6 +98,14 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
           name: 'settingsScreen',
 
           factory: _$SettingsRoute._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'aboutAppScreen',
+              name: 'aboutAppScreen',
+
+              factory: _$AboutAppRoute._fromState,
+            ),
+          ],
         ),
       ],
     ),
@@ -272,6 +280,27 @@ mixin _$SettingsRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/settingsScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$AboutAppRoute on GoRouteData {
+  static AboutAppRoute _fromState(GoRouterState state) => const AboutAppRoute();
+
+  @override
+  String get location =>
+      GoRouteData.$location('/settingsScreen/aboutAppScreen');
 
   @override
   void go(BuildContext context) => context.go(location);

@@ -57,7 +57,8 @@ class SettingsScreenBody extends StatelessWidget {
           title: "Вход по биометрии",
           child: Switch(
             value: context.watch<SettingsCubit>().state.biometryEnabled,
-            onChanged: (value) => context.read<SettingsCubit>().toggleBiometrics(value),
+            onChanged: (value) =>
+                context.read<SettingsCubit>().toggleBiometrics(value),
           ),
         ),
         CustomListTile(
@@ -69,7 +70,13 @@ class SettingsScreenBody extends StatelessWidget {
             });
           },
         ),
-        CustomListTile(title: s.aboutProgram),
+        CustomListTile(
+          title: s.aboutProgram,
+          trailingIconAsset: Assets.icons.arrowRight,
+          onTap: () {
+            AboutAppRoute().push(context);
+          },
+        ),
       ],
     );
   }
