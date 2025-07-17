@@ -13,11 +13,15 @@ class CurrencyWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          amount,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: color ?? Theme.of(context).colorScheme.onSurface,
+        Flexible(
+          child: Text(
+            amount,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: color ?? Theme.of(context).colorScheme.onSurface,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         const SizedBox(width: 4),

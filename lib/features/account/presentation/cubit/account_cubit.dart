@@ -94,7 +94,9 @@ class AccountCubit extends Cubit<AccountState> {
 
   void toggleBalanceVisibility() {
     final current = state;
+    log("toggleBalanceVisibility");
     if (current is AccountSuccess) {
+      log("account success and change balance visibility: ${current.isBalanceHidden}");
       emit(current.copyWith(isBalanceHidden: !current.isBalanceHidden));
     }
   }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- ThemeMode get themeMode; Color get primaryColor; Locale get locale; bool get hapticsEnabled; bool get pinCodeEnabled;
+ ThemeMode get themeMode; Color get primaryColor; Locale get locale; bool get hapticsEnabled; bool get pinCodeEnabled; bool get biometryEnabled;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.hapticsEnabled, hapticsEnabled) || other.hapticsEnabled == hapticsEnabled)&&(identical(other.pinCodeEnabled, pinCodeEnabled) || other.pinCodeEnabled == pinCodeEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.hapticsEnabled, hapticsEnabled) || other.hapticsEnabled == hapticsEnabled)&&(identical(other.pinCodeEnabled, pinCodeEnabled) || other.pinCodeEnabled == pinCodeEnabled)&&(identical(other.biometryEnabled, biometryEnabled) || other.biometryEnabled == biometryEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,primaryColor,locale,hapticsEnabled,pinCodeEnabled);
+int get hashCode => Object.hash(runtimeType,themeMode,primaryColor,locale,hapticsEnabled,pinCodeEnabled,biometryEnabled);
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, primaryColor: $primaryColor, locale: $locale, hapticsEnabled: $hapticsEnabled, pinCodeEnabled: $pinCodeEnabled)';
+  return 'SettingsState(themeMode: $themeMode, primaryColor: $primaryColor, locale: $locale, hapticsEnabled: $hapticsEnabled, pinCodeEnabled: $pinCodeEnabled, biometryEnabled: $biometryEnabled)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- ThemeMode themeMode, Color primaryColor, Locale locale, bool hapticsEnabled, bool pinCodeEnabled
+ ThemeMode themeMode, Color primaryColor, Locale locale, bool hapticsEnabled, bool pinCodeEnabled, bool biometryEnabled
 });
 
 
@@ -63,13 +63,14 @@ class _$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? primaryColor = null,Object? locale = null,Object? hapticsEnabled = null,Object? pinCodeEnabled = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? primaryColor = null,Object? locale = null,Object? hapticsEnabled = null,Object? pinCodeEnabled = null,Object? biometryEnabled = null,}) {
   return _then(_self.copyWith(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,primaryColor: null == primaryColor ? _self.primaryColor : primaryColor // ignore: cast_nullable_to_non_nullable
 as Color,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
 as Locale,hapticsEnabled: null == hapticsEnabled ? _self.hapticsEnabled : hapticsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,pinCodeEnabled: null == pinCodeEnabled ? _self.pinCodeEnabled : pinCodeEnabled // ignore: cast_nullable_to_non_nullable
+as bool,biometryEnabled: null == biometryEnabled ? _self.biometryEnabled : biometryEnabled // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -81,7 +82,7 @@ as bool,
 
 
 class _SettingsState implements SettingsState {
-  const _SettingsState({required this.themeMode, required this.primaryColor, required this.locale, required this.hapticsEnabled, required this.pinCodeEnabled});
+  const _SettingsState({required this.themeMode, required this.primaryColor, required this.locale, required this.hapticsEnabled, required this.pinCodeEnabled, required this.biometryEnabled});
   
 
 @override final  ThemeMode themeMode;
@@ -89,6 +90,7 @@ class _SettingsState implements SettingsState {
 @override final  Locale locale;
 @override final  bool hapticsEnabled;
 @override final  bool pinCodeEnabled;
+@override final  bool biometryEnabled;
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
@@ -100,16 +102,16 @@ _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.hapticsEnabled, hapticsEnabled) || other.hapticsEnabled == hapticsEnabled)&&(identical(other.pinCodeEnabled, pinCodeEnabled) || other.pinCodeEnabled == pinCodeEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.primaryColor, primaryColor) || other.primaryColor == primaryColor)&&(identical(other.locale, locale) || other.locale == locale)&&(identical(other.hapticsEnabled, hapticsEnabled) || other.hapticsEnabled == hapticsEnabled)&&(identical(other.pinCodeEnabled, pinCodeEnabled) || other.pinCodeEnabled == pinCodeEnabled)&&(identical(other.biometryEnabled, biometryEnabled) || other.biometryEnabled == biometryEnabled));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,themeMode,primaryColor,locale,hapticsEnabled,pinCodeEnabled);
+int get hashCode => Object.hash(runtimeType,themeMode,primaryColor,locale,hapticsEnabled,pinCodeEnabled,biometryEnabled);
 
 @override
 String toString() {
-  return 'SettingsState(themeMode: $themeMode, primaryColor: $primaryColor, locale: $locale, hapticsEnabled: $hapticsEnabled, pinCodeEnabled: $pinCodeEnabled)';
+  return 'SettingsState(themeMode: $themeMode, primaryColor: $primaryColor, locale: $locale, hapticsEnabled: $hapticsEnabled, pinCodeEnabled: $pinCodeEnabled, biometryEnabled: $biometryEnabled)';
 }
 
 
@@ -120,7 +122,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- ThemeMode themeMode, Color primaryColor, Locale locale, bool hapticsEnabled, bool pinCodeEnabled
+ ThemeMode themeMode, Color primaryColor, Locale locale, bool hapticsEnabled, bool pinCodeEnabled, bool biometryEnabled
 });
 
 
@@ -137,13 +139,14 @@ class __$SettingsStateCopyWithImpl<$Res>
 
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? primaryColor = null,Object? locale = null,Object? hapticsEnabled = null,Object? pinCodeEnabled = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? primaryColor = null,Object? locale = null,Object? hapticsEnabled = null,Object? pinCodeEnabled = null,Object? biometryEnabled = null,}) {
   return _then(_SettingsState(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,primaryColor: null == primaryColor ? _self.primaryColor : primaryColor // ignore: cast_nullable_to_non_nullable
 as Color,locale: null == locale ? _self.locale : locale // ignore: cast_nullable_to_non_nullable
 as Locale,hapticsEnabled: null == hapticsEnabled ? _self.hapticsEnabled : hapticsEnabled // ignore: cast_nullable_to_non_nullable
 as bool,pinCodeEnabled: null == pinCodeEnabled ? _self.pinCodeEnabled : pinCodeEnabled // ignore: cast_nullable_to_non_nullable
+as bool,biometryEnabled: null == biometryEnabled ? _self.biometryEnabled : biometryEnabled // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

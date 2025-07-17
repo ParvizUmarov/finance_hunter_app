@@ -8,5 +8,6 @@ abstract class SettingsState with _$SettingsState {
     required Locale locale,
     required bool hapticsEnabled,
     required bool pinCodeEnabled,
+    required bool biometryEnabled,
   }) = _SettingsState;
 }

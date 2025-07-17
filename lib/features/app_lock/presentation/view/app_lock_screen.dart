@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:finance_hunter_app/features/app_lock/data/app_lock_status.dart';
 import 'package:finance_hunter_app/features/app_lock/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
 class AppLockScreen extends StatelessWidget {
   static const String screenName = "appLockScreen";
@@ -20,14 +21,21 @@ class AppLockScreen extends StatelessWidget {
             });
           }
 
-          if(state.status is SavedPinCode){
+          if (state.status is SavedPinCode) {
+            context.read<SettingsCubit>().togglePinCode(true);
             WidgetsBinding.instance.addPostFrameCallback((_) {
               SettingsRoute().go(context);
             });
           }
 
           if (state.errorMessage != null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {});
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              var snackBar = SnackBar(
+                content: Text(state.errorMessage!),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            });
           }
         },
         builder: (context, state) {

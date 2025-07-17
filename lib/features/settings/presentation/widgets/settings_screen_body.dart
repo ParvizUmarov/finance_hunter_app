@@ -11,7 +11,7 @@ class SettingsScreenBody extends StatelessWidget {
     final themeCubit = context.watch<SettingsCubit>();
 
     final s = S.of(context);
-    return Column(
+    return ListView(
       children: [
         CustomListTile(
           title: s.dartTheme,
@@ -53,7 +53,13 @@ class SettingsScreenBody extends StatelessWidget {
             },
           ),
         ),
-        CustomListTile(title: s.synchronization),
+        CustomListTile(
+          title: "Вход по биометрии",
+          child: Switch(
+            value: context.watch<SettingsCubit>().state.biometryEnabled,
+            onChanged: (value) => context.read<SettingsCubit>().toggleBiometrics(value),
+          ),
+        ),
         CustomListTile(
           title: s.language,
           trailingIconAsset: Assets.icons.arrowRight,

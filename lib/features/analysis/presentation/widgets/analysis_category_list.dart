@@ -44,15 +44,20 @@ class AnalysisCategoryList extends StatelessWidget {
                     onTap: () {
                       DetailCategoryRoute($extra: transaction).push(context);
                     },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "${transaction.percent}%",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        CurrencyWidget(amount: transaction.amount),
-                      ],
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 120),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "${transaction.percent}%",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          CurrencyWidget(amount: transaction.amount),
+                        ],
+                      ),
                     ),
                   );
                 },

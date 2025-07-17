@@ -21,6 +21,7 @@ class SettingsCubit extends Cubit<SettingsState> {
            locale: Locale('ru'),
            hapticsEnabled: true,
            pinCodeEnabled: false,
+           biometryEnabled: false,
          ),
        );
 
@@ -47,6 +48,8 @@ class SettingsCubit extends Cubit<SettingsState> {
 
     final pinCodeEnabled = await _storageService.isPinCodeSet();
 
+    final biometricEnabled = await _storageService.isBiometricEnabled();
+
     emit(
       SettingsState(
         locale: Locale(localeStr),
@@ -54,6 +57,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         primaryColor: Color(int.parse(colorHex)),
         hapticsEnabled: hapticsEnabled,
         pinCodeEnabled: pinCodeEnabled,
+        biometryEnabled: biometricEnabled,
       ),
     );
   }
@@ -79,15 +83,21 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> toggleHaptics() async {
     final newValue = !state.hapticsEnabled;
-    await _iDataBase.set(KeyStore.hapticsEnabled, newValue);
     emit(state.copyWith(hapticsEnabled: newValue));
+
+    await _iDataBase.set(KeyStore.hapticsEnabled, newValue);
   }
 
   Future<void> togglePinCode(bool value) async {
-    if(!value){
+    emit(state.copyWith(pinCodeEnabled: value));
+    if (!value) {
       await _storageService.deletePinCode();
     }
-    emit(state.copyWith(pinCodeEnabled: value));
+  }
+
+  Future<void> toggleBiometrics(bool value) async {
+    emit(state.copyWith(biometryEnabled: value));
+    await _storageService.setBiometricEnabled(value);
   }
 
   void maybeHaptic() {

@@ -9,6 +9,7 @@ import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/data.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
+import 'package:local_auth/local_auth.dart';
 
 class AppDependencies {
   late Dio dio;
@@ -34,6 +35,8 @@ class AppDependencies {
 
   late final SecureStorageService secureStorageService;
 
+  late final LocalAuthentication localAuthentication;
+
   AppDependencies(IDataBase iDataBase) {
     dio = DioHandler.dio;
 
@@ -48,6 +51,8 @@ class AppDependencies {
     categoryApiService = CategoryApiServiceImpl(dio);
 
     secureStorageService = SecureStorageService();
+
+    localAuthentication = LocalAuthentication();
 
     localTransactionDataSource = LocalTransactionDatasourceImpl(
       db: appDatabase,

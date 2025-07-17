@@ -1,27 +1,32 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/app_lock/data/app_lock_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'app_lock_state.dart';
 
 part 'app_lock_cubit.freezed.dart';
 
 class AppLockCubit extends Cubit<AppLockState> {
-  AppLockCubit({required SecureStorageService storageService})
-    : _storageService = storageService,
-      super(
-        AppLockState(
-          enabledPinCode: false,
-          status: InitialStatus(),
-          errorMessage: null,
-        ),
-      );
+  AppLockCubit({
+    required SecureStorageService storageService,
+    required LocalAuthentication localAuth,
+  }) : _storageService = storageService,
+       _localAuthentication = localAuth,
+       super(
+         AppLockState(
+           enabledPinCode: false,
+           status: InitialStatus(),
+           errorMessage: null,
+         ),
+       );
 
   final SecureStorageService _storageService;
   String _pinCode = "";
+
+  final LocalAuthentication _localAuthentication;
 
   Future<void> isLockScreenEnabled() async {
     final enabledPinCode = await _storageService.isPinCodeSet();
@@ -32,6 +37,23 @@ class AppLockCubit extends Cubit<AppLockState> {
     final isEnabledPinCode = await _storageService.isPinCodeSet();
 
     if (isEnabledPinCode) {
+      if (await _localAuthentication.isDeviceSupported()) {
+        if (await _storageService.isBiometricEnabled()) {
+          final isAuthenticate = await _localAuthentication.authenticate(
+            localizedReason: "Please authenticate to use app",
+            options: AuthenticationOptions(
+              biometricOnly: true,
+              useErrorDialogs: true,
+              stickyAuth: false,
+            ),
+          );
+
+          if (isAuthenticate) {
+            emit(state.copyWith(status: CorrectPinCode()));
+          }
+        }
+      }
+
       emit(state.copyWith(status: ConfirmPinCodeStatus()));
     }
   }

@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
-import 'package:sensors_plus/sensors_plus.dart';
 
 class AccountViewBody extends StatefulWidget {
   const AccountViewBody({super.key});
@@ -11,30 +11,6 @@ class AccountViewBody extends StatefulWidget {
 }
 
 class _AccountViewBodyState extends State<AccountViewBody> {
-  StreamSubscription? _sensorSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    const double gravityThreshold = -9.5;
-    final accountCubit = context.read<AccountCubit>();
-
-    _sensorSubscription = accelerometerEventStream().listen((event) {
-      final z = event.z;
-      if (z < gravityThreshold) {
-        if (context.mounted) {
-          accountCubit.toggleBalanceVisibility();
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _sensorSubscription?.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);

@@ -67,14 +67,6 @@ class _AppLockScreenBodyState extends State<AppLockScreenBody> {
             textEditingController: textEditingController,
             errorController: errorController,
           ),
-          SizedBox(height: 15),
-          if (widget.errorMessage != null)
-            Text(
-              widget.errorMessage ?? "Ошибка",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
           Spacer(),
         ],
       ),
