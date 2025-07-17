@@ -32,6 +32,8 @@ class AppDependencies {
   late final AccountApiService accountApiService;
   late final CategoryApiService categoryApiService;
 
+  late final SecureStorageService secureStorageService;
+
   AppDependencies(IDataBase iDataBase) {
     dio = DioHandler.dio;
 
@@ -44,6 +46,8 @@ class AppDependencies {
     transactionApiService = TransactionApiServiceImpl(dio);
     accountApiService = AccountApiServiceImpl(dio);
     categoryApiService = CategoryApiServiceImpl(dio);
+
+    secureStorageService = SecureStorageService();
 
     localTransactionDataSource = LocalTransactionDatasourceImpl(
       db: appDatabase,

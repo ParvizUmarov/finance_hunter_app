@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 
 part 'transaction_state.dart';
-
 part 'transaction_cubit.freezed.dart';
 
 class TransactionCubit extends Cubit<TransactionState> {

@@ -9,16 +9,16 @@ class LightAppTheme {
 
   static final baseTextStyle = AppTextStyles.light;
 
-  static ThemeData getThemeData() {
+  static ThemeData getThemeData({required Color primaryColor}) {
     return ThemeData(
       useMaterial3: true,
       fontFamily: "Roboto",
-      colorScheme: const ColorScheme(
+      colorScheme: ColorScheme(
         brightness: Brightness.light,
-        primary: LightAppColors.brandColor,
+        primary: primaryColor,
         onPrimary: Colors.white,
 
-        tertiary: LightAppColors.secondaryBrandColor,
+        tertiary: lighten(primaryColor, 0.31),
 
         surface: LightAppColors.surface,
         onSecondaryContainer: LightAppColors.surfaceContainerHigh,
@@ -56,7 +56,7 @@ class LightAppTheme {
       ),
       appBarTheme: AppBarTheme(
         centerTitle: true,
-        backgroundColor: LightAppColors.brandColor,
+        backgroundColor: primaryColor,
         titleTextStyle: AppTextStyles.light.titleLarge.copyWith(
           color: LightAppColors.onSurface,
         ),
@@ -70,9 +70,21 @@ class LightAppTheme {
         ),
       ),
       switchTheme: SwitchThemeData(
-        trackOutlineColor: WidgetStatePropertyAll(LightAppColors.outline),
-        trackColor: WidgetStatePropertyAll(LightAppColors.containerHighest),
-        thumbColor: WidgetStatePropertyAll(LightAppColors.outline)
+        trackOutlineColor: WidgetStateProperty.resolveWith<Color>((states) {
+          return states.contains(WidgetState.selected)
+              ? primaryColor
+              : LightAppColors.outline;
+        }),
+        trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+          return states.contains(WidgetState.selected)
+              ? primaryColor
+              : LightAppColors.containerHighest;
+        }),
+        thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+          return states.contains(WidgetState.selected)
+              ? Colors.white
+              : LightAppColors.outline;
+        }),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: LightAppColors.surfaceContainer,
@@ -89,7 +101,7 @@ class LightAppTheme {
           //disabledBackgroundColor: AppColors.borderColor,
           elevation: 2,
           minimumSize: Size.fromHeight(45),
-          backgroundColor: LightAppColors.brandColor,
+          backgroundColor: primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -102,7 +114,7 @@ class LightAppTheme {
         ),
       ),
       datePickerTheme: DatePickerThemeData(
-        backgroundColor: LightAppColors.secondaryBrandColor,
+        backgroundColor: lighten(primaryColor, 0.31),
         dayForegroundColor: WidgetStateProperty.resolveWith<Color>((states) {
           if (states.contains(WidgetState.disabled)) return Colors.grey;
 
@@ -138,7 +150,7 @@ class LightAppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: LightAppColors.surfaceContainer,
-        indicatorColor: LightAppColors.secondaryBrandColor,
+        indicatorColor: lighten(primaryColor, 0.31),
         labelTextStyle: WidgetStatePropertyAll(
           AppTextStyles.light.labelMedium.copyWith(
             color: LightAppColors.onSurfaceVariant,
@@ -151,4 +163,11 @@ class LightAppTheme {
       ),
     );
   }
+
+  static Color lighten(Color color, [double amount = 0.3]) {
+    final hsl = HSLColor.fromColor(color);
+    final lightHsl = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+    return lightHsl.toColor();
+  }
+
 }

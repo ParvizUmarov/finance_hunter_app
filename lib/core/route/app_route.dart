@@ -29,7 +29,7 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
     TypedStatefulShellBranch<ExpensesBranch>(
       routes: [
         TypedGoRoute<ExpensesRoute>(
-          path: '/',
+          path: '/expensesScreen',
           name: CashFlowScreen.expensesScreenName,
           routes: [
             TypedGoRoute<TransactionHistoryRoute>(
@@ -270,5 +270,31 @@ class SettingsRoute extends GoRouteData with _$SettingsRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const SettingsScreen();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(
+    path: '/',
+    name: SplashScreen.screenName)
+@immutable
+class SplashRoute extends GoRouteData with _$SplashRoute {
+  const SplashRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SplashScreen();
+  }
+}
+
+@TypedGoRoute<AppLockRoute>(
+    path: '/appLockScreen',
+    name: AppLockScreen.screenName)
+@immutable
+class AppLockRoute extends GoRouteData with _$AppLockRoute {
+  const AppLockRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AppLockScreen();
   }
 }

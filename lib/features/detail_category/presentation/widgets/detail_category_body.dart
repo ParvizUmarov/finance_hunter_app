@@ -11,7 +11,7 @@ class DetailCategoryBody extends StatelessWidget {
       children: [
         CustomListTile(
           title: "Всего",
-          backgroundColor: LightAppColors.secondaryBrandColor,
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
           child: CurrencyWidget(
             amount: transactionModel.amount,
           ),

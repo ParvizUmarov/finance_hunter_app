@@ -1,5 +1,5 @@
-import 'package:finance_hunter_app/features/app/presentation/cubit/locale_cubit/locale_cubit.dart';
 import 'package:finance_hunter_app/features/app/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/app_lock/presentation/cubit/app_lock_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
 import 'package:finance_hunter_app/features/operation_detail/presentation/cubit/operation_detail_cubit.dart';
 
@@ -33,10 +33,15 @@ class AppScreen extends StatelessWidget {
           )..init(),
         ),
         BlocProvider(
-          create: (context) => ThemeCubit(iDataBase: iDataBase)..init(),
+          create: (context) => SettingsCubit(
+            iDataBase: iDataBase,
+            storageService: dependencies.secureStorageService,
+          )..init(),
         ),
         BlocProvider(
-          create: (context) => LocaleCubit(iDataBase: iDataBase)..init(),
+          create: (context) =>
+              AppLockCubit(storageService: dependencies.secureStorageService)
+                ..isLockScreenEnabled(),
         ),
         BlocProvider(
           create: (context) => InternetStatusCubit(
@@ -52,18 +57,19 @@ class AppScreen extends StatelessWidget {
           ),
         ),
       ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
+      child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
-          final localeCubitState = context.watch<LocaleCubit>().state;
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'Finance Hunter app',
             localizationsDelegates: S.delegates,
             supportedLocales: S.locales,
-            locale: localeCubitState,
-            theme: state == ThemeMode.dark
-                ? DarkAppTheme.getThemeData()
-                : LightAppTheme.getThemeData(),
+            locale: state.locale,
+            theme: LightAppTheme.getThemeData(primaryColor: state.primaryColor),
+            darkTheme: DarkAppTheme.getThemeData(
+              primaryColor: state.primaryColor,
+            ),
+            themeMode: state.themeMode,
             routerConfig: routeConfig,
           );
         },

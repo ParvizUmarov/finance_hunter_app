@@ -38,6 +38,9 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   flutter_dotenv: ^5.2.1
   worker_manager: ^7.2.6
+  flutter_colorpicker: ^1.1.0
+  flutter_secure_storage: ^9.2.4
+  pin_code_fields: ^8.0.1
 
 dev_dependencies:
   flutter_gen_runner:
