@@ -9,15 +9,13 @@ class DarkAppTheme {
 
   static final baseTextStyle = AppTextStyles.dark;
 
-  ///TODO нужно поработать над темной цветой гаммой
-
-  static ThemeData getThemeData() {
+  static ThemeData getThemeData({required Color primaryColor}) {
     return ThemeData(
       useMaterial3: true,
       fontFamily: "Roboto",
-      colorScheme: const ColorScheme(
+      colorScheme: ColorScheme(
         brightness: Brightness.dark,
-        primary: DarkAppColors.brandColor,
+        primary: primaryColor,
         onPrimary: DarkAppColors.onPrimary,
 
         surface: DarkAppColors.surface,
@@ -27,7 +25,7 @@ class DarkAppTheme {
 
         outlineVariant: DarkAppColors.outlineVariant,
 
-        tertiary: DarkAppColors.secondaryBrandColor,
+        tertiary: lighten(primaryColor),
 
         error: DarkAppColors.error,
         onError: DarkAppColors.onError,
@@ -58,7 +56,7 @@ class DarkAppTheme {
       ),
       appBarTheme: AppBarTheme(
         centerTitle: true,
-        backgroundColor: DarkAppColors.brandColor,
+        backgroundColor: primaryColor,
         titleTextStyle: baseTextStyle.titleLarge.copyWith(
           color: LightAppColors.onSurface,
         ),
@@ -92,13 +90,16 @@ class DarkAppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: DarkAppColors.surfaceContainer,
-        indicatorColor: DarkAppColors.secondaryBrandColor,
+        indicatorColor: lighten(primaryColor),
         labelTextStyle: WidgetStatePropertyAll(
           baseTextStyle.labelMedium.copyWith(
             color: DarkAppColors.onSurfaceVariant,
             fontWeight: FontWeight.w600,
           ),
         ),
+      ),
+      switchTheme: SwitchThemeData(
+
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
 
@@ -108,4 +109,11 @@ class DarkAppTheme {
       ),
     );
   }
+
+  static Color lighten(Color color, [double amount = 0.3]) {
+    final hsl = HSLColor.fromColor(color);
+    final lightHsl = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+    return lightHsl.toColor();
+  }
+
 }

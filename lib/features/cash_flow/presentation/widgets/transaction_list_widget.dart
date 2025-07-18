@@ -22,6 +22,7 @@ class TransactionListWidget extends StatelessWidget {
           emoji: transaction.category.emoji,
           description: transaction.comment,
           addTrailing: true,
+          data: transaction.amount,
           onTap: () {
             showOperationDetailDialog(
               context: context,
@@ -34,7 +35,6 @@ class TransactionListWidget extends StatelessWidget {
               },
             );
           },
-          child: CurrencyWidget(amount: transaction.amount),
         );
       },
     );

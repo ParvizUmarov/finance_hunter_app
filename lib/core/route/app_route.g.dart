@@ -6,7 +6,11 @@ part of 'app_route.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$homeShellRoute];
+List<RouteBase> get $appRoutes => [
+  $homeShellRoute,
+  $splashRoute,
+  $appLockRoute,
+];
 
 RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
   restorationScopeId: HomeShellRoute.$restorationScopeId,
@@ -18,7 +22,7 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
 
       routes: [
         GoRouteData.$route(
-          path: '/',
+          path: '/expensesScreen',
           name: 'expensesScreen',
 
           factory: _$ExpensesRoute._fromState,
@@ -94,6 +98,14 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
           name: 'settingsScreen',
 
           factory: _$SettingsRoute._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'aboutAppScreen',
+              name: 'aboutAppScreen',
+
+              factory: _$AboutAppRoute._fromState,
+            ),
+          ],
         ),
       ],
     ),
@@ -109,7 +121,7 @@ mixin _$ExpensesRoute on GoRouteData {
   static ExpensesRoute _fromState(GoRouterState state) => const ExpensesRoute();
 
   @override
-  String get location => GoRouteData.$location('/');
+  String get location => GoRouteData.$location('/expensesScreen');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -132,7 +144,8 @@ mixin _$TransactionHistoryRoute on GoRouteData {
   TransactionHistoryRoute get _self => this as TransactionHistoryRoute;
 
   @override
-  String get location => GoRouteData.$location('/transactionHistoryScreen');
+  String get location =>
+      GoRouteData.$location('/expensesScreen/transactionHistoryScreen');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
@@ -157,7 +170,8 @@ mixin _$AnalysisRoute on GoRouteData {
   AnalysisRoute get _self => this as AnalysisRoute;
 
   @override
-  String get location => GoRouteData.$location('/analysisScreen');
+  String get location =>
+      GoRouteData.$location('/expensesScreen/analysisScreen');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
@@ -182,7 +196,8 @@ mixin _$DetailCategoryRoute on GoRouteData {
   DetailCategoryRoute get _self => this as DetailCategoryRoute;
 
   @override
-  String get location => GoRouteData.$location('/detailCategoryScreen');
+  String get location =>
+      GoRouteData.$location('/expensesScreen/detailCategoryScreen');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
@@ -265,6 +280,81 @@ mixin _$SettingsRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/settingsScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$AboutAppRoute on GoRouteData {
+  static AboutAppRoute _fromState(GoRouterState state) => const AboutAppRoute();
+
+  @override
+  String get location =>
+      GoRouteData.$location('/settingsScreen/aboutAppScreen');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $splashRoute => GoRouteData.$route(
+  path: '/',
+  name: 'splashScreen',
+
+  factory: _$SplashRoute._fromState,
+);
+
+mixin _$SplashRoute on GoRouteData {
+  static SplashRoute _fromState(GoRouterState state) => const SplashRoute();
+
+  @override
+  String get location => GoRouteData.$location('/');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $appLockRoute => GoRouteData.$route(
+  path: '/appLockScreen',
+  name: 'appLockScreen',
+
+  factory: _$AppLockRoute._fromState,
+);
+
+mixin _$AppLockRoute on GoRouteData {
+  static AppLockRoute _fromState(GoRouterState state) => const AppLockRoute();
+
+  @override
+  String get location => GoRouteData.$location('/appLockScreen');
 
   @override
   void go(BuildContext context) => context.go(location);

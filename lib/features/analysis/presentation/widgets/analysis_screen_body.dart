@@ -49,9 +49,7 @@ class AnalysisScreenBody extends StatelessWidget {
         ),
         CustomListTile(
           title: s.amount,
-          child: CurrencyWidget(
-            amount: analysisCubit.totalAmount.toStringAsFixed(2),
-          ),
+          child: CurrencyWidget(amount: analysisCubit.totalAmount.toStringAsFixed(2)),
         ),
         AnalysisGraphics(),
         Expanded(child: AnalysisCategoryList()),

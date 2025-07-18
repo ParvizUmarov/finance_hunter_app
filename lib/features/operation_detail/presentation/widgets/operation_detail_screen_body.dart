@@ -21,6 +21,7 @@ class OperationDetailScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return BlocConsumer<OperationDetailCubit, OperationDetailState>(
       listener: (BuildContext context, OperationDetailState state) {
         if (state is OperationDetailReady) {
@@ -43,7 +44,7 @@ class OperationDetailScreenBody extends StatelessWidget {
           return ListView(
             children: [
               CustomListTile(
-                title: "Счет",
+                title: s.account,
                 addTrailing: true,
                 child: DropdownButton<AccountModel>(
                   isExpanded: true,
@@ -71,7 +72,7 @@ class OperationDetailScreenBody extends StatelessWidget {
                 ),
               ),
               CustomListTile(
-                title: "Статья",
+                title: s.article,
                 addTrailing: true,
                 data: model.category?.name,
                 onTap: isSaving
@@ -90,11 +91,11 @@ class OperationDetailScreenBody extends StatelessWidget {
                       },
               ),
               CustomListTile(
-                title: "Сумма",
+                title: s.amount,
                 child: AmountTextField(controller: amountController),
               ),
               CustomListTile(
-                title: "Дата",
+                title: s.date,
                 data: CustomDateFormatter.formatDate(model.date),
                 onTap: isSaving
                     ? null
@@ -111,7 +112,7 @@ class OperationDetailScreenBody extends StatelessWidget {
                       },
               ),
               CustomListTile(
-                title: "Время",
+                title: s.time,
                 data: CustomDateFormatter.formatTimeOfDay(model.time),
                 onTap: isSaving
                     ? null
@@ -161,11 +162,12 @@ class OperationDetailScreenBody extends StatelessWidget {
   }
 
   void _handleSavedState(BuildContext context, OperationDetailSaved state) {
+    final s = S.of(context);
     context.pop();
 
     final message = state.isEditSaved
-        ? 'Обновление транзакции прошло успешно'
-        : 'Создание транзакции прошло успешно';
+        ? s.transactionUpdated
+        : s.transactionCreated;
 
     ScaffoldMessenger.of(
       context,
@@ -177,7 +179,7 @@ class OperationDetailScreenBody extends StatelessWidget {
     if (state.isEditMode) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Транзакция удалена')));
+      ).showSnackBar(SnackBar(content: Text(S.of(context).transactionDeleted)));
     }
 
     context.pop();

@@ -3,11 +3,9 @@ import 'package:finance_hunter_app/features/account/domain/domain.dart';
 import 'package:finance_hunter_app/features/account/presentation/cubit/account_cubit.dart';
 import 'package:finance_hunter_app/features/analysis/data/data.dart';
 import 'package:finance_hunter_app/features/analysis/presentation/cubit/analysis_cubit.dart';
-import 'package:finance_hunter_app/features/articles/domain/domain.dart';
 import 'package:finance_hunter_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:finance_hunter_app/features/cash_flow/data/models/transaction_date_filter.dart';
 import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
-import 'package:finance_hunter_app/features/cash_flow/domain/repositories/transaction_repository.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/cubit/transaction_cubit/transaction_cubit.dart';
 import 'package:finance_hunter_app/features/features.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
@@ -29,7 +27,7 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
     TypedStatefulShellBranch<ExpensesBranch>(
       routes: [
         TypedGoRoute<ExpensesRoute>(
-          path: '/',
+          path: '/expensesScreen',
           name: CashFlowScreen.expensesScreenName,
           routes: [
             TypedGoRoute<TransactionHistoryRoute>(
@@ -77,6 +75,12 @@ final settingsNavigatorKey = GlobalKey<NavigatorState>();
         TypedGoRoute<SettingsRoute>(
           path: '/settingsScreen',
           name: SettingsScreen.screenName,
+          routes: [
+            TypedGoRoute<AboutAppRoute>(
+              path: 'aboutAppScreen',
+              name: AboutAppScreen.screenName,
+            ),
+          ]
         ),
       ],
     ),
@@ -264,11 +268,47 @@ class ArticlesRoute extends GoRouteData with _$ArticlesRoute {
 }
 
 @immutable
+class AboutAppRoute extends GoRouteData with _$AboutAppRoute {
+  const AboutAppRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return AboutAppScreen();
+  }
+}
+
+@immutable
 class SettingsRoute extends GoRouteData with _$SettingsRoute {
   const SettingsRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const SettingsScreen();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(
+    path: '/',
+    name: SplashScreen.screenName)
+@immutable
+class SplashRoute extends GoRouteData with _$SplashRoute {
+  const SplashRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SplashScreen();
+  }
+}
+
+@TypedGoRoute<AppLockRoute>(
+    path: '/appLockScreen',
+    name: AppLockScreen.screenName)
+@immutable
+class AppLockRoute extends GoRouteData with _$AppLockRoute {
+  const AppLockRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AppLockScreen();
   }
 }

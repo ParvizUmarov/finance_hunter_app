@@ -74,12 +74,21 @@ class $AssetsImagesGen {
   AssetGenImage get launchIcon =>
       const AssetGenImage('assets/images/launch_icon.png');
 
+  /// File path: assets/images/lock.png
+  AssetGenImage get lock => const AssetGenImage('assets/images/lock.png');
+
   /// File path: assets/images/splash_icon.png
   AssetGenImage get splashIcon =>
       const AssetGenImage('assets/images/splash_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [empty, error, launchIcon, splashIcon];
+  List<AssetGenImage> get values => [
+    empty,
+    error,
+    launchIcon,
+    lock,
+    splashIcon,
+  ];
 }
 
 class Assets {

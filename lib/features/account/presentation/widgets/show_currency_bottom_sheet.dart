@@ -14,6 +14,7 @@ Future<void> showCurrencyBottomSheet(
   ];
 
   final selected = await showModalBottomSheet<Currency>(
+    useRootNavigator: true,
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),

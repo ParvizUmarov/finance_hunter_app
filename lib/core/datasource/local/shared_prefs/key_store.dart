@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:finance_hunter_app/features/account/presentation/utils/index.dart';
 import 'package:finance_hunter_app/ui_kit/gen/assets.gen.dart';
 
 class KeyStore {
@@ -15,4 +16,11 @@ class KeyStore {
 
   static const String startDateKey = 'startDateKey';
   static const String endDateKey = 'endDateKey';
+
+  static const String tintColor = 'tintColor';
+  static const Color defaultTintColor = LightAppColors.brandColor;
+
+  static const String hapticsEnabled = 'hapticsEnabled';
+
+  static const String pinCodeEnabled = 'pinCodeEnabled';
 }

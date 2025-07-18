@@ -1,4 +1,6 @@
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/settings/presentation/cubit/settings_cubit.dart';
+import 'package:flutter/services.dart';
 
 import '../ui_kit.dart';
 
@@ -13,7 +15,6 @@ class ScaffoldWithNavBar extends StatefulWidget {
 }
 
 class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
-
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -44,6 +45,15 @@ class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
   }
 
   void _onTap(BuildContext context, int index) {
+    final currentIndex = widget.navigationShell.currentIndex;
+
+    if (index != currentIndex) {
+      final hapticsEnabled = context.read<SettingsCubit>().state.hapticsEnabled;
+
+      if (hapticsEnabled) {
+        HapticFeedback.selectionClick();
+      }
+    }
     widget.navigationShell.goBranch(
       index,
       initialLocation: index == widget.navigationShell.currentIndex,

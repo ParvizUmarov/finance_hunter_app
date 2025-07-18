@@ -1,0 +1,1 @@
+export 'presentation/view/splash_screen.dart';

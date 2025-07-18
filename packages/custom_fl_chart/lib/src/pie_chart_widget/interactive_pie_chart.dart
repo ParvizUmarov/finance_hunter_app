@@ -66,7 +66,10 @@ class _InteractivePieChartState extends State<InteractivePieChart> {
                   }
 
                   setState(() {
-                    touchedIndex = response.touchedSection!.touchedSectionIndex;
+                    if (!(response.touchedSection!.touchedSectionIndex < 0)) {
+                      touchedIndex =
+                          response.touchedSection!.touchedSectionIndex;
+                    }
                   });
                 },
               ),
@@ -76,7 +79,10 @@ class _InteractivePieChartState extends State<InteractivePieChart> {
             Positioned(
               bottom: 1,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black87,
                   borderRadius: BorderRadius.circular(8),

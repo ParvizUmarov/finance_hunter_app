@@ -39,7 +39,7 @@ class CashFlowCategoriesWidget extends StatelessWidget {
               CustomListTile(
                 title: s.total,
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
-                child: CurrencyWidget(amount: transactionState.totalAmount),
+                child: CurrencyWidget(amount: transactionState.totalAmount,),
               ),
               Expanded(
                 child: transactionState.transactions.isEmpty

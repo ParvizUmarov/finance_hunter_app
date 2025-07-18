@@ -2,6 +2,7 @@ import 'package:finance_hunter_app/features/operation_detail/presentation/cubit/
 import 'package:finance_hunter_app/core/core.dart';
 
 void showErrorAlert(BuildContext context, String message) {
+  final s = S.of(context);
   showDialog(
     context: context,
     builder: (dialogContext) {
@@ -12,14 +13,14 @@ void showErrorAlert(BuildContext context, String message) {
               dialogContext.pop();
             },
             child: Text(
-              "Понятно",
+              s.ok,
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(color: Colors.black),
             ),
           ),
         ],
-        title: Text("Проверьте данные"),
+        title: Text(s.checkData),
         content: Text(message),
       );
     },

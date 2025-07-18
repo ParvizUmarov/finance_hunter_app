@@ -9,7 +9,7 @@ class CustomListTile extends StatelessWidget {
   final Widget? child;
   final EdgeInsetsGeometry? padding;
   final bool addTrailing;
-  final Color emojiBackgroundColor;
+  final Color? emojiBackgroundColor;
   final String? trailingIconAsset;
   final Color? backgroundColor;
   final Function()? onTap;
@@ -27,7 +27,7 @@ class CustomListTile extends StatelessWidget {
     this.backgroundColor,
     this.onTap,
     this.addTrailing = false,
-    this.emojiBackgroundColor = LightAppColors.secondaryBrandColor,
+    this.emojiBackgroundColor,
     this.child,
     this.textStyle,
   });
@@ -48,7 +48,7 @@ class CustomListTile extends StatelessWidget {
         onTap: onTap,
         contentPadding:
             padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-        leading: leadingWidget(),
+        leading: leadingWidget(context),
         title: titleWidget(context),
         trailing: trailingWidget(),
         visualDensity: VisualDensity(horizontal: 0, vertical: 2),
@@ -59,6 +59,7 @@ class CustomListTile extends StatelessWidget {
   }
 
   Widget titleWidget(BuildContext context) {
+    final currencyCubit = context.watch<CurrencyCubit>();
     final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +110,7 @@ class CustomListTile extends StatelessWidget {
       ? SvgPicture.asset(trailingIconAsset ?? Assets.icons.icArrowRight)
       : null;
 
-  Widget? leadingWidget() {
+  Widget? leadingWidget(BuildContext context) {
     return emoji == null
         ? null
         : Container(
@@ -117,7 +118,9 @@ class CustomListTile extends StatelessWidget {
             width: 24,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
-              color: emojiBackgroundColor,
+              color:
+                  emojiBackgroundColor ??
+                  Theme.of(context).colorScheme.tertiary,
             ),
             child: Center(child: Text(emoji ?? "")),
           );
