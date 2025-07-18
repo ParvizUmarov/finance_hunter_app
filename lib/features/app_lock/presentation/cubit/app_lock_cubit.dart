@@ -62,7 +62,16 @@ class AppLockCubit extends Cubit<AppLockState> {
     emit(state.copyWith(status: CreatePinCodeStatus()));
   }
 
+  void goToEditPinCode() {
+    emit(state.copyWith(status: EditPinCodeStatus()));
+  }
+
   Future<void> creatingPinCode(String value) async {
+    _pinCode = value;
+    emit(state.copyWith(status: RetryPinCodeStatus()));
+  }
+
+  Future<void> editPinCode(String value) async {
     _pinCode = value;
     emit(state.copyWith(status: RetryPinCodeStatus()));
   }

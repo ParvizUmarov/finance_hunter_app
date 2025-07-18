@@ -1,14 +1,12 @@
-import 'package:finance_hunter_app/features/app_lock/presentation/cubit/app_lock_cubit.dart';
-import 'package:finance_hunter_app/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:finance_hunter_app/features/settings/presentation/utils/index.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsScreenBody extends StatelessWidget {
   const SettingsScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.watch<SettingsCubit>();
+    final settingsCubit = context.watch<SettingsCubit>();
+    final pinCodeEnabled = settingsCubit.state.pinCodeEnabled;
 
     final s = S.of(context);
     return ListView(
@@ -16,7 +14,7 @@ class SettingsScreenBody extends StatelessWidget {
         CustomListTile(
           title: s.dartTheme,
           child: Switch(
-            value: themeCubit.state.themeMode == ThemeMode.system,
+            value: settingsCubit.state.themeMode == ThemeMode.system,
             onChanged: (value) async {
               await context.read<SettingsCubit>().toggleTheme();
             },
@@ -25,11 +23,10 @@ class SettingsScreenBody extends StatelessWidget {
         CustomListTile(
           title: s.mainColor,
           onTap: () async {
-            await _showColorPickerDialog(context);
+            await showColorPickerDialog(context);
           },
           trailingIconAsset: Assets.icons.arrowRight,
         ),
-        CustomListTile(title: s.sounds),
         CustomListTile(
           title: s.haptics,
           child: Switch(
@@ -39,22 +36,23 @@ class SettingsScreenBody extends StatelessWidget {
         ),
         CustomListTile(
           title: s.password,
-          child: Switch(
-            value: themeCubit.state.pinCodeEnabled,
-            onChanged: (value) async {
-              if (context.mounted) {
-                if (value) {
-                  context.read<AppLockCubit>().goToCreatePinCode();
-                  const AppLockRoute().push(context);
-                } else {
-                  await context.read<SettingsCubit>().togglePinCode(value);
-                }
-              }
-            },
-          ),
+          onTap: () async {
+            await showOverlaySheet(
+              context: context,
+              pinCodeEnabled: pinCodeEnabled,
+              onSelect: (AppPasswordStatus status) async {
+                await context.read<SettingsCubit>().togglePinCode(
+                  status,
+                  context,
+                );
+              },
+            );
+          },
+          trailingIconAsset: Assets.icons.arrowRight,
+          data: pinCodeEnabled ? s.on : s.off,
         ),
         CustomListTile(
-          title: "Вход по биометрии",
+          title: s.loginByBiometric,
           child: Switch(
             value: context.watch<SettingsCubit>().state.biometryEnabled,
             onChanged: (value) =>
@@ -65,7 +63,7 @@ class SettingsScreenBody extends StatelessWidget {
           title: s.language,
           trailingIconAsset: Assets.icons.arrowRight,
           onTap: () async {
-            await _showLanguageBottomSheet(context, (selectedLocale) async {
+            await showLanguageBottomSheet(context, (selectedLocale) async {
               await context.read<SettingsCubit>().selectLocale(selectedLocale);
             });
           },
@@ -78,80 +76,6 @@ class SettingsScreenBody extends StatelessWidget {
           },
         ),
       ],
-    );
-  }
-
-  Future<void> _showLanguageBottomSheet(
-    BuildContext context,
-    ValueChanged<Locale> onSelect,
-  ) async {
-    final s = S.of(context);
-    final selected = await showModalBottomSheet<Locale>(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text('Русский язык'),
-              onTap: () => context.pop(Locale("ru")),
-            ),
-            ListTile(
-              title: Text("English"),
-              onTap: () => context.pop(Locale("en")),
-            ),
-          ],
-        );
-      },
-    );
-    if (selected != null) {
-      onSelect(selected);
-    }
-  }
-
-  Future<void> _showColorPickerDialog(BuildContext context) async {
-    final themeCubit = context.read<SettingsCubit>();
-    Color selectedColor = themeCubit.state.primaryColor;
-
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Выберите цвет темы'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: selectedColor,
-              onColorChanged: (color) {
-                selectedColor = color;
-              },
-              enableAlpha: false,
-              labelTypes: const [ColorLabelType.rgb],
-              pickerAreaHeightPercent: 0.7,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Отмена'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                themeCubit.changePrimaryColor(selectedColor);
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Применить',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.black),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

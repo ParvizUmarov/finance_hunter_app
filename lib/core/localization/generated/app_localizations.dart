@@ -325,6 +325,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About the program'**
   String get aboutProgram;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// No description provided for @aboutAppText.
+  ///
+  /// In en, this message translates to:
+  /// **'Finance Hunter helps you track your expenses and manage your budget. Analytics and charts allow you to visualize your financial situation.'**
+  String get aboutAppText;
+
+  /// No description provided for @createPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a passcode'**
+  String get createPassword;
+
+  /// No description provided for @enterFourDigitsToCreatePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 4 digits you want to use to unlock the app.'**
+  String get enterFourDigitsToCreatePassword;
+
+  /// No description provided for @editPasscode.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing the passcode'**
+  String get editPasscode;
+
+  /// No description provided for @repeatPasscode.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat the password code'**
+  String get repeatPasscode;
+
+  /// No description provided for @repeatPasscodeToConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat the code you entered earlier to confirm.'**
+  String get repeatPasscodeToConfirm;
+
+  /// No description provided for @enterPasscode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter passcode'**
+  String get enterPasscode;
+
+  /// No description provided for @enterPasscodeToAccessApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 4-digit code to access the app.'**
+  String get enterPasscodeToAccessApp;
+
+  /// No description provided for @article.
+  ///
+  /// In en, this message translates to:
+  /// **'Article'**
+  String get article;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @transactionUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction update successful'**
+  String get transactionUpdated;
+
+  /// No description provided for @transactionCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction creation successful'**
+  String get transactionCreated;
+
+  /// No description provided for @transactionDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction deleted'**
+  String get transactionDeleted;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// No description provided for @checkData.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the data'**
+  String get checkData;
+
+  /// No description provided for @loginByBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Login by biometrics'**
+  String get loginByBiometric;
+
+  /// No description provided for @on.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get on;
+
+  /// No description provided for @off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get off;
+
+  /// No description provided for @turnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get turnOn;
+
+  /// No description provided for @turnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get turnOff;
+
+  /// No description provided for @editThePasscode.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the passcode'**
+  String get editThePasscode;
+
+  /// No description provided for @deletePasscode.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete code passcode'**
+  String get deletePasscode;
+
+  /// No description provided for @selectThemeColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Select theme color'**
+  String get selectThemeColor;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @offlineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mode'**
+  String get offlineMode;
 }
 
 class _AppLocalizationsDelegate

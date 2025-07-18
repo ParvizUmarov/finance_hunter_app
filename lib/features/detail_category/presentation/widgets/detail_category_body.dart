@@ -7,10 +7,11 @@ class DetailCategoryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Column(
       children: [
         CustomListTile(
-          title: "Всего",
+          title: s.total,
           backgroundColor: Theme.of(context).colorScheme.tertiary,
           child: CurrencyWidget(
             amount: transactionModel.amount,

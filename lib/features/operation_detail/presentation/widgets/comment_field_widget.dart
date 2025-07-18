@@ -14,6 +14,7 @@ class CommentFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
       decoration: BoxDecoration(
@@ -28,7 +29,7 @@ class CommentFieldWidget extends StatelessWidget {
         controller: commentController,
         readOnly: isSaving,
         decoration: InputDecoration(
-          hintText: "Комментарий",
+          hintText: s.comments,
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,

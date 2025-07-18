@@ -48,12 +48,12 @@ class _AppLockScreenBodyState extends State<AppLockScreenBody> {
           Assets.images.lock.image(height: 50),
           const SizedBox(height: 20),
           Text(
-            widget.appLockStatus.title,
+            widget.appLockStatus.title(context),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 10),
           Text(
-            widget.appLockStatus.text,
+            widget.appLockStatus.text(context),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),

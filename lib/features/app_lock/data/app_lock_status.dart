@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:finance_hunter_app/core/core.dart';
 import 'package:finance_hunter_app/features/app_lock/presentation/cubit/app_lock_cubit.dart';
 
 abstract class AppLockStatus {
-  String get title => "";
+  String title(BuildContext context) => "";
 
-  String get text => "";
+  String text(BuildContext context) => "";
 
   Future<void> onConfirm(BuildContext context, String value);
 }
@@ -18,11 +16,11 @@ class InitialStatus extends AppLockStatus {
 
 class CreatePinCodeStatus extends AppLockStatus {
   @override
-  String get title => "Создание код-пароля";
+  String title(BuildContext context) => S.of(context).createPassword;
 
   @override
-  String get text =>
-      "Введите 4 цифры, которые хотите использовать для разблакировки приложения.";
+  String text(BuildContext context) =>
+      S.of(context).enterFourDigitsToCreatePassword;
 
   @override
   Future<void> onConfirm(BuildContext context, String value) async {
@@ -30,12 +28,26 @@ class CreatePinCodeStatus extends AppLockStatus {
   }
 }
 
-class RetryPinCodeStatus extends AppLockStatus {
+class EditPinCodeStatus extends AppLockStatus {
   @override
-  String get title => "Повторите код-пароль";
+  String title(BuildContext context) => S.of(context).editPasscode;
 
   @override
-  String get text => "Повторите введённый ранее код для подтверждения.";
+  String text(BuildContext context) =>
+      S.of(context).enterFourDigitsToCreatePassword;
+
+  @override
+  Future<void> onConfirm(BuildContext context, String value) async {
+    await context.read<AppLockCubit>().editPinCode(value);
+  }
+}
+
+class RetryPinCodeStatus extends AppLockStatus {
+  @override
+  String title(BuildContext context) => S.of(context).repeatPasscode;
+
+  @override
+  String text(BuildContext context) => S.of(context).repeatPasscodeToConfirm;
 
   @override
   Future<void> onConfirm(BuildContext context, String value) async {
@@ -44,18 +56,16 @@ class RetryPinCodeStatus extends AppLockStatus {
 }
 
 class SavedPinCode extends AppLockStatus {
-
   @override
   Future<void> onConfirm(BuildContext context, String value) async {}
 }
 
-
 class ConfirmPinCodeStatus extends AppLockStatus {
   @override
-  String get title => "Введите код-пароль";
+  String title(BuildContext context) => S.of(context).enterPasscode;
 
   @override
-  String get text => "Введите свой 4-значный код для доступа к приложению.";
+  String text(BuildContext context) => S.of(context).enterPasscodeToAccessApp;
 
   @override
   Future<void> onConfirm(BuildContext context, String value) async {
@@ -64,9 +74,6 @@ class ConfirmPinCodeStatus extends AppLockStatus {
 }
 
 class CorrectPinCode extends AppLockStatus {
-
   @override
   Future<void> onConfirm(BuildContext context, String value) async {}
 }
-
-

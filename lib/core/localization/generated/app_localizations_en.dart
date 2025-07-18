@@ -122,4 +122,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutProgram => 'About the program';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get aboutAppText =>
+      'Finance Hunter helps you track your expenses and manage your budget. Analytics and charts allow you to visualize your financial situation.';
+
+  @override
+  String get createPassword => 'Create a passcode';
+
+  @override
+  String get enterFourDigitsToCreatePassword =>
+      'Enter the 4 digits you want to use to unlock the app.';
+
+  @override
+  String get editPasscode => 'Editing the passcode';
+
+  @override
+  String get repeatPasscode => 'Repeat the password code';
+
+  @override
+  String get repeatPasscodeToConfirm =>
+      'Repeat the code you entered earlier to confirm.';
+
+  @override
+  String get enterPasscode => 'Enter passcode';
+
+  @override
+  String get enterPasscodeToAccessApp =>
+      'Enter your 4-digit code to access the app.';
+
+  @override
+  String get article => 'Article';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get transactionUpdated => 'Transaction update successful';
+
+  @override
+  String get transactionCreated => 'Transaction creation successful';
+
+  @override
+  String get transactionDeleted => 'Transaction deleted';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get ok => 'Ok';
+
+  @override
+  String get checkData => 'Check the data';
+
+  @override
+  String get loginByBiometric => 'Login by biometrics';
+
+  @override
+  String get on => 'On';
+
+  @override
+  String get off => 'Off';
+
+  @override
+  String get turnOn => 'Turn on';
+
+  @override
+  String get turnOff => 'Turn off';
+
+  @override
+  String get editThePasscode => 'Edit the passcode';
+
+  @override
+  String get deletePasscode => 'Delete code passcode';
+
+  @override
+  String get selectThemeColor => 'Select theme color';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get offlineMode => 'Offline mode';
 }

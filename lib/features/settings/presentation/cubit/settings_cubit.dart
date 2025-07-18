@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:finance_hunter_app/core/core.dart';
+import 'package:finance_hunter_app/features/app_lock/presentation/cubit/app_lock_cubit.dart';
+import 'package:finance_hunter_app/features/settings/presentation/data/app_password_status.dart';
 import 'package:finance_hunter_app/ui_kit/ui_kit.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -88,10 +92,35 @@ class SettingsCubit extends Cubit<SettingsState> {
     await _iDataBase.set(KeyStore.hapticsEnabled, newValue);
   }
 
-  Future<void> togglePinCode(bool value) async {
-    emit(state.copyWith(pinCodeEnabled: value));
-    if (!value) {
-      await _storageService.deletePinCode();
+  Future<void> togglePinCode(
+    AppPasswordStatus status,
+    BuildContext context,
+  ) async {
+    switch (status) {
+      case AppPasswordStatus.turnOn:
+        final hasPin = await _storageService.getPinCode() != null;
+        log("has pin: $hasPin");
+
+        if (hasPin) {
+          await _storageService.setPinCodeEnabled(true);
+          emit(state.copyWith(pinCodeEnabled: true));
+        } else {
+          if (context.mounted) context.read<AppLockCubit>().goToCreatePinCode();
+          if (context.mounted) const AppLockRoute().push(context);
+        }
+        break;
+      case AppPasswordStatus.turnOff:
+        await _storageService.setPinCodeEnabled(false);
+        emit(state.copyWith(pinCodeEnabled: false));
+        break;
+      case AppPasswordStatus.edit:
+        context.read<AppLockCubit>().goToEditPinCode();
+        const AppLockRoute().push(context);
+        break;
+      case AppPasswordStatus.delete:
+        await _storageService.deletePinCode();
+        emit(state.copyWith(pinCodeEnabled: false));
+        break;
     }
   }
 

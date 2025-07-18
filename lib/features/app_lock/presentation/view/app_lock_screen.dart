@@ -1,8 +1,8 @@
-import 'dart:developer';
 
 import 'package:finance_hunter_app/features/app_lock/data/app_lock_status.dart';
 import 'package:finance_hunter_app/features/app_lock/presentation/utils/index.dart';
 import 'package:finance_hunter_app/features/cash_flow/presentation/utils/index.dart';
+import 'package:finance_hunter_app/features/settings/presentation/data/app_password_status.dart';
 
 class AppLockScreen extends StatelessWidget {
   static const String screenName = "appLockScreen";
@@ -22,7 +22,10 @@ class AppLockScreen extends StatelessWidget {
           }
 
           if (state.status is SavedPinCode) {
-            context.read<SettingsCubit>().togglePinCode(true);
+            context.read<SettingsCubit>().togglePinCode(
+              AppPasswordStatus.turnOn,
+              context
+            );
             WidgetsBinding.instance.addPostFrameCallback((_) {
               SettingsRoute().go(context);
             });

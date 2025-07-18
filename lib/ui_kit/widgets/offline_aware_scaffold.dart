@@ -15,6 +15,7 @@ class OfflineAwareScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Scaffold(
       appBar: appBar,
       floatingActionButton: floatingActionButton,
@@ -29,7 +30,7 @@ class OfflineAwareScaffold extends StatelessWidget {
                   color: Colors.red.shade400,
                   padding: const EdgeInsets.all(8),
                   child: Text(
-                    'Оффлайн режим',
+                    s.offlineMode,
                     textAlign: TextAlign.center,
                     style: Theme.of(
                       context,

@@ -7,13 +7,14 @@ class AboutAppScreen extends StatelessWidget {
 
   Future<String> _getVersion() async {
     final info = await PackageInfo.fromPlatform();
-    return 'Версия ${info.version} (${info.buildNumber})';
+    return '${info.version} (${info.buildNumber})';
   }
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return OfflineAwareScaffold(
-      appBar: AppBar(title: Text("О приложении")),
+      appBar: AppBar(title: Text(s.aboutProgram)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -41,21 +42,18 @@ class AboutAppScreen extends StatelessWidget {
               future: _getVersion(),
               builder: (context, snapshot) {
                 return Text(
-                  snapshot.data ?? '',
+                  "${s.version} ${snapshot.data}" ?? '',
                   style: const TextStyle(color: Colors.grey),
                 );
               },
             ),
             const SizedBox(height: 24),
             Text(
-              "О приложении",
+              s.aboutProgram,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Finance Hunter помогает отслеживать расходы и управлять бюджетом. "
-              "Инструменты аналитики и графики позволяют наглядно видеть финансовое состояние.",
-            ),
+            Text(s.aboutAppText),
           ],
         ),
       ),
