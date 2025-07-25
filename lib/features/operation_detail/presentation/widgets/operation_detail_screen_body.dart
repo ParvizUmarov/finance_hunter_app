@@ -92,7 +92,9 @@ class OperationDetailScreenBody extends StatelessWidget {
               ),
               CustomListTile(
                 title: s.amount,
-                child: AmountTextField(controller: amountController),
+                child: AmountTextField(
+                  controller: amountController,
+                ),
               ),
               CustomListTile(
                 title: s.date,

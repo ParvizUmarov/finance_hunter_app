@@ -12,82 +12,106 @@ import 'package:finance_hunter_app/features/cash_flow/domain/domain.dart';
 import 'package:local_auth/local_auth.dart';
 
 class AppDependencies {
-  late Dio dio;
-  late final TransactionRepository transactionRepository;
-  late final BankAccountRepository bankAccountRepository;
-  late final CategoryRepository categoryRepository;
-  late final Connectivity connectivity;
+  final Dio dio;
+  final TransactionRepository transactionRepository;
+  final BankAccountRepository bankAccountRepository;
+  final CategoryRepository categoryRepository;
+  final Connectivity connectivity;
 
-  late final LocalAccountDataSource localAccountDataSource;
-  late final LocalCategoryDatasource localCategoryDatasource;
-  late final LocalTransactionDataSource localTransactionDataSource;
-  late final LocalPendingTransactionDatasource
-  localPendingTransactionDatasource;
-  late final AppDatabase appDatabase;
+  final LocalAccountDataSource localAccountDataSource;
+  final LocalCategoryDatasource localCategoryDatasource;
+  final LocalTransactionDataSource localTransactionDataSource;
+  final LocalPendingTransactionDatasource localPendingTransactionDatasource;
+  final AppDatabase appDatabase;
 
-  late final AccountMapper accountMapper;
-  late final TransactionModelMapper transactionModelMapper;
-  late final CategoryMapper categoryMapper;
+  final AccountMapper accountMapper;
+  final TransactionModelMapper transactionModelMapper;
+  final CategoryMapper categoryMapper;
 
-  late final TransactionApiService transactionApiService;
-  late final AccountApiService accountApiService;
-  late final CategoryApiService categoryApiService;
+  final TransactionApiService transactionApiService;
+  final AccountApiService accountApiService;
+  final CategoryApiService categoryApiService;
 
-  late final SecureStorageService secureStorageService;
+  final SecureStorageService secureStorageService;
+  final LocalAuthentication localAuthentication;
 
-  late final LocalAuthentication localAuthentication;
-
-  AppDependencies(IDataBase iDataBase) {
-    dio = DioHandler.dio;
-
-    appDatabase = AppDatabase();
-    connectivity = Connectivity();
-    transactionModelMapper = TransactionModelMapper();
-    accountMapper = AccountMapper();
-    categoryMapper = CategoryMapper();
-
-    transactionApiService = TransactionApiServiceImpl(dio);
-    accountApiService = AccountApiServiceImpl(dio);
-    categoryApiService = CategoryApiServiceImpl(dio);
-
-    secureStorageService = SecureStorageService();
-
-    localAuthentication = LocalAuthentication();
-
-    localTransactionDataSource = LocalTransactionDatasourceImpl(
-      db: appDatabase,
-      mapper: transactionModelMapper,
-    );
-
-    localCategoryDatasource = LocalCategoryDatasourceImpl(
-      db: appDatabase,
-      mapper: categoryMapper,
-    );
-
-    localPendingTransactionDatasource = LocalPendingTransactionDatasourceImpl(
-      db: appDatabase,
-      mapper: transactionModelMapper,
-    );
-
-    localAccountDataSource = LocalAccountDatasourceImpl(
-      db: appDatabase,
-      mapper: accountMapper,
-    );
-
-    transactionRepository = TransactionRepositoryImpl(
-      transactionApiService: transactionApiService,
-      localDb: localTransactionDataSource,
-    );
-
-    bankAccountRepository = BankAccountRepositoryImpl(
-      accountApiService: accountApiService,
-      localDb: localAccountDataSource,
-      iDataBase: iDataBase,
-    );
-
-    categoryRepository = CategoryRepositoryImpl(
-      categoryApiService: categoryApiService,
-      localCategoryDb: localCategoryDatasource,
-    );
-  }
+  AppDependencies({
+    Dio? dio,
+    AppDatabase? appDatabase,
+    Connectivity? connectivity,
+    TransactionModelMapper? transactionModelMapper,
+    AccountMapper? accountMapper,
+    CategoryMapper? categoryMapper,
+    TransactionApiService? transactionApiService,
+    AccountApiService? accountApiService,
+    CategoryApiService? categoryApiService,
+    SecureStorageService? secureStorageService,
+    LocalAuthentication? localAuthentication,
+    LocalTransactionDataSource? localTransactionDataSource,
+    LocalCategoryDatasource? localCategoryDatasource,
+    LocalPendingTransactionDatasource? localPendingTransactionDatasource,
+    LocalAccountDataSource? localAccountDataSource,
+    TransactionRepository? transactionRepository,
+    BankAccountRepository? bankAccountRepository,
+    CategoryRepository? categoryRepository,
+    IDataBase? iDataBase,
+  })  : dio = dio ?? DioHandler.dio,
+        appDatabase = appDatabase ?? AppDatabase(),
+        connectivity = connectivity ?? Connectivity(),
+        transactionModelMapper = transactionModelMapper ?? TransactionModelMapper(),
+        accountMapper = accountMapper ?? AccountMapper(),
+        categoryMapper = categoryMapper ?? CategoryMapper(),
+        transactionApiService = transactionApiService ?? TransactionApiServiceImpl(dio ?? DioHandler.dio),
+        accountApiService = accountApiService ?? AccountApiServiceImpl(dio ?? DioHandler.dio),
+        categoryApiService = categoryApiService ?? CategoryApiServiceImpl(dio ?? DioHandler.dio),
+        secureStorageService = secureStorageService ?? SecureStorageService(),
+        localAuthentication = localAuthentication ?? LocalAuthentication(),
+        localTransactionDataSource = localTransactionDataSource ??
+            LocalTransactionDatasourceImpl(
+              db: appDatabase ?? AppDatabase(),
+              mapper: transactionModelMapper ?? TransactionModelMapper(),
+            ),
+        localCategoryDatasource = localCategoryDatasource ??
+            LocalCategoryDatasourceImpl(
+              db: appDatabase ?? AppDatabase(),
+              mapper: categoryMapper ?? CategoryMapper(),
+            ),
+        localPendingTransactionDatasource = localPendingTransactionDatasource ??
+            LocalPendingTransactionDatasourceImpl(
+              db: appDatabase ?? AppDatabase(),
+              mapper: transactionModelMapper ?? TransactionModelMapper(),
+            ),
+        localAccountDataSource = localAccountDataSource ??
+            LocalAccountDatasourceImpl(
+              db: appDatabase ?? AppDatabase(),
+              mapper: accountMapper ?? AccountMapper(),
+            ),
+        transactionRepository = transactionRepository ??
+            TransactionRepositoryImpl(
+              transactionApiService: transactionApiService ?? TransactionApiServiceImpl(dio ?? DioHandler.dio),
+              localDb: localTransactionDataSource ??
+                  LocalTransactionDatasourceImpl(
+                    db: appDatabase ?? AppDatabase(),
+                    mapper: transactionModelMapper ?? TransactionModelMapper(),
+                  ),
+            ),
+        bankAccountRepository = bankAccountRepository ??
+            BankAccountRepositoryImpl(
+              accountApiService: accountApiService ?? AccountApiServiceImpl(dio ?? DioHandler.dio),
+              localDb: localAccountDataSource ??
+                  LocalAccountDatasourceImpl(
+                    db: appDatabase ?? AppDatabase(),
+                    mapper: accountMapper ?? AccountMapper(),
+                  ),
+              iDataBase: iDataBase ?? SharedPrefsImpl(),
+            ),
+        categoryRepository = categoryRepository ??
+            CategoryRepositoryImpl(
+              categoryApiService: categoryApiService ?? CategoryApiServiceImpl(dio ?? DioHandler.dio),
+              localCategoryDb: localCategoryDatasource ??
+                  LocalCategoryDatasourceImpl(
+                    db: appDatabase ?? AppDatabase(),
+                    mapper: categoryMapper ?? CategoryMapper(),
+                  ),
+            );
 }

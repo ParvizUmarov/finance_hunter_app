@@ -17,6 +17,7 @@ class AmountTextField extends StatelessWidget {
       children: [
         IntrinsicWidth(
           child: TextField(
+            key: const Key('amountTextField'),
             controller: controller,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [DecimalInputFormatter(separator)],

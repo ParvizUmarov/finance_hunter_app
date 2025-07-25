@@ -8,6 +8,7 @@ class CustomFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      tooltip: "Добавить транзакцию",
       onPressed: onTap,
       child: Icon(Icons.add, color: Colors.white, size: 25,),
     );

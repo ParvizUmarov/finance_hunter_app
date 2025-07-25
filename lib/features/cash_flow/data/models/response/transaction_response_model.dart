@@ -20,4 +20,31 @@ abstract class TransactionResponseModel with _$TransactionResponseModel {
   factory TransactionResponseModel.fromJson(Map<String, dynamic> json) =>
       _$TransactionResponseModelFromJson(json);
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TransactionResponseModel &&
+        other.id == id &&
+        other.accountId == accountId &&
+        other.categoryId == categoryId &&
+        other.amount == amount &&
+        other.transactionDate == transactionDate &&
+        other.comment == comment &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+    accountId.hashCode ^
+    categoryId.hashCode ^
+    amount.hashCode ^
+    transactionDate.hashCode ^
+    comment.hashCode ^
+    createdAt.hashCode ^
+    updatedAt.hashCode;
+  }
+
 }
