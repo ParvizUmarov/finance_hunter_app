@@ -59,7 +59,6 @@ class CustomListTile extends StatelessWidget {
   }
 
   Widget titleWidget(BuildContext context) {
-    final currencyCubit = context.watch<CurrencyCubit>();
     final textTheme = Theme.of(context).textTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

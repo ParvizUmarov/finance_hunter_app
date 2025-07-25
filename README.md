@@ -2,15 +2,13 @@
 
 Finance Hunter application
 
-## Getting Started
+🔐 Настройка переменных окружения
+Для запуска проекта необходимо создать файл .env в корне проекта и указать в нём следующие переменные:
 
-This project is a starting point for a Flutter application.
+env
 
-A few resources to get you started if this is your first Flutter project:
+# Адрес API-бэкенда
+BASE_URL=вставь_сюда_base_url
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Токен авторизации (замени на свой)
+AUTH_TOKEN=вставь_сюда_свой_токен
