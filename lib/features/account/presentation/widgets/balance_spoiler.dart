@@ -72,7 +72,7 @@ class _BalanceSpoilerState extends State<BalanceSpoiler>
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
-                Expanded(child: CurrencyWidget(amount: widget.balance)),
+                CurrencyWidget(amount: widget.balance),
                 if (_blurAnimation.value > 0)
                   BackdropFilter(
                     filter: ImageFilter.blur(

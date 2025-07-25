@@ -30,6 +30,7 @@ class _AccountViewBodyState extends State<AccountViewBody> {
             return const CustomShimmer(type: ShimmerType.myAccount);
           } else if (state is AccountSuccess) {
             final firstAccount = state.account;
+            log("messagestatetransaction: ${state.transactions}");
             return ListView(
               children: [
                 CustomListTile(
